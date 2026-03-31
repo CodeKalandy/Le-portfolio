@@ -3,55 +3,242 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Bernard Thiery — SISR</title>
+  <title>Bernard Thiery — Technicien Systèmes & Réseaux</title>
+  <meta name="description" content="Portfolio de Bernard Thiery, étudiant BTS SIO SISR, technicien systèmes et réseaux en alternance au CHU de Reims. Spécialisé Linux, Cisco, sécurité réseau."/>
+
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,900;1,900&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"/>
   <link rel="stylesheet" href="style.css"/>
 
   <style>
-    .hero-word { white-space: normal !important; word-break: break-word; }
-    .hero-line { flex-wrap: wrap; }
-    
-    .btn-outline {
+    /* ── SECTION OPPORTUNITÉ ── */
+    #opportunity {
+      padding: 80px 40px;
+      background: var(--orange);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .opp-left h2 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      color: var(--ink);
+      line-height: 1.1;
+      margin-bottom: 10px;
+    }
+    .opp-left p {
+      font-size: 0.92rem;
+      color: rgba(13,13,13,0.75);
+      line-height: 1.6;
+    }
+    .opp-right { display: flex; gap: 16px; flex-wrap: wrap; }
+    .btn-dark {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--ink); color: var(--cream);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 0.8rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 14px 28px; border-radius: 2px;
+      transition: opacity 0.2s;
+    }
+    .btn-dark:hover { opacity: 0.85; }
+    .btn-light {
+      display: inline-flex; align-items: center; gap: 8px;
       background: transparent;
-      border: 1px solid var(--orange);
-      color: var(--orange) !important;
+      color: var(--ink);
+      border: 2px solid var(--ink);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 0.8rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 12px 26px; border-radius: 2px;
+      transition: background 0.2s, color 0.2s;
     }
-    .btn-outline:hover { background: var(--orange) !important; color: var(--ink) !important; }
+    .btn-light:hover { background: var(--ink); color: var(--orange); }
 
-    .proj-grid {
-      display: grid !important;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) !important;
-      gap: 2px !important; 
-      align-items: stretch !important;
+    /* ── EXPÉRIENCE TERRAIN ── */
+    #experience {
+      padding: 100px 40px;
+      border-bottom: 1px solid var(--border);
     }
-    .proj-card {
-      display: flex !important;
-      flex-direction: column !important;
-      height: 100% !important;
-      grid-row: auto !important; 
-      margin: 0 !important;
+    .exp-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 60px;
+      gap: 20px;
+      flex-wrap: wrap;
     }
-    .proj-img {
-      height: 220px !important;
-      min-height: 220px !important;
-      max-height: 220px !important;
-      width: 100% !important;
-      overflow: hidden !important;
-      display: block !important;
+    .exp-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
     }
-    .proj-img img {
-      width: 100% !important;
-      height: 100% !important;
-      object-fit: cover !important;
-      object-position: top center !important;
+    .exp-card {
+      background: var(--ink-2);
+      border: 1px solid var(--border);
+      padding: 40px;
+      position: relative;
+      transition: border-color 0.3s;
+    }
+    .exp-card:hover { border-color: var(--border-2); }
+    .exp-card.featured { border-color: var(--orange-dim); }
+    .exp-card.featured:hover { border-color: var(--orange); }
+    .exp-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.18em; color: var(--orange);
+      margin-bottom: 20px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .exp-badge {
+      background: var(--orange-dim);
+      color: var(--orange);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.1em;
+      padding: 2px 8px; border-radius: 2px;
+    }
+    .exp-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 1.4rem;
+      color: var(--cream);
+      margin-bottom: 4px;
+    }
+    .exp-place {
+      font-size: 0.8rem; color: var(--orange);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; letter-spacing: 0.08em;
+      margin-bottom: 20px;
+    }
+    .exp-period {
+      font-size: 0.75rem; color: var(--cream-dim);
+      margin-bottom: 20px;
+    }
+    .exp-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .exp-list li {
+      font-size: 0.85rem; color: var(--cream-dim);
+      padding-left: 16px; position: relative; line-height: 1.5;
+    }
+    .exp-list li::before {
+      content: '→';
+      position: absolute; left: 0;
+      color: var(--orange); font-size: 0.7rem;
+    }
+    .exp-list li strong { color: var(--cream); }
+    .exp-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 20px; }
+    .exp-tags span {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.1em;
+      border: 1px solid var(--border-2);
+      color: var(--cream-dim);
+      padding: 3px 10px; border-radius: 2px;
     }
 
+    /* ── CERTIFICATIONS ENRICHIES ── */
+    .cert-nse-detail {
+      margin-top: 12px;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .cert-nse-row {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 0.8rem; color: var(--cream-dim);
+    }
+    .cert-nse-row .nse-badge {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.1em;
+      background: var(--orange-dim); color: var(--orange);
+      padding: 2px 8px; border-radius: 2px;
+      white-space: nowrap;
+    }
+
+    /* ── PROJETS — SÉPARATION CATÉGORIES ── */
+    .proj-category-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--cream-dim);
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 28px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .proj-category-label::before {
+      content: '';
+      display: inline-block; width: 20px; height: 1px;
+      background: var(--orange);
+    }
+    .proj-category-label .proj-cat-count {
+      color: var(--orange);
+    }
+    .proj-section-block { margin-bottom: 60px; }
+
+    /* ── PROJ CARD dev perso ── */
+    .proj-card.dev-perso {
+      border: 1px solid var(--orange-dim);
+    }
+    .proj-card.dev-perso:hover { border-color: var(--orange); }
+    .proj-card.dev-perso .proj-num { color: var(--orange); }
+
+    /* ── VEILLES ── */
+    #veilles {
+      padding: 100px 40px;
+      border-bottom: 1px solid var(--border);
+    }
+    .veille-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 40px;
+    }
+    .veille-card {
+      border: 1px solid var(--border);
+      padding: 36px;
+      border-radius: 2px;
+      display: flex; flex-direction: column; gap: 16px;
+      transition: border-color 0.3s;
+      text-decoration: none;
+    }
+    .veille-card:hover { border-color: var(--border-2); }
+    .veille-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.18em; color: var(--orange);
+    }
+    .veille-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900; font-size: 1.3rem;
+      color: var(--cream); line-height: 1.2;
+    }
+    .veille-card p { font-size: 0.85rem; color: var(--cream-dim); line-height: 1.6; }
+    .veille-link {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.1em; color: var(--orange);
+      margin-top: auto;
+    }
+    .veille-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .veille-tags span {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.1em;
+      border: 1px solid var(--border-2); color: var(--cream-dim);
+      padding: 3px 10px; border-radius: 2px;
+    }
+
+    /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
-      #hero { height: auto; padding-top: 100px; padding-bottom: 60px; }
-      .hero-title-wrap { margin-bottom: 30px; }
-      .proj-grid { grid-template-columns: 1fr !important; }
+      #opportunity { flex-direction: column; }
+      .exp-grid { grid-template-columns: 1fr; }
+      .veille-grid { grid-template-columns: 1fr; }
+      #experience, #veilles { padding: 80px 20px; }
+      .exp-header { flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
@@ -60,6 +247,7 @@
   <div class="cursor" id="cursor"></div>
   <div class="cursor-dot" id="cursorDot"></div>
 
+  <!-- NAV -->
   <nav id="nav">
     <div class="nav-left">
       <span class="nav-index">©2026</span>
@@ -68,10 +256,11 @@
       <a href="#" class="nav-logo">BERNARD THIERY</a>
     </div>
     <div class="nav-right">
-      <a href="#contact" class="nav-cta">Disponible <span class="cta-arrow">↗</span></a>
+      <a href="#opportunity" class="nav-cta">Disponible <span class="cta-arrow">↗</span></a>
     </div>
   </nav>
 
+  <!-- ════════════════════════════════ HERO ════════════════════════════════ -->
   <section id="hero">
     <div class="hero-tag">Technicien Systèmes &amp; Réseaux — BTS SIO SISR</div>
 
@@ -95,7 +284,7 @@
         <p class="hero-desc">
           Technicien Système et Réseau.<br/>
           Reims · Lycée Franklin Roosevelt · 2024–2026<br/>
-          <strong style="color: var(--orange);">À la recherche d'une alternance / stage en administration systèmes &amp; réseaux.</strong>
+          <strong style="color: var(--orange);">À la recherche d'une alternance en administration systèmes &amp; réseaux.</strong>
         </p>
         <div class="hero-btns">
           <a href="fichiers/thiery-bernard-cv.pdf" download class="btn-main">Télécharger CV</a>
@@ -105,12 +294,12 @@
       <div class="hero-bottom-right">
         <div class="hero-stat-row">
           <div class="h-stat">
-            <span class="h-num">10</span>
-            <span class="h-lbl">Projets &amp; Veilles</span>
+            <span class="h-num">2+</span>
+            <span class="h-lbl">Ans CHU Reims</span>
           </div>
           <div class="h-stat">
-            <span class="h-num">CHU</span>
-            <span class="h-lbl">Stage Infra Critique</span>
+            <span class="h-num">11</span>
+            <span class="h-lbl">Projets & Veilles</span>
           </div>
           <div class="h-stat">
             <span class="h-num">NSE</span>
@@ -126,25 +315,41 @@
     </div>
   </section>
 
+  <!-- ════════════════════ BANDEAU DISPONIBILITÉ ════════════════════ -->
+  <section id="opportunity">
+    <div class="opp-left">
+      <h2>Disponible pour alternance<br/>dès septembre 2026</h2>
+      <p>Rythme école / entreprise · Administration systèmes &amp; réseaux N1/N2 · Reims et environs</p>
+    </div>
+    <div class="opp-right">
+      <a href="mailto:bernardthiery51370@gmail.com" class="btn-dark"><i class="bi bi-envelope-fill"></i> M'écrire</a>
+      <a href="https://www.linkedin.com/in/bernard-thiery" target="_blank" class="btn-light"><i class="bi bi-linkedin"></i> LinkedIn</a>
+    </div>
+  </section>
+
+  <!-- ════════════════════════ MARQUEE ════════════════════════ -->
   <div class="marquee-wrap">
     <div class="marquee-track">
       <span>SYSTÈMES &amp; RÉSEAUX</span><span class="mx">✦</span>
       <span>BTS SIO SISR</span><span class="mx">✦</span>
       <span>FORTINET NSE 1·2·3</span><span class="mx">✦</span>
-      <span>CISCO CCNA</span><span class="mx">✦</span>
+      <span>CISCO CCNA EN COURS</span><span class="mx">✦</span>
       <span>LINUX · PROXMOX · DOCKER</span><span class="mx">✦</span>
       <span>WINDOWS SERVER · AD · GPO</span><span class="mx">✦</span>
       <span>PFSENSE · FIREWALLING</span><span class="mx">✦</span>
+      <span>CHU REIMS · WALLIX · GLPI</span><span class="mx">✦</span>
       <span>SYSTÈMES &amp; RÉSEAUX</span><span class="mx">✦</span>
       <span>BTS SIO SISR</span><span class="mx">✦</span>
       <span>FORTINET NSE 1·2·3</span><span class="mx">✦</span>
-      <span>CISCO CCNA</span><span class="mx">✦</span>
+      <span>CISCO CCNA EN COURS</span><span class="mx">✦</span>
       <span>LINUX · PROXMOX · DOCKER</span><span class="mx">✦</span>
       <span>WINDOWS SERVER · AD · GPO</span><span class="mx">✦</span>
       <span>PFSENSE · FIREWALLING</span><span class="mx">✦</span>
+      <span>CHU REIMS · WALLIX · GLPI</span><span class="mx">✦</span>
     </div>
   </div>
 
+  <!-- ════════════════════════ À PROPOS ════════════════════════ -->
   <section id="about">
     <div class="about-grid">
       <div class="about-left">
@@ -160,65 +365,400 @@
         </div>
         <div class="about-text-col">
           <p class="about-big">
-            Allier la rigueur technique d'un environnement critique au sens aigu du service client.
+            Rigueur technique d'un environnement hospitalier critique. Sens du service développé dans le luxe.
           </p>
           <p class="about-body">
-            Étudiant en 2ème année de <strong>BTS SIO (option SISR)</strong>, j'allie une solide rigueur technique acquise en environnement critique (CHU de Reims) à un excellent sens du service client développé dans l'hôtellerie de luxe. Je maîtrise l'administration Linux (Debian) et la sécurisation des accès via des solutions de Bastion (Wallix). Capable d'intervenir sur des problématiques de support et d'infrastructure N1/N2, mon objectif à terme est l'ingénierie.
+            Étudiant en 2ème année de <strong>BTS SIO (option SISR)</strong>, j'ai acquis une solide expérience terrain au <strong>CHU de Reims</strong> — gestion d'incidents, déploiement de postes, interventions sur l'infrastructure réseau (Cisco CLI, brassage, switchs). Mon passage dans <strong>l'hôtellerie 4★</strong> m'a donné un sens aigu du service et de la relation avec les utilisateurs. Je maîtrise l'administration <strong>Linux Debian</strong> et la sécurisation des accès via des solutions de Bastion (Wallix). Mon objectif à terme : l'ingénierie systèmes.
           </p>
           <div class="about-pills">
-            <span>Sens du service</span><span>Support N1/N2</span><span>Rigueur</span><span>Gestion des incidents</span><span>Cybersécurité</span>
+            <span>Linux Debian</span>
+            <span>Cisco CLI</span>
+            <span>Proxmox</span>
+            <span>Docker</span>
+            <span>Wallix Bastion</span>
+            <span>GLPI</span>
+            <span>pfSense</span>
+            <span>PHP / SQL</span>
           </div>
           <div class="about-contacts">
             <a href="mailto:bernardthiery51370@gmail.com"><i class="bi bi-envelope"></i> bernardthiery51370@gmail.com</a>
             <a href="https://www.linkedin.com/in/bernard-thiery" target="_blank"><i class="bi bi-linkedin"></i> linkedin.com/in/bernard-thiery</a>
+            <a href="https://github.com/" target="_blank"><i class="bi bi-github"></i> GitHub</a>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="timeline">
-    <div class="tl-header">
-      <div class="section-index">02</div>
-      <h2 class="section-heading">Parcours<br/><em>chronologique</em></h2>
+  <!-- ════════════════════ EXPÉRIENCE TERRAIN ════════════════════ -->
+  <section id="experience">
+    <div class="exp-header reveal">
+      <div style="display:flex;flex-direction:column;">
+        <div class="section-index">02</div>
+        <h2 class="section-heading">Expérience<br/><em>terrain</em></h2>
+      </div>
+      <p style="max-width:300px;font-size:0.85rem;color:var(--cream-dim);line-height:1.7;">
+        Deux ans d'interventions en environnement critique hospitalier, et une première carrière dans l'hôtellerie de luxe.
+      </p>
     </div>
-    <div class="tl-list-wrap">
 
-      <div class="tl-row">
-        <div class="tl-year">2024<br/>—<br/>2026</div>
-        <div class="tl-bar active-bar"></div>
-        <div class="tl-body">
-          <div class="tl-logo-row">
-            <img src="images/logo-chu.webp" alt="CHU de Reims"/>
-          </div>
-          <h3>Stagiaire Technicien Informatique &amp; BTS SIO SISR</h3>
-          <p class="tl-place">CHU de Reims / Lycée Franklin Roosevelt</p>
-          <ul>
-            <li>Prise en charge et résolution de tickets incidents sur un parc informatique d'envergure.</li>
-            <li>Diagnostic et résolution de problèmes sur switchs Cisco (CLI) et interventions de brassage.</li>
-            <li>Préparation, masterisation et déploiement de postes de travail.</li>
-            <li>Utilisation de solutions de bastion (Wallix) pour la gestion des accès serveurs.</li>
-          </ul>
+    <div class="exp-grid reveal">
+
+      <!-- CHU — FEATURED -->
+      <div class="exp-card featured" style="grid-row: span 1;">
+        <div class="exp-num">
+          EXPÉRIENCE — 01
+          <span class="exp-badge">PRINCIPAL</span>
+        </div>
+        <h3>Stagiaire Technicien Informatique</h3>
+        <p class="exp-place">Centre Hospitalier Universitaire (CHU) — Reims</p>
+        <p class="exp-period">2024 – 2026 · Reims, France</p>
+        <ul class="exp-list">
+          <li><strong>Support N1/N2 :</strong> Prise en charge et résolution de tickets incidents sur un parc de grande envergure (GLPI & Adele)</li>
+          <li><strong>Réseau :</strong> Diagnostic et résolution de problèmes sur switchs Cisco via CLI — VLAN, routage, brassage réseau</li>
+          <li><strong>Déploiement :</strong> Masterisation, préparation et déploiement de postes de travail, imprimantes, périphériques réseau</li>
+          <li><strong>Sécurité des accès :</strong> Utilisation opérationnelle du bastion Wallix pour la gestion des accès serveurs critiques</li>
+        </ul>
+        <div class="exp-tags">
+          <span>GLPI</span><span>Cisco CLI</span><span>Wallix Bastion</span>
+          <span>Windows 10/11</span><span>Brassage réseau</span><span>Support N1/N2</span>
         </div>
       </div>
 
-      <div class="tl-row">
-        <div class="tl-year">2023<br/>—<br/>2024</div>
+      <!-- HÔTELLERIE -->
+      <div class="exp-card">
+        <div class="exp-num">EXPÉRIENCE — 02</div>
+        <h3>Réceptionniste</h3>
+        <p class="exp-place">Best Western Premier Hôtel de la Paix ★★★★ — Reims</p>
+        <p class="exp-period">2021 – 2022 · Reims, France</p>
+        <ul class="exp-list">
+          <li><strong>Relation client :</strong> Accueil et satisfaction de la clientèle dans un établissement 4 étoiles</li>
+          <li><strong>Gestion de litiges :</strong> Résolution de conflits et de situations complexes en environnement exigeant</li>
+          <li><strong>Soft skills :</strong> Rigueur, sang-froid, communication, sens du service transposés au support technique</li>
+        </ul>
+        <div class="exp-tags">
+          <span>Relation client</span><span>Gestion de stress</span><span>Communication</span>
+        </div>
+      </div>
+
+      <!-- OPÉRATEUR -->
+      <div class="exp-card" style="grid-column: span 2;">
+        <div class="exp-num">EXPÉRIENCE — 03</div>
+        <h3>Opérateur de Production / Formateur</h3>
+        <p class="exp-place">Vandemoortel — Reims</p>
+        <p class="exp-period">2023 – 2024 · Reims, France</p>
+        <ul class="exp-list" style="display:grid;grid-template-columns:1fr 1fr;gap:10px 40px;">
+          <li>Surveillance des processus industriels et ajustement des paramètres machines</li>
+          <li>Formation des intérimaires pour une prise de poste rapide — premier rôle d'encadrement</li>
+        </ul>
+        <div class="exp-tags">
+          <span>Management</span><span>Formation</span><span>Rigueur</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════ STACK TECHNIQUE ════════════════════ -->
+  <section id="skills">
+    <div class="skills-header reveal">
+      <div class="skills-title-wrap">
+        <div class="section-index">03</div>
+        <h2 class="section-heading">Stack<br/><em>technique</em></h2>
+      </div>
+      <p class="skills-intro">Des compétences renforcées sur le terrain hospitalier (CHU de Reims).</p>
+    </div>
+
+    <!-- CERTIFICATIONS ENRICHIES -->
+    <div class="certs-band reveal" style="margin-bottom: 40px;">
+      <div class="cert-badge-big" style="flex-direction:column;align-items:flex-start;gap:16px;">
+        <div style="display:flex;align-items:center;gap:16px;">
+          <img src="images/fortinet.png" alt="Fortinet" style="width:48px;height:48px;object-fit:contain;"/>
+          <div>
+            <strong>Fortinet NSE</strong>
+            <span class="badge-status ok">Niveaux 1, 2 &amp; 3 — acquis</span>
+          </div>
+        </div>
+        <div class="cert-nse-detail">
+          <div class="cert-nse-row"><span class="nse-badge">NSE 1</span> Introduction à la cybersécurité et aux menaces actuelles</div>
+          <div class="cert-nse-row"><span class="nse-badge">NSE 2</span> L'évolution des cyberattaques et les solutions de sécurité</div>
+          <div class="cert-nse-row"><span class="nse-badge">NSE 3</span> Présentation approfondie du portfolio produit Fortinet</div>
+        </div>
+      </div>
+      <div class="cert-badge-big">
+        <img src="images/cisco.png" alt="Cisco" style="width:48px;height:48px;object-fit:contain;"/>
+        <div>
+          <strong>Cisco CCNA 200-301</strong>
+          <span class="badge-status wip">En préparation</span>
+          <div style="font-size:0.78rem;color:var(--cream-dim);margin-top:6px;line-height:1.5;">
+            Routing &amp; Switching · VLANs · OSPF · ACL<br/>
+            Pratique terrain au CHU (CLI Cisco)
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="skills-cols reveal">
+      <div class="skill-col">
+        <div class="skill-col-num">—01</div>
+        <h3>Réseaux &amp;<br/>Cybersécurité</h3>
+        <ul>
+          <li>Architecture TCP/IP</li>
+          <li>Configuration Cisco CLI (VLAN, Routage)</li>
+          <li>Brassage réseau</li>
+          <li class="cert-item"><i class="bi bi-shield-check cert-star"></i> Bastion Wallix &amp; Teleport</li>
+          <li>Protocoles SSH, SSL/TLS</li>
+          <li>pfSense — Firewall &amp; VPN</li>
+        </ul>
+      </div>
+      <div class="skill-col-divider"></div>
+      <div class="skill-col">
+        <div class="skill-col-num">—02</div>
+        <h3>Systèmes &amp;<br/>Virtualisation</h3>
+        <ul>
+          <li class="cert-item"><i class="bi bi-terminal cert-star"></i> <strong>Linux Debian</strong> — Maîtrise</li>
+          <li>Windows Server — Notions (AD, GPO)</li>
+          <li>Proxmox PVE &amp; PBS</li>
+          <li>VMware / Hyper-V / VirtualBox</li>
+          <li>Docker &amp; Conteneurisation</li>
+          <li>Ansible — Notions</li>
+        </ul>
+      </div>
+      <div class="skill-col-divider"></div>
+      <div class="skill-col">
+        <div class="skill-col-num">—03</div>
+        <h3>Support &amp;<br/>Développement</h3>
+        <ul>
+          <li>Résolution d'incidents N1 &amp; N2</li>
+          <li>Ticketing GLPI &amp; Adele</li>
+          <li>Masterisation de postes</li>
+          <li>Scripting Bash</li>
+          <li>PHP 8 · MariaDB · PDO</li>
+          <li>HTML5 · CSS3 · JS Vanilla</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════ PROJETS TECHNIQUES ════════════════════ -->
+  <section id="projects">
+    <div class="proj-header reveal">
+      <div class="section-index">04</div>
+      <h2 class="section-heading">Réalisations<br/><em>terrain</em></h2>
+    </div>
+
+    <!-- PROJETS INFRA -->
+    <div class="proj-section-block reveal">
+      <div class="proj-category-label">Projets Infra &amp; Systèmes <span class="proj-cat-count">— 08</span></div>
+      <div class="proj-grid">
+
+        <a href="projets/ocs" class="proj-card">
+          <div class="proj-img">
+            <img src="images/screen_ocs.png" alt="OCS Inventory"/>
+            <div class="proj-hover-label">Voir →</div>
+          </div>
+          <div class="proj-meta">
+            <span class="proj-num">01</span>
+            <div class="proj-info">
+              <h3>OCS Inventory NG</h3>
+              <p>Architecture 2 VMs pour inventaire de parc — MariaDB, segmentation réseau.</p>
+              <div class="proj-tags"><span>Asset Mgmt</span><span>MariaDB</span></div>
+            </div>
+          </div>
+        </a>
+
+        <a href="projets/pgadmin" class="proj-card">
+          <div class="proj-img">
+            <img src="images/screen_pgadmin.png" alt="pgAdmin"/>
+            <div class="proj-hover-label">Voir →</div>
+          </div>
+          <div class="proj-meta">
+            <span class="proj-num">02</span>
+            <div class="proj-info">
+              <h3>pgAdmin &amp; 3-Tiers</h3>
+              <p>Architecture sécurisée SSL avec base de données PostgreSQL.</p>
+              <div class="proj-tags"><span>PostgreSQL</span><span>SSL</span></div>
+            </div>
+          </div>
+        </a>
+
+        <a href="projets/lutim" class="proj-card">
+          <div class="proj-img">
+            <img src="images/screen_lutim.png" alt="Lutim"/>
+            <div class="proj-hover-label">Voir →</div>
+          </div>
+          <div class="proj-meta">
+            <span class="proj-num">03</span>
+            <div class="proj-info">
+              <h3>Lutim</h3>
+              <p>Déploiement d'un service de partage de fichiers sécurisé.</p>
+              <div class="proj-tags"><span>Self-hosted</span><span>Docker</span></div>
+            </div>
+          </div>
+        </a>
+
+        <a href="projets/gatus" class="proj-card">
+          <div class="proj-img">
+            <img src="images/screen_gatus.png" alt="Gatus"/>
+            <div class="proj-hover-label">Voir →</div>
+          </div>
+          <div class="proj-meta">
+            <span class="proj-num">04</span>
+            <div class="proj-info">
+              <h3>Gatus — Healthcheck</h3>
+              <p>Monitoring automatisé avec alertes Discord via webhook.</p>
+              <div class="proj-tags"><span>Docker</span><span>Monitoring</span></div>
+            </div>
+          </div>
+        </a>
+
+        <a href="projets/pfsense" class="proj-card">
+          <div class="proj-img">
+            <img src="images/screen_pfsense.png" alt="pfSense"/>
+            <div class="proj-hover-label">Voir →</div>
+          </div>
+          <div class="proj-meta">
+            <span class="proj-num">05</span>
+            <div class="proj-info">
+              <h3>pfSense</h3>
+              <p>Déploiement d'un pare-feu avec règles de filtrage et VPN.</p>
+              <div class="proj-tags"><span>Firewall</span><span>VPN</span></div>
+            </div>
+          </div>
+        </a>
+
+        <a href="projets/teleport" class="proj-card">
+          <div class="proj-img">
+            <img src="images/screen_teleport.png" alt="Teleport"/>
+            <div class="proj-hover-label">Voir →</div>
+          </div>
+          <div class="proj-meta">
+            <span class="proj-num">06</span>
+            <div class="proj-info">
+              <h3>Teleport Bastion</h3>
+              <p>Infrastructure Zero-Trust — authentification SSO et audit des accès.</p>
+              <div class="proj-tags"><span>Bastion</span><span>Zero-Trust</span></div>
+            </div>
+          </div>
+        </a>
+
+        <a href="projets/elk" class="proj-card">
+          <div class="proj-img">
+            <img src="images/screen_elk.jpg" alt="Suite ELK"/>
+            <div class="proj-hover-label">Voir →</div>
+          </div>
+          <div class="proj-meta">
+            <span class="proj-num">07</span>
+            <div class="proj-info">
+              <h3>Suite ELK</h3>
+              <p>Centralisation et analyse de logs système via Elasticsearch / Kibana.</p>
+              <div class="proj-tags"><span>Logs</span><span>Elasticsearch</span></div>
+            </div>
+          </div>
+        </a>
+
+        <a href="projets/cybercliker" class="proj-card">
+          <div class="proj-img">
+            <img src="images/logo-cybercliker.webp" alt="CyberCliker"/>
+            <div class="proj-hover-label">Voir →</div>
+          </div>
+          <div class="proj-meta">
+            <span class="proj-num">08</span>
+            <div class="proj-info">
+              <h3>Chef de Projet — CyberCliker</h3>
+              <p>Infra virtuelle Proxmox PVE/PBS pour application clicker sécurisée.</p>
+              <div class="proj-tags"><span>Proxmox</span><span>Pilotage</span></div>
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+
+    <!-- PROJET DEV PERSO -->
+    <div class="proj-section-block reveal">
+      <div class="proj-category-label">Développement Personnel <span class="proj-cat-count">— 01</span></div>
+      <div class="proj-grid" style="grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));">
+
+        <a href="projets/quizz" class="proj-card dev-perso">
+          <div class="proj-img" style="background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%); display:flex;align-items:center;justify-content:center;min-height:180px;">
+            <span style="font-family:'Playfair Display',serif;font-weight:900;font-size:2rem;color:var(--orange);">Bernard Quizz</span>
+            <div class="proj-hover-label">Voir →</div>
+          </div>
+          <div class="proj-meta">
+            <span class="proj-num" style="color:var(--orange);">DEV</span>
+            <div class="proj-info">
+              <h3>Bernard Quizz</h3>
+              <p>Application web de quiz multijoueur en temps réel — salons, rôles, avatars personnalisables, 3 modes de jeu.</p>
+              <div class="proj-tags"><span>PHP 8.4</span><span>MariaDB</span><span>Full-Stack</span><span>Déployé</span></div>
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════ VEILLES TECHNOLOGIQUES ════════════════════ -->
+  <section id="veilles">
+    <div class="reveal" style="display:flex;flex-direction:column;margin-bottom:20px;">
+      <div class="section-index">05</div>
+      <h2 class="section-heading">Veilles<br/><em>technologiques</em></h2>
+    </div>
+    <p class="reveal" style="max-width:480px;font-size:0.85rem;color:var(--cream-dim);line-height:1.7;margin-bottom:0;">
+      Analyse régulière des évolutions du secteur IT — enjeux environnementaux, menaces et nouvelles pratiques de sécurité.
+    </p>
+
+    <div class="veille-grid reveal">
+
+      <a href="veilles/greenit" class="veille-card">
+        <div class="veille-num">VEILLE — 01</div>
+        <h3>Green IT &amp; Numérique Responsable</h3>
+        <div class="veille-tags">
+          <span>Environnement</span><span>Éco-conception</span><span>Impact carbone</span>
+        </div>
+        <p>Analyse de l'impact environnemental du numérique, pratiques d'éco-conception et bilan carbone des infrastructures IT.</p>
+        <span class="veille-link">Lire la veille →</span>
+      </a>
+
+      <a href="veilles/ddos" class="veille-card">
+        <div class="veille-num">VEILLE — 02</div>
+        <h3>Attaques DDoS &amp; Mitigation</h3>
+        <div class="veille-tags">
+          <span>Sécurité</span><span>Cybermenaces</span><span>Défense</span>
+        </div>
+        <p>Étude des menaces volumétriques et protocolaires — typologies d'attaques, solutions de mitigation et bonnes pratiques.</p>
+        <span class="veille-link">Lire la veille →</span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════ FORMATION ════════════════════ -->
+  <section id="timeline">
+    <div class="tl-header reveal">
+      <div class="section-index">06</div>
+      <h2 class="section-heading">Formation<br/><em>&amp; parcours</em></h2>
+    </div>
+
+    <div class="tl-grid">
+
+      <div class="tl-row reveal">
+        <div class="tl-year">2024<br/>—<br/>2026</div>
         <div class="tl-bar"></div>
         <div class="tl-body">
           <div class="tl-logo-row">
-            <img src="images/logo-bazeilles.webp" alt="Vandemoortel"/>
+            <img src="images/logo-roosevelt.webp" alt="Lycée Franklin Roosevelt"/>
           </div>
-          <h3>Opérateur de Production</h3>
-          <p class="tl-place">Vandemoortel · Reims</p>
+          <h3>BTS SIO — Option SISR</h3>
+          <p class="tl-place">Lycée Franklin Roosevelt, Reims</p>
           <ul>
-            <li>Surveillance rigoureuse des processus industriels.</li>
-            <li>Ajustement des paramètres de production.</li>
+            <li>Administration systèmes et réseaux — Linux, Windows Server, virtualisation.</li>
+            <li>Stage au CHU de Reims (2024–2026) — environnement de production hospitalier critique.</li>
           </ul>
         </div>
       </div>
 
-      <div class="tl-row">
+      <div class="tl-row reveal">
         <div class="tl-year">2020<br/>—<br/>2022</div>
         <div class="tl-bar"></div>
         <div class="tl-body">
@@ -228,8 +768,23 @@
           <h3>BTS MHR (Management en Hôtellerie Restauration)</h3>
           <p class="tl-place">Lycée de Bazeilles</p>
           <ul>
-            <li>Développement d'un fort sens du service client et de l'écoute.</li>
-            <li>Gestion du stress en environnement exigeant.</li>
+            <li>Développement d'un fort sens du service client et de la communication.</li>
+            <li>Gestion du stress et de situations complexes en environnement exigeant.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tl-row reveal">
+        <div class="tl-year">2016<br/>—<br/>2019</div>
+        <div class="tl-bar"></div>
+        <div class="tl-body">
+          <div class="tl-logo-row">
+            <img src="images/logo-roosevelt.webp" alt="Lycée Franklin Roosevelt"/>
+          </div>
+          <h3>Bac STI2D — Option SIN</h3>
+          <p class="tl-place">Lycée Franklin Roosevelt, Reims</p>
+          <ul>
+            <li>Systèmes d'Information et Numérique — premier contact avec l'électronique et l'informatique.</li>
           </ul>
         </div>
       </div>
@@ -237,234 +792,9 @@
     </div>
   </section>
 
-  <section id="skills">
-    <div class="skills-header">
-      <div class="skills-title-wrap">
-        <div class="section-index">03</div>
-        <h2 class="section-heading">Stack<br/><em>technique</em></h2>
-      </div>
-      <p class="skills-intro">Des compétences renforcées sur le terrain hospitalier (CHU).</p>
-    </div>
-
-    <div class="certs-band" style="margin-bottom: 40px;">
-      <div class="cert-badge-big">
-        <img src="images/fortinet.png" alt="Fortinet"/>
-        <div>
-          <strong>Fortinet NSE</strong>
-          <span class="badge-status ok">Niveaux 1, 2 &amp; 3 — acquis</span>
-        </div>
-      </div>
-      <div class="cert-badge-big">
-        <img src="images/cisco.png" alt="Cisco"/>
-        <div>
-          <strong>Cisco CCNA 200-301</strong>
-          <span class="badge-status wip">En préparation</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="skills-cols">
-      <div class="skill-col">
-        <div class="skill-col-num">—01</div>
-        <h3>Réseaux &amp;<br/>Cybersécurité</h3>
-        <ul>
-          <li>Architecture TCP/IP</li>
-          <li>Configuration Cisco CLI (VLAN, Routage)</li>
-          <li>Brassage réseau</li>
-          <li>Bastion Wallix &amp; Teleport</li>
-          <li>Protocoles de sécurité (SSH, SSL/TLS)</li>
-        </ul>
-      </div>
-      <div class="skill-col-divider"></div>
-      <div class="skill-col">
-        <div class="skill-col-num">—02</div>
-        <h3>Systèmes &amp;<br/>Virtualisation</h3>
-        <ul>
-          <li><strong>Linux Debian :</strong> Maîtrise</li>
-          <li><strong>Windows Server :</strong> Notions</li>
-          <li>Proxmox PVE &amp; PBS (Sauvegardes)</li>
-          <li>VMware / Hyper-V / VirtualBox</li>
-          <li>Docker &amp; Conteneurisation</li>
-        </ul>
-      </div>
-      <div class="skill-col-divider"></div>
-      <div class="skill-col">
-        <div class="skill-col-num">—03</div>
-        <h3>Support &amp;<br/>Outils</h3>
-        <ul>
-          <li>Résolution d'incidents (Niveaux 1 et 2)</li>
-          <li>Diagnostic matériel et logiciel</li>
-          <li>Ticketing : GLPI &amp; Adele</li>
-          <li>Scripting Bash (Notions)</li>
-          <li>Masterisation de postes de travail</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section id="projects">
-    <div class="proj-header">
-      <div class="section-index">04</div>
-      <h2 class="section-heading">Réalisations<br/><em>terrain</em></h2>
-    </div>
-
-    <div class="proj-grid">
-
-      <a href="detail-ocs" class="proj-card">
-        <div class="proj-img">
-          <img src="images/screen_ocs.png" alt="OCS Inventory"/>
-          <div class="proj-hover-label">Voir →</div>
-        </div>
-        <div class="proj-meta">
-          <span class="proj-num">01</span>
-          <div class="proj-info">
-            <h3>OCS Inventory NG</h3>
-            <p>Architecture 2 VMs pour inventaire de parc — MariaDB, segmentation réseau.</p>
-            <div class="proj-tags"><span>Asset Mgmt</span><span>MariaDB</span></div>
-          </div>
-        </div>
-      </a>
-
-      <a href="detail-pgadmin" class="proj-card">
-        <div class="proj-img">
-          <img src="images/screen_pgadmin.png" alt="pgAdmin"/>
-          <div class="proj-hover-label">Voir →</div>
-        </div>
-        <div class="proj-meta">
-          <span class="proj-num">02</span>
-          <div class="proj-info">
-            <h3>pgAdmin &amp; 3-Tiers</h3>
-            <p>Architecture sécurisée SSL avec base de données PostgreSQL.</p>
-            <div class="proj-tags"><span>PostgreSQL</span><span>SSL</span></div>
-          </div>
-        </div>
-      </a>
-
-      <a href="detail-lutim" class="proj-card">
-        <div class="proj-img">
-          <img src="images/screen_lutim.png" alt="Lutim"/>
-          <div class="proj-hover-label">Voir →</div>
-        </div>
-        <div class="proj-meta">
-          <span class="proj-num">03</span>
-          <div class="proj-info">
-            <h3>Lutim</h3>
-            <p>Déploiement d'un partage de fichiers sécurisé et conforme RGPD via Docker.</p>
-            <div class="proj-tags"><span>Docker</span><span>RGPD</span></div>
-          </div>
-        </div>
-      </a>
-
-      <a href="detail-gatus" class="proj-card">
-        <div class="proj-img">
-          <img src="images/screen_gatus.png" alt="Gatus"/>
-          <div class="proj-hover-label">Voir →</div>
-        </div>
-        <div class="proj-meta">
-          <span class="proj-num">04</span>
-          <div class="proj-info">
-            <h3>Gatus — Healthcheck</h3>
-            <p>Mise en place de monitoring automatisé &amp; alertes Discord via Webhooks.</p>
-            <div class="proj-tags"><span>Monitoring</span><span>YAML</span></div>
-          </div>
-        </div>
-      </a>
-
-      <a href="detail-teleport" class="proj-card">
-        <div class="proj-img">
-          <img src="images/screen_teleport.png" alt="Teleport"/>
-          <div class="proj-hover-label">Voir →</div>
-        </div>
-        <div class="proj-meta">
-          <span class="proj-num">05</span>
-          <div class="proj-info">
-            <h3>Bastion Teleport</h3>
-            <p>Sécurisation des accès serveurs SSH via certificats (approche Zero Trust).</p>
-            <div class="proj-tags"><span>Sécurité</span><span>Zero Trust</span></div>
-          </div>
-        </div>
-      </a>
-
-      <a href="detail-lamp" class="proj-card">
-        <div class="proj-img">
-          <img src="images/screen_lamp.png" alt="Serveur LAMP"/>
-          <div class="proj-hover-label">Voir →</div>
-        </div>
-        <div class="proj-meta">
-          <span class="proj-num">06</span>
-          <div class="proj-info">
-            <h3>Serveur LAMP</h3>
-            <p>Déploiement complet d'une stack web Linux, Apache, MariaDB et PHP.</p>
-            <div class="proj-tags"><span>Apache</span><span>MariaDB</span></div>
-          </div>
-        </div>
-      </a>
-
-      <a href="detail-elk" class="proj-card">
-        <div class="proj-img">
-          <img src="images/screen_elk.jpg" alt="Suite ELK"/>
-          <div class="proj-hover-label">Voir →</div>
-        </div>
-        <div class="proj-meta">
-          <span class="proj-num">07</span>
-          <div class="proj-info">
-            <h3>Suite ELK</h3>
-            <p>Centralisation, parsing et analyse visuelle des logs système.</p>
-            <div class="proj-tags"><span>Logs</span><span>Elasticsearch</span></div>
-          </div>
-        </div>
-      </a>
-
-      <a href="detail-projet" class="proj-card">
-        <div class="proj-img">
-          <img src="images/logo-cybercliker.webp" alt="CyberCliker"/>
-          <div class="proj-hover-label">Voir →</div>
-        </div>
-        <div class="proj-meta">
-          <span class="proj-num">08</span>
-          <div class="proj-info">
-            <h3>Chef de Projet — CyberCliker</h3>
-            <p>Infra virtuelle sécurisée Proxmox (PVE/PBS) pour application de type clicker.</p>
-            <div class="proj-tags"><span>Proxmox</span><span>Pilotage</span></div>
-          </div>
-        </div>
-      </a>
-
-      <a href="detail-greenit" class="proj-card">
-        <div class="proj-img">
-          <img src="images/screen_greenit.png" alt="Green IT"/>
-          <div class="proj-hover-label">Voir →</div>
-        </div>
-        <div class="proj-meta">
-          <span class="proj-num">09</span>
-          <div class="proj-info">
-            <h3>Veille Technologique: Green IT</h3>
-            <p>Analyse de l'impact environnemental du numérique et éco-conception.</p>
-            <div class="proj-tags"><span>Veille</span><span>Environnement</span></div>
-          </div>
-        </div>
-      </a>
-
-      <a href="detail-ddos" class="proj-card">
-        <div class="proj-img">
-          <img src="images/logo-ddos.webp" alt="Attaques DDoS"/>
-          <div class="proj-hover-label">Voir →</div>
-        </div>
-        <div class="proj-meta">
-          <span class="proj-num">10</span>
-          <div class="proj-info">
-            <h3>Veille Technologique: DDoS</h3>
-            <p>Étude des menaces volumétriques, protocolaires et solutions de mitigation.</p>
-            <div class="proj-tags"><span>Veille</span><span>Sécurité</span></div>
-          </div>
-        </div>
-      </a>
-
-    </div>
-  </section>
-
+  <!-- ════════════════════ CONTACT ════════════════════ -->
   <section id="contact">
-    <div class="contact-inner">
+    <div class="contact-inner reveal">
       <div class="contact-big-text">
         <span class="ct-outline">TRAVAILLONS</span>
         <span class="ct-filled">ENSEMBLE<span class="ct-dot">.</span></span>
@@ -483,6 +813,7 @@
     <span>© 2026 Bernard Thiery</span>
     <span>BTS SIO SISR · Reims</span>
     <a href="rgpd">RGPD</a>
+    <a href="sources">Sources</a>
   </footer>
 
   <script src="main.js"></script>
