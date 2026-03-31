@@ -1,5 +1,5 @@
 /* ============================================================
-   BERNARD THIERY — style.css
+   BERNARD THIERY - style.css
    Éditorial Magazine · Playfair Display + Barlow
    Noir d'encre #0d0d0d · Crème #f0ece3 · Accent Orange #e85d04
    ============================================================ */
@@ -647,7 +647,7 @@ body:hover .cursor { opacity: 1; }
   padding-left: 16px; position: relative;
 }
 .tl-body li::before {
-  content: '—'; position: absolute; left: 0; color: var(--border-2);
+  content: '-'; position: absolute; left: 0; color: var(--border-2);
 }
 .tl-body strong { color: var(--cream); font-weight: 600; }
 

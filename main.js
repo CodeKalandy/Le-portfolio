@@ -1,4 +1,4 @@
-/* main.js — Bernard Thiery Portfolio v2 */
+/* main.js - Bernard Thiery Portfolio v2 */
 
 /* ---- CUSTOM CURSOR ---- */
 const cursor    = document.getElementById('cursor');
