@@ -123,7 +123,6 @@ body:hover .cursor { opacity: 1; }
 }
 .btn-main:hover { opacity: 0.85; transform: translateY(-2px); }
 
-/* Nouveau bouton harmonisé pour les liens secondaires */
 .btn-outline {
   background: transparent;
   border: 1px solid var(--orange);
@@ -210,7 +209,7 @@ body:hover .cursor { opacity: 1; }
   gap: 24px;
   overflow: hidden;
   padding: 4px 0;
-  flex-wrap: wrap; /* ANTI-SUPERPOSITION */
+  flex-wrap: wrap; 
 }
 
 .hero-word {
@@ -218,8 +217,8 @@ body:hover .cursor { opacity: 1; }
   font-weight: 900;
   font-size: clamp(3.5rem, 9vw, 8.5rem);
   line-height: 0.92;
-  white-space: normal; /* ANTI-SUPERPOSITION */
-  word-break: break-word; /* ANTI-SUPERPOSITION */
+  white-space: normal; 
+  word-break: break-word; 
   animation: slideUp 0.9s cubic-bezier(.16,1,.3,1) both;
 }
 .hero-line--1 .hero-word:nth-child(1) { animation-delay: 0.1s; }
@@ -428,12 +427,19 @@ body:hover .cursor { opacity: 1; }
   padding: 100px 40px;
   border-bottom: 1px solid var(--border);
 }
+
+/* LE CORRECTIF DU BUG VISUEL EST ICI */
 .skills-header {
   margin-bottom: 60px;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: end;
-  gap: 48px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 30px;
+}
+.skills-title-wrap {
+  display: flex;
+  flex-direction: column;
 }
 .skills-intro {
   font-size: 0.88rem;
@@ -441,7 +447,7 @@ body:hover .cursor { opacity: 1; }
   max-width: 320px;
   line-height: 1.7;
   text-align: right;
-  align-self: end;
+  margin-bottom: 10px;
 }
 
 .skills-cols {
@@ -512,7 +518,7 @@ body:hover .cursor { opacity: 1; }
 .badge-status.ok { background: rgba(76,175,80,0.12); color: #81c784; }
 .badge-status.wip { background: rgba(232,93,4,0.12); color: var(--orange); }
 
-/* ---- PROJECTS (Grille Parfaitement Symétrique) ---- */
+/* ---- PROJECTS ---- */
 #projects {
   padding: 100px 40px;
   border-bottom: 1px solid var(--border);
@@ -704,10 +710,10 @@ footer a:hover { color: var(--orange); }
 }
 .reveal.visible { opacity: 1; transform: translateY(0); }
 
-/* ---- RESPONSIVE MOBILE STRIKT ---- */
+/* ---- RESPONSIVE MOBILE STRICT ---- */
 @media (max-width: 1024px) {
-  .skills-header { grid-template-columns: auto 1fr; }
-  .skills-intro { display: none; }
+  /* On autorise le texte .skills-intro à s'afficher sur moyen/petit écran */
+  .skills-intro { display: block; text-align: left; }
   .skills-cols { grid-template-columns: 1fr; }
   .skill-col-divider { display: none; }
   .about-grid { grid-template-columns: 1fr; gap: 40px; }
@@ -719,17 +725,13 @@ footer a:hover { color: var(--orange); }
   #nav { padding: 0 20px; }
   .nav-index { display: none; }
   
-  /* Corrections de hauteur pour éviter les écrasements */
   #hero { min-height: auto; height: auto; padding-top: 100px; padding-bottom: 60px; }
   #about, #skills, #projects, #timeline, #contact { padding: 80px 20px; }
   
   footer { padding: 20px; flex-wrap: wrap; gap: 8px; }
   
   .hero-title-wrap { gap: 0; margin-bottom: 30px; }
-  
-  /* Réduction de la police pour empêcher la superposition "SÉCURITÉ" etc. */
   .hero-word { font-size: clamp(2.5rem, 11vw, 4rem); }
-  
   .hero-line { gap: 10px; }
   .hero-bottom { flex-direction: column; gap: 24px; }
   .hero-stat-row { gap: 20px; flex-wrap: wrap; }
@@ -737,10 +739,13 @@ footer a:hover { color: var(--orange); }
   
   .proj-grid { grid-template-columns: 1fr; }
   
+  /* CORRECTIF DU BUG POUR ECRANS MOBILES */
+  .skills-header { flex-direction: column; align-items: flex-start; gap: 15px; }
+  .skills-intro { text-align: left; margin-top: 5px; }
+
   .tl-row { grid-template-columns: 60px 2px 1fr; gap: 0 20px; }
   .contact-inner { grid-template-columns: 1fr; gap: 40px; }
   
-  /* Réduction de la police pour TRAVAILLONS ENSEMBLE */
   .ct-outline, .ct-filled { font-size: clamp(2.5rem, 9vw, 3.5rem); line-height: 1.1; }
   
   .hero-scroll-hint { display: none; }

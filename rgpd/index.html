@@ -1,415 +1,89 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RGPD | Bernard Thiery Portfolio</title>
-    <link rel="icon" type="image/png" href="../images/bernard.png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../style.css">
-    <style>
-        .rgpd-card {
-            background: rgba(17, 34, 64, 0.6);
-            border: 1px solid #233554;
-            border-radius: 8px;
-            transition: border-color 0.3s;
-        }
-        .rgpd-card:hover { border-color: rgba(0,242,255,0.3); }
-        .rgpd-card-inner {
-            background: rgba(0, 242, 255, 0.03);
-            border: 1px solid #1a2e4a;
-            border-radius: 6px;
-        }
-        .rgpd-right-item {
-            background: rgba(0, 242, 255, 0.04);
-            border: 1px solid #1a3050;
-            border-radius: 6px;
-            padding: 1rem;
-            transition: border-color 0.3s;
-        }
-        .rgpd-right-item:hover { border-color: #00f2ff44; }
-        .rgpd-highlight {
-            background: rgba(0, 242, 255, 0.05);
-            border: 1px solid rgba(0, 242, 255, 0.2);
-            border-radius: 6px;
-        }
-        .rgpd-warning {
-            background: rgba(255, 193, 7, 0.05);
-            border: 1px solid rgba(255, 193, 7, 0.2);
-            border-radius: 6px;
-        }
-        .tag-cyan  { border: 1px solid #00f2ff; color: #00f2ff; background: rgba(0,242,255,0.08); font-family:'Share Tech Mono',monospace; font-size:0.78rem; padding: 3px 10px; border-radius: 4px; display:inline-block; }
-        .tag-red   { border: 1px solid #ff4444; color: #ff4444; background: rgba(255,68,68,0.08); font-family:'Share Tech Mono',monospace; font-size:0.78rem; padding: 3px 10px; border-radius: 4px; display:inline-block; }
-        .tag-yellow{ border: 1px solid #ffc107; color: #ffc107; background: rgba(255,193,7,0.08); font-family:'Share Tech Mono',monospace; font-size:0.78rem; padding: 3px 10px; border-radius: 4px; display:inline-block; }
-        .tag-purple{ border: 1px solid #a855f7; color: #a855f7; background: rgba(168,85,247,0.08); font-family:'Share Tech Mono',monospace; font-size:0.78rem; padding: 3px 10px; border-radius: 4px; display:inline-block; }
-        .section-label { font-family:'Share Tech Mono',monospace; font-size:0.75rem; color:#00f2ff; opacity:0.6; letter-spacing:2px; }
-        .btn-rgpd {
-            background: transparent;
-            border: 1px solid #00f2ff;
-            color: #00f2ff;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.85rem;
-            padding: 8px 20px;
-            border-radius: 4px;
-            transition: all 0.2s;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .btn-rgpd:hover { background: rgba(0,242,255,0.1); color: #00f2ff; box-shadow: 0 0 15px rgba(0,242,255,0.2); }
-        .btn-rgpd-back {
-            background: transparent;
-            border: 1px solid #233554;
-            color: #e0ffff;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.85rem;
-            padding: 10px 28px;
-            border-radius: 4px;
-            transition: all 0.2s;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .btn-rgpd-back:hover { border-color: #00f2ff; color: #00f2ff; }
-        .check-item { display:flex; align-items:center; gap:10px; margin-bottom:8px; font-family:'Share Tech Mono',monospace; font-size:0.85rem; color:#e0ffff; }
-        .check-item i { color:#00f2ff; flex-shrink:0; }
-        .list-item { font-family:'Share Tech Mono',monospace; font-size:0.85rem; color:#e0ffff; margin-bottom:6px; }
-        .list-item::before { content:'>'; color:#00f2ff; margin-right:8px; }
-        .right-icon-cyan   { color: #00f2ff; }
-        .right-icon-red    { color: #ff4444; }
-        .right-icon-yellow { color: #ffc107; }
-        .right-icon-purple { color: #a855f7; }
-        .right-icon-green  { color: #64ffda; }
-        .divider { border-top: 1px solid rgba(0,242,255,0.08); }
-        /* cursor blink */
-        .blink { animation: blinker 1s step-start infinite; }
-        @keyframes blinker { 50% { opacity:0; } }
-    </style>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mentions Légales & RGPD — Bernard Thiery</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,900;1,900&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"/>
+  <link rel="stylesheet" href="../style.css"/>
+
+  <style>
+    .detail-hero { padding: 120px 40px 60px; border-bottom: 1px solid var(--border); text-align: center; }
+    .detail-title { font-family: 'Playfair Display', serif; font-weight: 900; font-size: clamp(3rem, 7vw, 5rem); color: var(--cream); line-height: 1; margin-bottom: 20px; }
+    
+    .text-section { padding: 80px 40px; max-width: 800px; margin: 0 auto; }
+    .text-section h2 { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1.6rem; color: var(--cream); margin: 40px 0 20px; letter-spacing: 0.05em; text-transform: uppercase; }
+    .text-section p { font-size: 1rem; color: var(--cream-dim); line-height: 1.8; margin-bottom: 20px; }
+    .text-section ul { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px; }
+    .text-section li { font-size: 1rem; color: var(--cream-dim); padding-left: 16px; position: relative; }
+    .text-section li::before { content: '—'; position: absolute; left: 0; color: var(--orange); }
+    .text-section strong { color: var(--cream); }
+    .text-section a { color: var(--orange); text-decoration: none; border-bottom: 1px solid var(--orange-dim); transition: border-color 0.2s; }
+    .text-section a:hover { border-color: var(--orange); }
+
+    @media(max-width: 768px) {
+      .detail-hero { padding: 100px 20px 40px; }
+      .text-section { padding: 40px 20px; }
+    }
+  </style>
 </head>
 <body>
 
-    <!-- Matrix de fond -->
-    <canvas id="matrix-bg"></canvas>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
 
-    <!-- NAVBAR -->
-    <nav class="navbar navbar-expand-lg fixed-top glass-nav">
-        <div class="container">
-            <a href="/" class="navbar-brand text-cyan" style="font-family:'Orbitron';">&lt;BERNARD_SISR /&gt;</a>
-            <div class="ms-auto text-white font-monospace d-none d-md-block small">
-                <span class="text-cyan">~/</span>rgpd<span class="blink">_</span>
-            </div>
-        </div>
-    </nav>
+  <nav id="nav" class="scrolled">
+    <div class="nav-left">
+      <span class="nav-index">©2026</span>
+    </div>
+    <div class="nav-center">
+      <a href="../" class="nav-logo">BERNARD THIERY</a>
+    </div>
+    <div class="nav-right">
+      <a href="../" class="nav-cta"><span class="cta-arrow">←</span> Retour</a>
+    </div>
+  </nav>
 
-    <!-- CONTENU -->
-    <main style="padding-top: 100px; padding-bottom: 80px;">
-        <div class="container" style="max-width:860px;">
+  <section class="detail-hero">
+    <div class="section-index">INFORMATIONS LÉGALES</div>
+    <h1 class="detail-title">Politique RGPD</h1>
+  </section>
 
-            <!-- ── HEADER ── -->
-            <div class="text-center mb-5">
-                <div class="mb-3">
-                    <span class="section-label">// LEGAL_DOC — POLITIQUE_DONNÉES</span>
-                </div>
-                <div class="d-inline-block mb-4 p-3" style="border:1px solid rgba(0,242,255,0.3); border-radius:8px; background:rgba(0,242,255,0.05);">
-                    <i class="bi bi-shield-lock-fill text-cyan" style="font-size:2.5rem;"></i>
-                </div>
-                <h1 class="hacker-font text-cyan mb-3" style="font-size:clamp(1.5rem,4vw,2.5rem); text-shadow:0 0 20px rgba(0,242,255,0.4);">
-                    RGPD_POLICY.md
-                </h1>
-                <p class="font-monospace small text-pale-cyan mb-4">
-                    Conformément au Règlement Général sur la Protection des Données (RGPD),<br>
-                    voici comment vos données sont collectées, utilisées et protégées.
-                </p>
-                <div class="d-flex justify-content-center gap-2 flex-wrap">
-                    <span class="tag-cyan"><i class="bi bi-check-circle me-1"></i>Conforme RGPD</span>
-                    <span class="tag-cyan"><i class="bi bi-lock me-1"></i>Données protégées</span>
-                    <span class="tag-cyan"><i class="bi bi-calendar me-1"></i>Màj : Mars 2026</span>
-                </div>
-            </div>
+  <section class="text-section">
+    <h2>1. Éditeur du site</h2>
+    <p>Ce site constitue le portfolio étudiant de <strong>Bernard Thiery</strong>, actuellement en formation BTS SIO spécialité SISR au Lycée Franklin Roosevelt (Reims).</p>
+    <ul>
+      <li><strong>Contact email :</strong> <a href="mailto:bernardthiery51370@gmail.com">bernardthiery51370@gmail.com</a></li>
+      <li><strong>Profil LinkedIn :</strong> <a href="https://fr.linkedin.com/in/bernard-thiery" target="_blank">linkedin.com/in/bernard-thiery</a></li>
+    </ul>
 
-            <!-- ── 1. RESPONSABLE ── -->
-            <div class="rgpd-card p-4 mb-4">
-                <h2 class="font-monospace text-cyan mb-4" style="font-size:1.1rem;">
-                    <i class="bi bi-person-badge me-2"></i>[ RESPONSABLE_DU_TRAITEMENT ]
-                </h2>
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <div class="rgpd-card-inner p-3">
-                            <div class="list-item">Bernard Thiery</div>
-                            <div class="list-item">Étudiant BTS SIO SISR</div>
-                            <div class="list-item">Reims, France</div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="rgpd-card-inner p-3">
-                            <div class="list-item"><a href="mailto:bernardthiery51370@gmail.com" class="text-cyan" style="text-decoration:none;">bernardthiery51370@gmail.com</a></div>
-                            <div class="list-item">Lycée Franklin Roosevelt</div>
-                            <div class="list-item">Dernière MàJ : Mars 2026</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <h2>2. Hébergement</h2>
+    <p>Ce site web statique est hébergé par GitHub Pages (ou prestataire équivalent). Les données sont stockées sur les serveurs de l'hébergeur, dans le respect des normes de sécurité internationales.</p>
 
-            <!-- ── 2. DONNÉES COLLECTÉES ── -->
-            <div class="rgpd-card p-4 mb-4">
-                <h2 class="font-monospace text-cyan mb-4" style="font-size:1.1rem;">
-                    <i class="bi bi-database me-2"></i>[ DONNÉES_COLLECTÉES ]
-                </h2>
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <div class="rgpd-card-inner p-3 h-100">
-                            <div class="font-monospace small text-cyan mb-3"><i class="bi bi-envelope me-2"></i>FORMULAIRE_CONTACT</div>
-                            <div class="check-item"><i class="bi bi-chevron-right"></i>Nom et prénom</div>
-                            <div class="check-item"><i class="bi bi-chevron-right"></i>Adresse email</div>
-                            <div class="check-item"><i class="bi bi-chevron-right"></i>Message / demande</div>
-                            <div class="mt-3 pt-3 divider">
-                                <span class="font-monospace" style="font-size:0.75rem; color:#aaa;"><span class="text-cyan">FINALITÉ:</span> Répondre aux demandes & opportunités pro</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="rgpd-card-inner p-3 h-100">
-                            <div class="font-monospace small text-cyan mb-3"><i class="bi bi-bar-chart me-2"></i>DONNÉES_NAVIGATION</div>
-                            <div class="check-item"><i class="bi bi-chevron-right"></i>Adresse IP (anonymisée)</div>
-                            <div class="check-item"><i class="bi bi-chevron-right"></i>Pages visitées & durée</div>
-                            <div class="check-item"><i class="bi bi-chevron-right"></i>Navigateur & OS</div>
-                            <div class="mt-3 pt-3 divider">
-                                <span class="font-monospace" style="font-size:0.75rem; color:#aaa;"><span class="text-cyan">FINALITÉ:</span> Amélioration UX & audience (AlwaysData)</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <h2>3. Données personnelles & Cookies</h2>
+    <p>Dans un souci de respect de la vie privée et de sobriété numérique (Green IT) :</p>
+    <ul>
+      <li><strong>Aucun cookie publicitaire ou de traçage n'est utilisé</strong> sur ce site.</li>
+      <li>Le site ne collecte aucune donnée personnelle à votre insu.</li>
+      <li>Les seules données traitées sont celles que vous me communiquez volontairement si vous décidez de me contacter par email (votre adresse email, votre nom et le contenu de votre message). Ces données ne servent qu'à vous répondre dans le cadre d'une démarche professionnelle (recrutement, stage, alternance).</li>
+    </ul>
 
-            <!-- ── 3. VOS DROITS ── -->
-            <div class="rgpd-card p-4 mb-4">
-                <h2 class="font-monospace text-cyan mb-4" style="font-size:1.1rem;">
-                    <i class="bi bi-shield-check me-2"></i>[ VOS_DROITS_RGPD ]
-                </h2>
-                <div class="row g-3 mb-4">
-                    <div class="col-md-6">
-                        <div class="rgpd-right-item">
-                            <div class="d-flex align-items-start gap-3">
-                                <i class="bi bi-eye right-icon-cyan" style="font-size:1.1rem; margin-top:2px;"></i>
-                                <div>
-                                    <div class="font-monospace small text-white fw-bold">Droit d'accès</div>
-                                    <div class="font-monospace text-pale-cyan" style="font-size:0.78rem;">Connaître les données détenues sur vous</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="rgpd-right-item">
-                            <div class="d-flex align-items-start gap-3">
-                                <i class="bi bi-pencil right-icon-cyan" style="font-size:1.1rem; margin-top:2px;"></i>
-                                <div>
-                                    <div class="font-monospace small text-white fw-bold">Droit de rectification</div>
-                                    <div class="font-monospace text-pale-cyan" style="font-size:0.78rem;">Corriger ou mettre à jour vos informations</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="rgpd-right-item">
-                            <div class="d-flex align-items-start gap-3">
-                                <i class="bi bi-trash right-icon-red" style="font-size:1.1rem; margin-top:2px;"></i>
-                                <div>
-                                    <div class="font-monospace small text-white fw-bold">Droit à l'effacement</div>
-                                    <div class="font-monospace text-pale-cyan" style="font-size:0.78rem;">Demander la suppression de vos données</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="rgpd-right-item">
-                            <div class="d-flex align-items-start gap-3">
-                                <i class="bi bi-exclamation-triangle right-icon-yellow" style="font-size:1.1rem; margin-top:2px;"></i>
-                                <div>
-                                    <div class="font-monospace small text-white fw-bold">Droit d'opposition</div>
-                                    <div class="font-monospace text-pale-cyan" style="font-size:0.78rem;">Vous opposer au traitement de vos données</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="rgpd-right-item">
-                            <div class="d-flex align-items-start gap-3">
-                                <i class="bi bi-download right-icon-purple" style="font-size:1.1rem; margin-top:2px;"></i>
-                                <div>
-                                    <div class="font-monospace small text-white fw-bold">Droit à la portabilité</div>
-                                    <div class="font-monospace text-pale-cyan" style="font-size:0.78rem;">Récupérer vos données dans un format lisible</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="rgpd-right-item">
-                            <div class="d-flex align-items-start gap-3">
-                                <i class="bi bi-shield right-icon-green" style="font-size:1.1rem; margin-top:2px;"></i>
-                                <div>
-                                    <div class="font-monospace small text-white fw-bold">Droit de limitation</div>
-                                    <div class="font-monospace text-pale-cyan" style="font-size:0.78rem;">Limiter le traitement de vos données</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <h2>4. Vos droits (Conformité RGPD)</h2>
+    <p>Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez d'un droit d'accès, de rectification, d'effacement et de portabilité des données vous concernant (si vous m'avez contacté). Pour exercer ces droits, vous pouvez m'envoyer un email à l'adresse indiquée ci-dessus.</p>
 
-                <!-- Comment exercer -->
-                <div class="rgpd-highlight p-4">
-                    <div class="font-monospace small text-cyan mb-3"><i class="bi bi-terminal me-2"></i>// EXERCER_SES_DROITS</div>
-                    <p class="font-monospace text-pale-cyan mb-3" style="font-size:0.85rem;">
-                        Envoyez un email en précisant les éléments suivants :
-                    </p>
-                    <div class="check-item"><i class="bi bi-chevron-right"></i>Votre identité et coordonnées</div>
-                    <div class="check-item"><i class="bi bi-chevron-right"></i>Le droit que vous souhaitez exercer</div>
-                    <div class="check-item"><i class="bi bi-chevron-right"></i>Les données concernées (si applicable)</div>
-                    <div class="mt-3">
-                        <a href="mailto:bernardthiery51370@gmail.com?subject=Demande RGPD" class="btn-rgpd">
-                            <i class="bi bi-envelope"></i> ENVOYER_DEMANDE
-                        </a>
-                    </div>
-                </div>
-            </div>
+    <h2>5. Propriété intellectuelle</h2>
+    <p>Le contenu de ce portfolio (textes, analyses de projets, captures d'écran des infrastructures réalisées) est la propriété de Bernard Thiery, sauf mention contraire précisée dans la page des <a href="../sources/">Sources & Crédits</a>. Toute reproduction non autorisée est interdite.</p>
+  </section>
 
-            <!-- ── 4. SÉCURITÉ & CONSERVATION ── -->
-            <div class="rgpd-card p-4 mb-4">
-                <h2 class="font-monospace text-cyan mb-4" style="font-size:1.1rem;">
-                    <i class="bi bi-lock me-2"></i>[ SÉCURITÉ_ET_CONSERVATION ]
-                </h2>
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <div class="rgpd-card-inner p-3 h-100">
-                            <div class="font-monospace small text-cyan mb-3"><i class="bi bi-shield-lock me-2"></i>MESURES_SÉCURITÉ</div>
-                            <div class="list-item">Chiffrement HTTPS (SSL/TLS)</div>
-                            <div class="list-item">Hébergement sécurisé AlwaysData</div>
-                            <div class="list-item">Accès restreint aux données</div>
-                            <div class="list-item">Sauvegardes régulières</div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="rgpd-card-inner p-3 h-100">
-                            <div class="font-monospace small text-cyan mb-3"><i class="bi bi-clock me-2"></i>DURÉE_CONSERVATION</div>
-                            <div class="list-item">Messages de contact : 3 ans</div>
-                            <div class="list-item">Données analytiques : 26 mois</div>
-                            <div class="list-item">Logs techniques : 12 mois</div>
-                            <div class="list-item">Suppression automatique</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <footer>
+    <span>© 2026 Bernard Thiery</span>
+    <span>BTS SIO SISR · Reims</span>
+    <a href="../sources/">Sources</a>
+  </footer>
 
-            <!-- ── 5. COOKIES ── -->
-            <div class="rgpd-card p-4 mb-4">
-                <h2 class="font-monospace text-cyan mb-4" style="font-size:1.1rem;">
-                    <i class="bi bi-cookie me-2"></i>[ COOKIES_ET_TRACEURS ]
-                </h2>
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <div class="rgpd-card-inner p-3 h-100">
-                            <div class="font-monospace small text-cyan mb-3">COOKIES_ESSENTIELS</div>
-                            <p class="font-monospace text-pale-cyan mb-0" style="font-size:0.82rem;">
-                                Nécessaires au fonctionnement du site.<br>
-                                <span class="text-cyan">// Aucun consentement requis</span>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="rgpd-card-inner p-3 h-100">
-                            <div class="font-monospace small text-cyan mb-3">COOKIES_ANALYTIQUES</div>
-                            <p class="font-monospace text-pale-cyan mb-0" style="font-size:0.82rem;">
-                                Mesure d'audience anonymisée.<br>
-                                <span class="text-cyan">// AlwaysData — données agrégées</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="rgpd-warning p-3 mt-3 font-monospace" style="font-size:0.82rem;">
-                    <i class="bi bi-info-circle text-warning me-2"></i>
-                    <span class="text-pale-cyan">Vous pouvez configurer votre navigateur pour refuser les cookies à tout moment. Certaines fonctionnalités pourraient être affectées.</span>
-                </div>
-            </div>
-
-            <!-- ── 6. CONTACT & RÉCLAMATIONS ── -->
-            <div class="rgpd-card p-4 mb-5">
-                <h2 class="font-monospace text-cyan mb-4" style="font-size:1.1rem;">
-                    <i class="bi bi-chat-square-text me-2"></i>[ CONTACT_ET_RÉCLAMATIONS ]
-                </h2>
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <div class="rgpd-card-inner p-3 h-100">
-                            <div class="font-monospace small text-cyan mb-3">NOUS_CONTACTER</div>
-                            <div class="check-item">
-                                <i class="bi bi-envelope"></i>
-                                <a href="mailto:bernardthiery51370@gmail.com" class="text-cyan" style="text-decoration:none; font-size:0.82rem;">bernardthiery51370@gmail.com</a>
-                            </div>
-                            <div class="font-monospace text-pale-cyan mt-2" style="font-size:0.78rem; opacity:0.7;">
-                                <i class="bi bi-clock me-1"></i>Réponse sous 72h maximum
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="rgpd-card-inner p-3 h-100">
-                            <div class="font-monospace small text-cyan mb-3">AUTORITÉ_DE_CONTRÔLE</div>
-                            <p class="font-monospace text-pale-cyan mb-2" style="font-size:0.82rem;">En cas de litige non résolu, vous pouvez saisir la CNIL :</p>
-                            <a href="https://www.cnil.fr/fr/plaintes" target="_blank" rel="noopener noreferrer" class="text-cyan font-monospace" style="font-size:0.82rem; text-decoration:none;">
-                                <i class="bi bi-box-arrow-up-right me-1"></i>cnil.fr/fr/plaintes
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ── RETOUR ── -->
-            <div class="text-center">
-                <a href="/" class="btn-rgpd-back">
-                    <i class="bi bi-arrow-left"></i> RETOUR_ACCUEIL
-                </a>
-            </div>
-
-        </div>
-    </main>
-
-    <!-- Matrix de fond (identique à index.html) -->
-    <script>
-    (function() {
-        const canvas = document.getElementById('matrix-bg');
-        if (!canvas) return;
-        canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0.05;';
-        const ctx = canvas.getContext('2d');
-        const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
-        resize();
-        window.addEventListener('resize', resize);
-        const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノ';
-        const fontSize = 14;
-        let drops = [];
-        const initDrops = () => {
-            drops = [];
-            const cols = Math.floor(canvas.width / fontSize);
-            for (let i = 0; i < cols; i++) drops[i] = Math.random() * -canvas.height / fontSize;
-        };
-        initDrops();
-        window.addEventListener('resize', initDrops);
-        const draw = () => {
-            ctx.fillStyle = 'rgba(2, 12, 27, 0.08)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#00f2ff';
-            ctx.font = fontSize + 'px Share Tech Mono, monospace';
-            for (let i = 0; i < drops.length; i++) {
-                const text = chars[Math.floor(Math.random() * chars.length)];
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-                drops[i] += 0.4;
-            }
-        };
-        setInterval(draw, 60);
-    })();
-    </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../main.js"></script>
 </body>
 </html>

@@ -10,11 +10,9 @@
   <link rel="stylesheet" href="style.css"/>
 
   <style>
-    /* Empêcher les textes de l'accueil de déborder sur mobile */
     .hero-word { white-space: normal !important; word-break: break-word; }
     .hero-line { flex-wrap: wrap; }
     
-    /* Harmonisation des liens secondaires (même design que les boutons principaux) */
     .btn-outline {
       background: transparent;
       border: 1px solid var(--orange);
@@ -22,11 +20,10 @@
     }
     .btn-outline:hover { background: var(--orange) !important; color: var(--ink) !important; }
 
-    /* REFORMATAGE TOTAL DE LA GRILLE DES PROJETS (Symétrie parfaite) */
     .proj-grid {
       display: grid !important;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) !important;
-      gap: 2px !important; /* Maintient l'effet de bordure de ton design initial */
+      gap: 2px !important; 
       align-items: stretch !important;
     }
     .proj-card {
@@ -36,7 +33,6 @@
       grid-row: auto !important; 
       margin: 0 !important;
     }
-    /* Hauteur fixe pour toutes les images */
     .proj-img {
       height: 220px !important;
       min-height: 220px !important;
@@ -52,7 +48,6 @@
       object-position: top center !important;
     }
 
-    /* Adaptabilité sur mobile */
     @media (max-width: 768px) {
       #hero { height: auto; padding-top: 100px; padding-bottom: 60px; }
       .hero-title-wrap { margin-bottom: 30px; }
@@ -154,7 +149,7 @@
     <div class="about-grid">
       <div class="about-left">
         <div class="section-index">01</div>
-        <h2 class="section-heading">Qui<br/><em>suis-je</em><br/>vraiment ?</h2>
+        <h2 class="section-heading">Qui<br/><em>suis-je</em><br/> ?</h2>
       </div>
       <div class="about-right">
         <div class="about-photo-col">
@@ -174,7 +169,6 @@
             <span>Sens du service</span><span>Support N1/N2</span><span>Rigueur</span><span>Gestion des incidents</span><span>Cybersécurité</span>
           </div>
           <div class="about-contacts">
-            <a href="tel:+33615363391"><i class="bi bi-telephone"></i> +33 6 15 36 33 91</a>
             <a href="mailto:bernardthiery51370@gmail.com"><i class="bi bi-envelope"></i> bernardthiery51370@gmail.com</a>
             <a href="https://www.linkedin.com/in/bernard-thiery" target="_blank"><i class="bi bi-linkedin"></i> linkedin.com/in/bernard-thiery</a>
           </div>
@@ -245,8 +239,10 @@
 
   <section id="skills">
     <div class="skills-header">
-      <div class="section-index">03</div>
-      <h2 class="section-heading">Stack<br/><em>technique</em></h2>
+      <div class="skills-title-wrap">
+        <div class="section-index">03</div>
+        <h2 class="section-heading">Stack<br/><em>technique</em></h2>
+      </div>
       <p class="skills-intro">Des compétences renforcées sur le terrain hospitalier (CHU).</p>
     </div>
 
