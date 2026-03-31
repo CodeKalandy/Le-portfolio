@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bernard Thiery — SISR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,900;1,900&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"/>
+  <link rel="stylesheet" href="style.css"/>
+
+  <style>
+    /* Empêcher les textes de l'accueil de déborder sur mobile */
+    .hero-word { white-space: normal !important; word-break: break-word; }
+    .hero-line { flex-wrap: wrap; }
+    
+    /* Harmonisation des liens secondaires (même design que les boutons principaux) */
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--orange);
+      color: var(--orange) !important;
+    }
+    .btn-outline:hover { background: var(--orange) !important; color: var(--ink) !important; }
+
+    /* REFORMATAGE TOTAL DE LA GRILLE DES PROJETS (Symétrie parfaite) */
+    .proj-grid {
+      display: grid !important;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) !important;
+      gap: 2px !important; /* Maintient l'effet de bordure de ton design initial */
+      align-items: stretch !important;
+    }
+    .proj-card {
+      display: flex !important;
+      flex-direction: column !important;
+      height: 100% !important;
+      grid-row: auto !important; 
+      margin: 0 !important;
+    }
+    /* Hauteur fixe pour toutes les images */
+    .proj-img {
+      height: 220px !important;
+      min-height: 220px !important;
+      max-height: 220px !important;
+      width: 100% !important;
+      overflow: hidden !important;
+      display: block !important;
+    }
+    .proj-img img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      object-position: top center !important;
+    }
+
+    /* Adaptabilité sur mobile */
+    @media (max-width: 768px) {
+      #hero { height: auto; padding-top: 100px; padding-bottom: 60px; }
+      .hero-title-wrap { margin-bottom: 30px; }
+      .proj-grid { grid-template-columns: 1fr !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+
+  <nav id="nav">
+    <div class="nav-left">
+      <span class="nav-index">©2026</span>
+    </div>
+    <div class="nav-center">
+      <a href="#" class="nav-logo">BERNARD THIERY</a>
+    </div>
+    <div class="nav-right">
+      <a href="#contact" class="nav-cta">Disponible <span class="cta-arrow">↗</span></a>
+    </div>
+  </nav>
+
+  <section id="hero">
+    <div class="hero-tag">Technicien Systèmes &amp; Réseaux — BTS SIO SISR</div>
+
+    <div class="hero-title-wrap">
+      <div class="hero-line hero-line--1">
+        <span class="hero-word outline">RÉSEAU</span>
+        <span class="hero-word filled">SYSTÈME</span>
+      </div>
+      <div class="hero-line hero-line--2">
+        <span class="hero-accent-block">SISR</span>
+        <span class="hero-word outline">SÉCURITÉ</span>
+      </div>
+      <div class="hero-line hero-line--3">
+        <span class="hero-word italic-word">Ingénieur</span>
+        <span class="hero-word filled">EN DEVENIR</span>
+      </div>
+    </div>
+
+    <div class="hero-bottom">
+      <div class="hero-bottom-left">
+        <p class="hero-desc">
+          Technicien Système et Réseau.<br/>
+          Reims · Lycée Franklin Roosevelt · 2024–2026<br/>
+          <strong style="color: var(--orange);">À la recherche d'une alternance / stage en administration systèmes &amp; réseaux.</strong>
+        </p>
+        <div class="hero-btns">
+          <a href="fichiers/thiery-bernard-cv.pdf" download class="btn-main">Télécharger CV</a>
+          <a href="#projects" class="btn-main btn-outline">Voir projets ↓</a>
+        </div>
+      </div>
+      <div class="hero-bottom-right">
+        <div class="hero-stat-row">
+          <div class="h-stat">
+            <span class="h-num">10</span>
+            <span class="h-lbl">Projets &amp; Veilles</span>
+          </div>
+          <div class="h-stat">
+            <span class="h-num">CHU</span>
+            <span class="h-lbl">Stage Infra Critique</span>
+          </div>
+          <div class="h-stat">
+            <span class="h-num">NSE</span>
+            <span class="h-lbl">1·2·3 Fortinet</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-scroll-hint">
+      <div class="scroll-track"><div class="scroll-thumb"></div></div>
+      <span>Défiler</span>
+    </div>
+  </section>
+
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <span>SYSTÈMES &amp; RÉSEAUX</span><span class="mx">✦</span>
+      <span>BTS SIO SISR</span><span class="mx">✦</span>
+      <span>FORTINET NSE 1·2·3</span><span class="mx">✦</span>
+      <span>CISCO CCNA</span><span class="mx">✦</span>
+      <span>LINUX · PROXMOX · DOCKER</span><span class="mx">✦</span>
+      <span>WINDOWS SERVER · AD · GPO</span><span class="mx">✦</span>
+      <span>PFSENSE · FIREWALLING</span><span class="mx">✦</span>
+      <span>SYSTÈMES &amp; RÉSEAUX</span><span class="mx">✦</span>
+      <span>BTS SIO SISR</span><span class="mx">✦</span>
+      <span>FORTINET NSE 1·2·3</span><span class="mx">✦</span>
+      <span>CISCO CCNA</span><span class="mx">✦</span>
+      <span>LINUX · PROXMOX · DOCKER</span><span class="mx">✦</span>
+      <span>WINDOWS SERVER · AD · GPO</span><span class="mx">✦</span>
+      <span>PFSENSE · FIREWALLING</span><span class="mx">✦</span>
+    </div>
+  </div>
+
+  <section id="about">
+    <div class="about-grid">
+      <div class="about-left">
+        <div class="section-index">01</div>
+        <h2 class="section-heading">Qui<br/><em>suis-je</em><br/>vraiment ?</h2>
+      </div>
+      <div class="about-right">
+        <div class="about-photo-col">
+          <div class="photo-wrap">
+            <img src="images/avatar.jpg" alt="Bernard Thiery"/>
+            <div class="photo-label">Reims, France</div>
+          </div>
+        </div>
+        <div class="about-text-col">
+          <p class="about-big">
+            Allier la rigueur technique d'un environnement critique au sens aigu du service client.
+          </p>
+          <p class="about-body">
+            Étudiant en 2ème année de <strong>BTS SIO (option SISR)</strong>, j'allie une solide rigueur technique acquise en environnement critique (CHU de Reims) à un excellent sens du service client développé dans l'hôtellerie de luxe. Je maîtrise l'administration Linux (Debian) et la sécurisation des accès via des solutions de Bastion (Wallix). Capable d'intervenir sur des problématiques de support et d'infrastructure N1/N2, mon objectif à terme est l'ingénierie.
+          </p>
+          <div class="about-pills">
+            <span>Sens du service</span><span>Support N1/N2</span><span>Rigueur</span><span>Gestion des incidents</span><span>Cybersécurité</span>
+          </div>
+          <div class="about-contacts">
+            <a href="tel:+33615363391"><i class="bi bi-telephone"></i> +33 6 15 36 33 91</a>
+            <a href="mailto:bernardthiery51370@gmail.com"><i class="bi bi-envelope"></i> bernardthiery51370@gmail.com</a>
+            <a href="https://www.linkedin.com/in/bernard-thiery" target="_blank"><i class="bi bi-linkedin"></i> linkedin.com/in/bernard-thiery</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="timeline">
+    <div class="tl-header">
+      <div class="section-index">02</div>
+      <h2 class="section-heading">Parcours<br/><em>chronologique</em></h2>
+    </div>
+    <div class="tl-list-wrap">
+
+      <div class="tl-row">
+        <div class="tl-year">2024<br/>—<br/>2026</div>
+        <div class="tl-bar active-bar"></div>
+        <div class="tl-body">
+          <div class="tl-logo-row">
+            <img src="images/logo-chu.webp" alt="CHU de Reims"/>
+          </div>
+          <h3>Stagiaire Technicien Informatique &amp; BTS SIO SISR</h3>
+          <p class="tl-place">CHU de Reims / Lycée Franklin Roosevelt</p>
+          <ul>
+            <li>Prise en charge et résolution de tickets incidents sur un parc informatique d'envergure.</li>
+            <li>Diagnostic et résolution de problèmes sur switchs Cisco (CLI) et interventions de brassage.</li>
+            <li>Préparation, masterisation et déploiement de postes de travail.</li>
+            <li>Utilisation de solutions de bastion (Wallix) pour la gestion des accès serveurs.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tl-row">
+        <div class="tl-year">2023<br/>—<br/>2024</div>
+        <div class="tl-bar"></div>
+        <div class="tl-body">
+          <div class="tl-logo-row">
+            <img src="images/logo-bazeilles.webp" alt="Vandemoortel"/>
+          </div>
+          <h3>Opérateur de Production</h3>
+          <p class="tl-place">Vandemoortel · Reims</p>
+          <ul>
+            <li>Surveillance rigoureuse des processus industriels.</li>
+            <li>Ajustement des paramètres de production.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tl-row">
+        <div class="tl-year">2020<br/>—<br/>2022</div>
+        <div class="tl-bar"></div>
+        <div class="tl-body">
+          <div class="tl-logo-row">
+            <img src="images/logo-bazeilles.webp" alt="Lycée de Bazeilles"/>
+          </div>
+          <h3>BTS MHR (Management en Hôtellerie Restauration)</h3>
+          <p class="tl-place">Lycée de Bazeilles</p>
+          <ul>
+            <li>Développement d'un fort sens du service client et de l'écoute.</li>
+            <li>Gestion du stress en environnement exigeant.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="skills-header">
+      <div class="section-index">03</div>
+      <h2 class="section-heading">Stack<br/><em>technique</em></h2>
+      <p class="skills-intro">Des compétences renforcées sur le terrain hospitalier (CHU).</p>
+    </div>
+
+    <div class="certs-band" style="margin-bottom: 40px;">
+      <div class="cert-badge-big">
+        <img src="images/fortinet.png" alt="Fortinet"/>
+        <div>
+          <strong>Fortinet NSE</strong>
+          <span class="badge-status ok">Niveaux 1, 2 &amp; 3 — acquis</span>
+        </div>
+      </div>
+      <div class="cert-badge-big">
+        <img src="images/cisco.png" alt="Cisco"/>
+        <div>
+          <strong>Cisco CCNA 200-301</strong>
+          <span class="badge-status wip">En préparation</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="skills-cols">
+      <div class="skill-col">
+        <div class="skill-col-num">—01</div>
+        <h3>Réseaux &amp;<br/>Cybersécurité</h3>
+        <ul>
+          <li>Architecture TCP/IP</li>
+          <li>Configuration Cisco CLI (VLAN, Routage)</li>
+          <li>Brassage réseau</li>
+          <li>Bastion Wallix &amp; Teleport</li>
+          <li>Protocoles de sécurité (SSH, SSL/TLS)</li>
+        </ul>
+      </div>
+      <div class="skill-col-divider"></div>
+      <div class="skill-col">
+        <div class="skill-col-num">—02</div>
+        <h3>Systèmes &amp;<br/>Virtualisation</h3>
+        <ul>
+          <li><strong>Linux Debian :</strong> Maîtrise</li>
+          <li><strong>Windows Server :</strong> Notions</li>
+          <li>Proxmox PVE &amp; PBS (Sauvegardes)</li>
+          <li>VMware / Hyper-V / VirtualBox</li>
+          <li>Docker &amp; Conteneurisation</li>
+        </ul>
+      </div>
+      <div class="skill-col-divider"></div>
+      <div class="skill-col">
+        <div class="skill-col-num">—03</div>
+        <h3>Support &amp;<br/>Outils</h3>
+        <ul>
+          <li>Résolution d'incidents (Niveaux 1 et 2)</li>
+          <li>Diagnostic matériel et logiciel</li>
+          <li>Ticketing : GLPI &amp; Adele</li>
+          <li>Scripting Bash (Notions)</li>
+          <li>Masterisation de postes de travail</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="proj-header">
+      <div class="section-index">04</div>
+      <h2 class="section-heading">Réalisations<br/><em>terrain</em></h2>
+    </div>
+
+    <div class="proj-grid">
+
+      <a href="detail-ocs" class="proj-card">
+        <div class="proj-img">
+          <img src="images/screen_ocs.png" alt="OCS Inventory"/>
+          <div class="proj-hover-label">Voir →</div>
+        </div>
+        <div class="proj-meta">
+          <span class="proj-num">01</span>
+          <div class="proj-info">
+            <h3>OCS Inventory NG</h3>
+            <p>Architecture 2 VMs pour inventaire de parc — MariaDB, segmentation réseau.</p>
+            <div class="proj-tags"><span>Asset Mgmt</span><span>MariaDB</span></div>
+          </div>
+        </div>
+      </a>
+
+      <a href="detail-pgadmin" class="proj-card">
+        <div class="proj-img">
+          <img src="images/screen_pgadmin.png" alt="pgAdmin"/>
+          <div class="proj-hover-label">Voir →</div>
+        </div>
+        <div class="proj-meta">
+          <span class="proj-num">02</span>
+          <div class="proj-info">
+            <h3>pgAdmin &amp; 3-Tiers</h3>
+            <p>Architecture sécurisée SSL avec base de données PostgreSQL.</p>
+            <div class="proj-tags"><span>PostgreSQL</span><span>SSL</span></div>
+          </div>
+        </div>
+      </a>
+
+      <a href="detail-lutim" class="proj-card">
+        <div class="proj-img">
+          <img src="images/screen_lutim.png" alt="Lutim"/>
+          <div class="proj-hover-label">Voir →</div>
+        </div>
+        <div class="proj-meta">
+          <span class="proj-num">03</span>
+          <div class="proj-info">
+            <h3>Lutim</h3>
+            <p>Déploiement d'un partage de fichiers sécurisé et conforme RGPD via Docker.</p>
+            <div class="proj-tags"><span>Docker</span><span>RGPD</span></div>
+          </div>
+        </div>
+      </a>
+
+      <a href="detail-gatus" class="proj-card">
+        <div class="proj-img">
+          <img src="images/screen_gatus.png" alt="Gatus"/>
+          <div class="proj-hover-label">Voir →</div>
+        </div>
+        <div class="proj-meta">
+          <span class="proj-num">04</span>
+          <div class="proj-info">
+            <h3>Gatus — Healthcheck</h3>
+            <p>Mise en place de monitoring automatisé &amp; alertes Discord via Webhooks.</p>
+            <div class="proj-tags"><span>Monitoring</span><span>YAML</span></div>
+          </div>
+        </div>
+      </a>
+
+      <a href="detail-teleport" class="proj-card">
+        <div class="proj-img">
+          <img src="images/screen_teleport.png" alt="Teleport"/>
+          <div class="proj-hover-label">Voir →</div>
+        </div>
+        <div class="proj-meta">
+          <span class="proj-num">05</span>
+          <div class="proj-info">
+            <h3>Bastion Teleport</h3>
+            <p>Sécurisation des accès serveurs SSH via certificats (approche Zero Trust).</p>
+            <div class="proj-tags"><span>Sécurité</span><span>Zero Trust</span></div>
+          </div>
+        </div>
+      </a>
+
+      <a href="detail-lamp" class="proj-card">
+        <div class="proj-img">
+          <img src="images/screen_lamp.png" alt="Serveur LAMP"/>
+          <div class="proj-hover-label">Voir →</div>
+        </div>
+        <div class="proj-meta">
+          <span class="proj-num">06</span>
+          <div class="proj-info">
+            <h3>Serveur LAMP</h3>
+            <p>Déploiement complet d'une stack web Linux, Apache, MariaDB et PHP.</p>
+            <div class="proj-tags"><span>Apache</span><span>MariaDB</span></div>
+          </div>
+        </div>
+      </a>
+
+      <a href="detail-elk" class="proj-card">
+        <div class="proj-img">
+          <img src="images/screen_elk.jpg" alt="Suite ELK"/>
+          <div class="proj-hover-label">Voir →</div>
+        </div>
+        <div class="proj-meta">
+          <span class="proj-num">07</span>
+          <div class="proj-info">
+            <h3>Suite ELK</h3>
+            <p>Centralisation, parsing et analyse visuelle des logs système.</p>
+            <div class="proj-tags"><span>Logs</span><span>Elasticsearch</span></div>
+          </div>
+        </div>
+      </a>
+
+      <a href="detail-projet" class="proj-card">
+        <div class="proj-img">
+          <img src="images/logo-cybercliker.webp" alt="CyberCliker"/>
+          <div class="proj-hover-label">Voir →</div>
+        </div>
+        <div class="proj-meta">
+          <span class="proj-num">08</span>
+          <div class="proj-info">
+            <h3>Chef de Projet — CyberCliker</h3>
+            <p>Infra virtuelle sécurisée Proxmox (PVE/PBS) pour application de type clicker.</p>
+            <div class="proj-tags"><span>Proxmox</span><span>Pilotage</span></div>
+          </div>
+        </div>
+      </a>
+
+      <a href="detail-greenit" class="proj-card">
+        <div class="proj-img">
+          <img src="images/screen_greenit.png" alt="Green IT"/>
+          <div class="proj-hover-label">Voir →</div>
+        </div>
+        <div class="proj-meta">
+          <span class="proj-num">09</span>
+          <div class="proj-info">
+            <h3>Veille Technologique: Green IT</h3>
+            <p>Analyse de l'impact environnemental du numérique et éco-conception.</p>
+            <div class="proj-tags"><span>Veille</span><span>Environnement</span></div>
+          </div>
+        </div>
+      </a>
+
+      <a href="detail-ddos" class="proj-card">
+        <div class="proj-img">
+          <img src="images/logo-ddos.webp" alt="Attaques DDoS"/>
+          <div class="proj-hover-label">Voir →</div>
+        </div>
+        <div class="proj-meta">
+          <span class="proj-num">10</span>
+          <div class="proj-info">
+            <h3>Veille Technologique: DDoS</h3>
+            <p>Étude des menaces volumétriques, protocolaires et solutions de mitigation.</p>
+            <div class="proj-tags"><span>Veille</span><span>Sécurité</span></div>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="contact-inner">
+      <div class="contact-big-text">
+        <span class="ct-outline">TRAVAILLONS</span>
+        <span class="ct-filled">ENSEMBLE<span class="ct-dot">.</span></span>
+      </div>
+      <div class="contact-body">
+        <p>Je cherche une alternance ou un stage en administration systèmes &amp; réseaux. Contactez-moi pour discuter de nos futurs projets.</p>
+        <div class="contact-btns">
+          <a href="mailto:bernardthiery51370@gmail.com" class="btn-main">Envoyer un email</a>
+          <a href="https://www.linkedin.com/in/bernard-thiery" target="_blank" class="btn-main btn-outline">LinkedIn ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 Bernard Thiery</span>
+    <span>BTS SIO SISR · Reims</span>
+    <a href="rgpd">RGPD</a>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

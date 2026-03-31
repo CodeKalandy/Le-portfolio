@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>WIKI | TERMINUS SOLUTIONS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    
+    <style>
+        /* --- DESIGN GLOBAL SISR --- */
+        body {
+            background-color: #020c1b;
+            color: #e0ffff;
+            font-family: 'Share Tech Mono', monospace;
+            padding: 40px 20px;
+            overflow-x: hidden;
+        }
+
+        /* FOND ANIMÉ (Le même que le site) */
+        .network-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, #0a192f 0%, #020c1b 100%);
+            z-index: -2;
+        }
+        .overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(rgba(0, 242, 255, 0.03) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(0, 242, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px; z-index: -1;
+        }
+
+        .container { max-width: 900px; position: relative; z-index: 1; }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            color: #00f2ff;
+            text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+            border-bottom: 2px solid #00f2ff;
+            padding-bottom: 20px; margin-bottom: 40px;
+        }
+
+        /* CARTES DE NIVEAU */
+        .level-card {
+            background: rgba(2, 12, 27, 0.8);
+            border: 1px solid #1e2d3d;
+            border-left: 4px solid #00f2ff;
+            border-radius: 5px;
+            margin-bottom: 25px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: 0.3s;
+        }
+        .level-card:hover { border-color: #00f2ff; box-shadow: 0 0 20px rgba(0, 242, 255, 0.1); }
+
+        .level-header { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; }
+        .badge-lvl {
+            background: rgba(0, 242, 255, 0.1); color: #00f2ff; border: 1px solid #00f2ff;
+            padding: 2px 8px; font-family: 'Orbitron'; font-size: 0.9rem; font-weight: bold;
+        }
+        .level-title { font-size: 1.2rem; font-weight: bold; color: white; }
+
+        /* --- SYSTÈME DE SPOILER --- */
+        .spoiler-box {
+            position: relative;
+            background: #000;
+            border: 1px dashed #333;
+            border-radius: 4px;
+            margin-top: 15px;
+            cursor: pointer;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+        
+        .spoiler-box:hover { border-color: #00f2ff; }
+
+        /* Le contenu flouté */
+        .spoiler-content {
+            padding: 15px;
+            filter: blur(10px);
+            opacity: 0.2;
+            transition: 0.5s ease;
+            user-select: none; /* Empêche de copier le texte caché */
+        }
+
+        /* Le texte "CLIQUEZ POUR RÉVÉLER" */
+        .spoiler-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; justify-content: center; align-items: center;
+            flex-direction: column;
+            z-index: 10;
+            pointer-events: none;
+        }
+        .spoiler-text {
+            font-family: 'Orbitron'; color: #ff0055; font-weight: bold; letter-spacing: 2px;
+            background: rgba(0,0,0,0.8); padding: 5px 10px; border: 1px solid #ff0055;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* État Révélé */
+        .spoiler-box.revealed .spoiler-content { filter: blur(0); opacity: 1; user-select: text; }
+        .spoiler-box.revealed .spoiler-overlay { display: none; }
+        .spoiler-box.revealed { border-style: solid; border-color: #00f2ff; cursor: default; }
+
+        /* Style du code */
+        code { color: #0f0; display: block; margin-bottom: 5px; font-weight: bold; font-size: 1.1rem; }
+        .note { color: #888; font-size: 0.9rem; font-style: italic; border-top: 1px solid #333; padding-top: 5px; margin-top: 10px; }
+
+        /* Bouton Retour */
+        .btn-back {
+            border: 1px solid #ff0055; color: #ff0055; background: transparent;
+            font-family: 'Share Tech Mono'; transition: 0.3s;
+        }
+        .btn-back:hover { background: #ff0055; color: white; box-shadow: 0 0 15px #ff0055; }
+
+        @keyframes pulse { 0% {opacity: 0.7;} 50% {opacity: 1;} 100% {opacity: 0.7;} }
+
+    </style>
+</head>
+<body>
+
+    <canvas id="matrix-bg"></canvas>
+
+
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1><i class="bi bi-terminal-fill"></i> TERMINUS_WIKI_V1.0</h1>
+            <button onclick="window.close()" class="btn btn-back">FERMER L'ONGLET</button>
+        </div>
+
+        <p class="mb-5 text-center" style="color: #ffbd2e;">
+            <i class="bi bi-exclamation-triangle"></i> DOCUMENT CLASSIFIÉ "TOP SECRET". CLIQUEZ SUR LES ZONES NOIRES POUR DÉCHIFFRER LES SOLUTIONS.
+        </p>
+
+        <div class="level-card">
+            <div class="level-header">
+                <span class="badge-lvl">LVL 01</span>
+                <span class="level-title">L'Exploration</span>
+            </div>
+            <p>Objectif : Lire le contenu du fichier texte présent dans le dossier.</p>
+            <div class="spoiler-box" onclick="reveal(this)">
+                <div class="spoiler-overlay"><div class="spoiler-text"><i class="bi bi-lock-fill"></i> SPOILER</div></div>
+                <div class="spoiler-content">
+                    <code>ls</code>
+                    <code>cat readme.txt</code>
+                    <div class="note">La commande 'ls' liste les fichiers, 'cat' affiche le contenu.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="level-card">
+            <div class="level-header">
+                <span class="badge-lvl">LVL 02</span>
+                <span class="level-title">Fichier Caché</span>
+            </div>
+            <p>Objectif : Trouver un fichier qui commence par un point (ex: .config).</p>
+            <div class="spoiler-box" onclick="reveal(this)">
+                <div class="spoiler-overlay"><div class="spoiler-text"><i class="bi bi-lock-fill"></i> SPOILER</div></div>
+                <div class="spoiler-content">
+                    <code>ls -a</code>
+                    <code>cat .secret</code>
+                    <div class="note">L'option '-a' (all) permet de voir les fichiers cachés sous Linux.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="level-card">
+            <div class="level-header">
+                <span class="badge-lvl">LVL 03</span>
+                <span class="level-title">Navigation Relative</span>
+            </div>
+            <p>Objectif : Se déplacer dans un autre dossier du système.</p>
+            <div class="spoiler-box" onclick="reveal(this)">
+                <div class="spoiler-overlay"><div class="spoiler-text"><i class="bi bi-lock-fill"></i> SPOILER</div></div>
+                <div class="spoiler-content">
+                    <code>cd /var/log</code>
+                    <code>cat syslog</code>
+                    <div class="note">Vous pouvez aussi faire 'cd ..' pour remonter d'un cran.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="level-card">
+            <div class="level-header">
+                <span class="badge-lvl">LVL 04</span>
+                <span class="level-title">Permission Root</span>
+            </div>
+            <p>Objectif : Lire un fichier protégé réservé à l'administrateur.</p>
+            <div class="spoiler-box" onclick="reveal(this)">
+                <div class="spoiler-overlay"><div class="spoiler-text"><i class="bi bi-lock-fill"></i> SPOILER</div></div>
+                <div class="spoiler-content">
+                    <code>sudo su</code>
+                    <code>cat shadow</code>
+                    <div class="note">'sudo su' vous fait passer en utilisateur 'root' (SuperUser).</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="level-card">
+            <div class="level-header">
+                <span class="badge-lvl">LVL 05</span>
+                <span class="level-title">Nettoyage</span>
+            </div>
+            <p>Objectif : Supprimer un fichier dangereux.</p>
+            <div class="spoiler-box" onclick="reveal(this)">
+                <div class="spoiler-overlay"><div class="spoiler-text"><i class="bi bi-lock-fill"></i> SPOILER</div></div>
+                <div class="spoiler-content">
+                    <code>cd /tmp</code>
+                    <code>rm virus.exe</code>
+                    <div class="note">'rm' signifie Remove. Attention, c'est définitif !</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="level-card">
+            <div class="level-header">
+                <span class="badge-lvl">LVL 06</span>
+                <span class="level-title">Création Dossier</span>
+            </div>
+            <p>Objectif : Créer un nouveau répertoire pour les sauvegardes.</p>
+            <div class="spoiler-box" onclick="reveal(this)">
+                <div class="spoiler-overlay"><div class="spoiler-text"><i class="bi bi-lock-fill"></i> SPOILER</div></div>
+                <div class="spoiler-content">
+                    <code>cd /home/guest</code>
+                    <code>mkdir backup</code>
+                    <div class="note">'mkdir' = Make Directory.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="level-card">
+            <div class="level-header">
+                <span class="badge-lvl">LVL 07</span>
+                <span class="level-title">Info Réseau</span>
+            </div>
+            <p>Objectif : Connaître son adresse IP.</p>
+            <div class="spoiler-box" onclick="reveal(this)">
+                <div class="spoiler-overlay"><div class="spoiler-text"><i class="bi bi-lock-fill"></i> SPOILER</div></div>
+                <div class="spoiler-content">
+                    <code>ip a</code>
+                    <div class="note">L'ancienne commande 'ifconfig' fonctionne aussi.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="level-card">
+            <div class="level-header">
+                <span class="badge-lvl">LVL 08</span>
+                <span class="level-title">Recherche (Grep)</span>
+            </div>
+            <p>Objectif : Trouver une ligne spécifique dans un gros fichier.</p>
+            <div class="spoiler-box" onclick="reveal(this)">
+                <div class="spoiler-overlay"><div class="spoiler-text"><i class="bi bi-lock-fill"></i> SPOILER</div></div>
+                <div class="spoiler-content">
+                    <code>cat users.txt | grep admin</code>
+                    <div class="note">Le symbole '|' (pipe) envoie le résultat de 'cat' vers la commande 'grep' qui filtre.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="level-card">
+            <div class="level-header">
+                <span class="badge-lvl">LVL 09</span>
+                <span class="level-title">Création Fichier</span>
+            </div>
+            <p>Objectif : Créer un fichier vide rapidement.</p>
+            <div class="spoiler-box" onclick="reveal(this)">
+                <div class="spoiler-overlay"><div class="spoiler-text"><i class="bi bi-lock-fill"></i> SPOILER</div></div>
+                <div class="spoiler-content">
+                    <code>touch test.log</code>
+                    <div class="note">'touch' met à jour l'heure d'un fichier ou le crée s'il n'existe pas.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="level-card" style="border-left-color: #ff0055;">
+            <div class="level-header">
+                <span class="badge-lvl" style="border-color: #ff0055; color: #ff0055;">LVL 10</span>
+                <span class="level-title text-danger">LE BOSS FINAL</span>
+            </div>
+            <p>Objectif : Combinez vos compétences (Root + Navigation + Suppression).</p>
+            <div class="spoiler-box" onclick="reveal(this)">
+                <div class="spoiler-overlay"><div class="spoiler-text"><i class="bi bi-lock-fill"></i> SPOILER</div></div>
+                <div class="spoiler-content">
+                    <code>sudo su</code>
+                    <code>cd /root</code>
+                    <code>rm core.sys</code>
+                    <div class="note">Félicitations, vous avez détruit le cœur du système (virtuellement) !</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function reveal(element) {
+            element.classList.add('revealed');
+        }
+    </script>
+
+    <!-- Matrix de fond -->
+    <script>
+    (function(){
+        const c=document.getElementById('matrix-bg');
+        if(!c)return;
+        c.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0.05;';
+        const ctx=c.getContext('2d');
+        const r=()=>{c.width=window.innerWidth;c.height=window.innerHeight;};
+        r(); window.addEventListener('resize',r);
+        const ch='01アイウエオカキクケコ'; const fs=14; let d=[];
+        const init=()=>{d=[];for(let i=0;i<Math.floor(c.width/fs);i++)d[i]=Math.random()*-c.height/fs;};
+        init(); window.addEventListener('resize',init);
+        setInterval(()=>{
+            ctx.fillStyle='rgba(2,12,27,0.08)';ctx.fillRect(0,0,c.width,c.height);
+            ctx.fillStyle='#00f2ff';ctx.font=fs+'px Share Tech Mono,monospace';
+            for(let i=0;i<d.length;i++){
+                ctx.fillText(ch[Math.floor(Math.random()*ch.length)],i*fs,d[i]*fs);
+                if(d[i]*fs>c.height&&Math.random()>0.975)d[i]=0;
+                d[i]+=0.4;
+            }
+        },60);
+    })();
+    </script>
+</body>
+</html>

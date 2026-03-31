@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Crypto Tools | Bernard SISR</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css"> </head>
+<body class="d-flex flex-column align-items-center justify-content-center vh-100">
+    <canvas id="matrix-bg"></canvas>
+
+
+    <div class="container text-center">
+        <h1 class="hacker-font text-cyan mb-5">CYBER_DECODER_V1.0</h1>
+        
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="tech-card p-4">
+                    <label class="text-white mb-2">INPUT (Texte clair) :</label>
+                    <textarea id="inputText" class="form-control bg-dark text-white mb-3" rows="3" placeholder="Tapez votre message ici..."></textarea>
+                    
+                    <div class="d-flex justify-content-center gap-3 mb-3">
+                        <button onclick="convert('base64')" class="btn btn-outline-info">ENCODE BASE64</button>
+                        <button onclick="convert('rot13')" class="btn btn-outline-warning">ENCODE ROT13</button>
+                    </div>
+
+                    <label class="text-cyan mb-2">OUTPUT (Résultat) :</label>
+                    <div id="outputText" class="p-3 border border-info text-break" style="min-height: 80px; background: rgba(0,0,0,0.5); color: #0f0; font-family: 'Share Tech Mono';">
+                        // Waiting for input...
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <a href="/" class="btn btn-link text-white mt-4">< RETOUR AU DASHBOARD</a>
+    </div>
+
+    <script>
+        function convert(type) {
+            const input = document.getElementById('inputText').value;
+            let output = "";
+            
+            if(type === 'base64') {
+                try { output = btoa(input); } catch(e) { output = "Erreur d'encodage"; }
+            } else if (type === 'rot13') {
+                output = input.replace(/[a-zA-Z]/g, function (c) {
+                    return String.fromCharCode((c <= "Z" ? 90 : 122) >= (c = c.charCodeAt(0) + 13) ? c : c - 26);
+                });
+            }
+            
+            const outDiv = document.getElementById('outputText');
+            outDiv.innerText = output;
+            
+            // Petit effet flash
+            outDiv.style.backgroundColor = "#003300";
+            setTimeout(() => outDiv.style.backgroundColor = "rgba(0,0,0,0.5)", 200);
+        }
+    </script>
+
+    <!-- Matrix de fond -->
+    <script>
+    (function(){
+        const c=document.getElementById('matrix-bg');
+        if(!c)return;
+        c.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0.05;';
+        const ctx=c.getContext('2d');
+        const r=()=>{c.width=window.innerWidth;c.height=window.innerHeight;};
+        r(); window.addEventListener('resize',r);
+        const ch='01アイウエオカキクケコ'; const fs=14; let d=[];
+        const init=()=>{d=[];for(let i=0;i<Math.floor(c.width/fs);i++)d[i]=Math.random()*-c.height/fs;};
+        init(); window.addEventListener('resize',init);
+        setInterval(()=>{
+            ctx.fillStyle='rgba(2,12,27,0.08)';ctx.fillRect(0,0,c.width,c.height);
+            ctx.fillStyle='#00f2ff';ctx.font=fs+'px Share Tech Mono,monospace';
+            for(let i=0;i<d.length;i++){
+                ctx.fillText(ch[Math.floor(Math.random()*ch.length)],i*fs,d[i]*fs);
+                if(d[i]*fs>c.height&&Math.random()>0.975)d[i]=0;
+                d[i]+=0.4;
+            }
+        },60);
+    })();
+    </script>
+</body>
+</html>

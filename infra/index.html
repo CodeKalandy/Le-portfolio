@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Network Topology | Bernard SISR</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+    
+    <style>
+        /* CONFIGURATION LAYOUT */
+        body { overflow: hidden; } /* On évite le scroll pour l'effet dashboard */
+        
+        .dashboard-container {
+            display: flex; height: 100vh; width: 100%;
+            padding-top: 80px; /* Espace pour la nav */
+            gap: 20px; padding-left: 20px; padding-right: 20px; padding-bottom: 20px;
+        }
+
+        /* ZONE 1 : LA CARTE (70%) */
+        .map-area {
+            flex: 3;
+            background: rgba(2, 12, 27, 0.8);
+            border: 1px solid #00f2ff;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden; /* Pour les câbles qui dépassent */
+            display: flex; justify-content: center; align-items: center;
+        }
+
+        /* ZONE 2 : LE PANNEAU LATÉRAL (30%) */
+        .sidebar-area {
+            flex: 1;
+            display: flex; flex-direction: column; gap: 20px;
+        }
+
+        .info-panel, .log-panel {
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid #333;
+            padding: 15px; border-radius: 5px;
+        }
+        .info-panel { height: 40%; border-color: #00f2ff; box-shadow: 0 0 15px rgba(0, 242, 255, 0.1); }
+        .log-panel { height: 60%; border-color: #ff0055; overflow: hidden; font-size: 0.75rem; color: #aaa; }
+
+        /* DESIGN DES NOEUDS */
+        .node {
+            position: absolute;
+            background: #0b1021;
+            border: 2px solid #444;
+            color: white;
+            padding: 10px;
+            width: 140px;
+            text-align: center;
+            border-radius: 8px;
+            z-index: 10;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .node:hover { transform: scale(1.1); border-color: #fff; z-index: 20; box-shadow: 0 0 20px rgba(255,255,255,0.5); }
+        
+        .node i { font-size: 1.5rem; display: block; margin-bottom: 5px; }
+        .node-title { font-family: 'Orbitron'; font-size: 0.8rem; font-weight: bold; }
+        .node-ip { font-family: 'Share Tech Mono'; font-size: 0.7rem; color: #888; }
+        .status-led {
+            width: 8px; height: 8px; background: #0f0; border-radius: 50%;
+            position: absolute; top: 5px; right: 5px; box-shadow: 0 0 5px #0f0;
+        }
+
+        /* COULEURS SPÉCIFIQUES */
+        .zone-label { position: absolute; font-family: 'Share Tech Mono'; font-size: 3rem; opacity: 0.05; font-weight: bold; pointer-events: none; }
+        
+        /* CÂBLES SVG (Lignes connectrices) */
+        svg.connections {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none;
+        }
+        line { stroke: #333; stroke-width: 2; }
+        .packet-dot { fill: #00f2ff; filter: drop-shadow(0 0 5px #00f2ff); }
+
+        /* ANIMATION LOGS */
+        #log-content p { margin: 0; font-family: 'Share Tech Mono'; line-height: 1.4; }
+        .log-time { color: #00f2ff; margin-right: 10px; }
+        .log-warn { color: #ffbd2e; } .log-crit { color: #ff0055; }
+
+        /* POSITIONNEMENT ABSOLU DES NOEUDS (Grille virtuelle) */
+        /* Centre (Firewall) */
+        #fw { top: 30%; left: 45%; border-color: #ffbd2e; } 
+        #fw i { color: #ffbd2e; }
+
+        /* Haut (Internet) */
+        #wan { top: 5%; left: 45%; border-color: #ff0055; }
+        #wan i { color: #ff0055; }
+
+        /* Gauche (DMZ) */
+        #dmz-srv { top: 30%; left: 10%; border-color: #a020f0; }
+        #dmz-srv i { color: #a020f0; }
+
+        /* Bas (LAN Core) */
+        #core-sw { top: 55%; left: 45%; width: 160px; }
+        
+        /* Bas Gauche (Serveurs) */
+        #ad-srv { top: 80%; left: 20%; }
+        #glpi-srv { top: 80%; left: 35%; }
+
+        /* Bas Droite (Accès) */
+        #access-sw { top: 70%; left: 70%; }
+        #pc-admin { top: 55%; left: 85%; }
+        #wifi-ap { top: 85%; left: 85%; }
+
+    </style>
+</head>
+<body>
+
+    <canvas id="matrix-bg"></canvas>
+
+
+    <div class="container-fluid dashboard-container">
+        
+        <div class="map-area">
+            <div class="zone-label" style="top: 10%; left: 10%; color: #ff0055;">WAN / PUBLIC</div>
+            <div class="zone-label" style="top: 10%; right: 10%; color: #a020f0;">DMZ</div>
+            <div class="zone-label" style="bottom: 10%; right: 40%; color: #00f2ff;">LAN SECURE</div>
+
+            <svg class="connections">
+                <line x1="50%" y1="13%" x2="50%" y2="30%" />
+                <line x1="45%" y1="35%" x2="20%" y2="35%" style="stroke-dasharray: 5,5; stroke: #a020f0;" />
+                <line x1="50%" y1="42%" x2="50%" y2="55%" />
+                <line x1="48%" y1="65%" x2="25%" y2="80%" />
+                <line x1="50%" y1="65%" x2="40%" y2="80%" />
+                <line x1="52%" y1="65%" x2="75%" y2="70%" />
+                <line x1="80%" y1="70%" x2="90%" y2="60%" />
+                <line x1="80%" y1="78%" x2="90%" y2="85%" />
+
+                <circle r="4" class="packet-dot">
+                    <animateMotion dur="2s" repeatCount="indefinite" path="M 960 100 L 960 250" /> </circle>
+            </svg>
+
+            <div class="node" id="wan" onmouseover="showInfo('wan')">
+                <div class="status-led"></div>
+                <i class="bi bi-cloud-fill"></i>
+                <div class="node-title">INTERNET</div>
+                <div class="node-ip">IP Publique</div>
+            </div>
+
+            <div class="node" id="fw" onmouseover="showInfo('fw')">
+                <div class="status-led"></div>
+                <i class="bi bi-bricks"></i>
+                <div class="node-title">PFSENSE</div>
+                <div class="node-ip">192.168.1.254</div>
+            </div>
+
+            <div class="node" id="dmz-srv" onmouseover="showInfo('dmz')">
+                <div class="status-led" style="background:orange; box-shadow:0 0 5px orange;"></div>
+                <i class="bi bi-globe2"></i>
+                <div class="node-title">WEB PUBLIC</div>
+                <div class="node-ip">172.16.0.10</div>
+            </div>
+
+            <div class="node" id="core-sw" onmouseover="showInfo('core')">
+                <div class="status-led"></div>
+                <i class="bi bi-diagram-3-fill"></i>
+                <div class="node-title">SWITCH COEUR</div>
+                <div class="node-ip">VLANs 10, 20, 99</div>
+            </div>
+
+            <div class="node" id="ad-srv" onmouseover="showInfo('ad')">
+                <div class="status-led"></div>
+                <i class="bi bi-microsoft"></i>
+                <div class="node-title">AD DS / DNS</div>
+                <div class="node-ip">192.168.10.2</div>
+            </div>
+
+            <div class="node" id="glpi-srv" onmouseover="showInfo('glpi')">
+                <div class="status-led"></div>
+                <i class="bi bi-eye-fill"></i>
+                <div class="node-title">GLPI MONIT.</div>
+                <div class="node-ip">192.168.10.5</div>
+            </div>
+
+            <div class="node" id="access-sw" onmouseover="showInfo('access')">
+                <div class="status-led"></div>
+                <i class="bi bi-diagram-2"></i>
+                <div class="node-title">SW ACCESS</div>
+                <div class="node-ip">Etage 1</div>
+            </div>
+
+            <div class="node" id="pc-admin" onmouseover="showInfo('pc')">
+                <div class="status-led"></div>
+                <i class="bi bi-laptop"></i>
+                <div class="node-title">PC ADMIN</div>
+                <div class="node-ip">DHCP</div>
+            </div>
+
+            <div class="node" id="wifi-ap" onmouseover="showInfo('wifi')">
+                <div class="status-led"></div>
+                <i class="bi bi-wifi"></i>
+                <div class="node-title">WIFI GUEST</div>
+                <div class="node-ip">VLAN 50</div>
+            </div>
+        </div>
+
+        <div class="sidebar-area">
+            
+            <a href="/" class="btn btn-outline-light mb-2">< RETOUR TERMINAL</a>
+
+            <div class="info-panel">
+                <h4 class="text-cyan border-bottom border-secondary pb-2 mb-3" id="info-title">SÉLECTIONNEZ UN ÉQUIPEMENT</h4>
+                <div id="info-content" class="text-pale-cyan font-monospace small">
+                    <p>Survolez les éléments de la carte pour afficher les détails techniques, les ports ouverts et le statut des services.</p>
+                    <p class="text-muted mt-4">Statut global : <span class="text-success">NOMINAL</span></p>
+                </div>
+            </div>
+
+            <div class="log-panel">
+                <div class="border-bottom border-danger text-danger mb-2 pb-1 fw-bold">
+                    <i class="bi bi-activity"></i> LIVE FIREWALL LOGS
+                </div>
+                <div id="log-content">
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. DONNÉES DES NOEUDS ---
+        const nodesData = {
+            'fw': { title: 'PARE-FEU PFSENSE', content: 'OS: FreeBSD 12.3<br>Uptime: 45j 12h<br>Role: Edge Firewall, NAT, VPN Server<br>Interface WAN: 82.x.x.x (Fibre)<br>Interface LAN: 192.168.1.254<br>Règles actives: 142' },
+            'wan': { title: 'INTERNET (ISP)', content: 'Fournisseur: Orange Pro<br>Type: Fibre Dédiée<br>Bande passante: 1 Gbps / 500 Mbps<br>Latence: 12ms' },
+            'dmz': { title: 'SERVEUR WEB (DMZ)', content: 'OS: Debian 11 (Bullseye)<br>Service: Nginx Reverse Proxy<br>IP: 172.16.0.10 (VLAN 30)<br>Port ouverts: 80, 443<br>Sécurité: Fail2Ban Actif' },
+            'core': { title: 'SWITCH COEUR (L3)', content: 'Modèle: Cisco Catalyst 2960-X<br>Role: Routage Inter-VLAN<br>VLANs: 10 (Srv), 20 (Users), 30 (DMZ), 99 (Mgmt)<br>Protocoles: STP, SNMPv3, SSH' },
+            'ad': { title: 'ACTIVE DIRECTORY', content: 'OS: Windows Server 2022<br>Role: Contrôleur de Domaine (DC)<br>IP: 192.168.10.2<br>Domaine: sio.lan<br>Services: DNS, DHCP, LDAP, Kerberos' },
+            'glpi': { title: 'SUPERVISION GLPI', content: 'OS: Ubuntu Server 22.04<br>Stack: LAMP (Linux Apache MySQL PHP)<br>IP: 192.168.10.5<br>Agent: OCS Inventory<br>Tickets ouverts: 3' },
+            'access': { title: 'SWITCH ACCÈS', content: 'Modèle: Cisco 2960<br>Role: Connexion utilisateurs<br>Port Security: Actif (Max 2 MAC)<br>Uplink: Trunk 1Gbps vers Core' },
+            'pc': { title: 'POSTE ADMIN', content: 'OS: Windows 11 Pro<br>Outils: RSAT, PuTTY, Wireshark<br>VLAN: 10 (Admin)<br>Antivirus: ESET Endpoint' },
+            'wifi': { title: 'BORNE WI-FI', content: 'SSID: Guest_Access<br>VLAN: 50 (Isolé)<br>Auth: Portail Captif<br>Clients connectés: 12' }
+        };
+
+        // Fonction d'affichage au survol
+        function showInfo(id) {
+            const data = nodesData[id];
+            if(data) {
+                document.getElementById('info-title').innerText = data.title;
+                document.getElementById('info-content').innerHTML = data.content;
+            }
+        }
+
+        // --- 2. GÉNÉRATEUR DE LOGS ALÉATOIRES ---
+        const logContent = document.getElementById('log-content');
+        const actions = ['BLOCK', 'PASS', 'DETECT'];
+        const protocols = ['TCP', 'UDP', 'ICMP'];
+        const ips = ['192.168.1.12', '10.0.0.5', '172.16.0.4', '82.145.22.1', '45.33.22.11'];
+
+        function addLog() {
+            const now = new Date();
+            const time = now.toLocaleTimeString('fr-FR');
+            const action = actions[Math.floor(Math.random() * actions.length)];
+            const proto = protocols[Math.floor(Math.random() * protocols.length)];
+            const src = ips[Math.floor(Math.random() * ips.length)];
+            const dst = ips[Math.floor(Math.random() * ips.length)];
+            const port = Math.floor(Math.random() * 65535);
+
+            let colorClass = 'text-white';
+            if(action === 'BLOCK') colorClass = 'log-crit';
+            if(action === 'DETECT') colorClass = 'log-warn';
+
+            const logLine = `<p class="${colorClass}"><span class="log-time">[${time}]</span> ${action} ${proto} SRC=${src} DST=${dst} DPT=${port}</p>`;
+            
+            logContent.innerHTML = logLine + logContent.innerHTML;
+            
+            // Garder seulement les 15 derniers logs pour ne pas surcharger
+            if(logContent.children.length > 15) {
+                logContent.removeChild(logContent.lastChild);
+            }
+        }
+
+        // Ajouter un log toutes les 1 à 3 secondes
+        setInterval(addLog, 1500);
+
+    </script>
+
+    <!-- Matrix de fond -->
+    <script>
+    (function(){
+        const c=document.getElementById('matrix-bg');
+        if(!c)return;
+        c.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0.05;';
+        const ctx=c.getContext('2d');
+        const r=()=>{c.width=window.innerWidth;c.height=window.innerHeight;};
+        r(); window.addEventListener('resize',r);
+        const ch='01アイウエオカキクケコ'; const fs=14; let d=[];
+        const init=()=>{d=[];for(let i=0;i<Math.floor(c.width/fs);i++)d[i]=Math.random()*-c.height/fs;};
+        init(); window.addEventListener('resize',init);
+        setInterval(()=>{
+            ctx.fillStyle='rgba(2,12,27,0.08)';ctx.fillRect(0,0,c.width,c.height);
+            ctx.fillStyle='#00f2ff';ctx.font=fs+'px Share Tech Mono,monospace';
+            for(let i=0;i<d.length;i++){
+                ctx.fillText(ch[Math.floor(Math.random()*ch.length)],i*fs,d[i]*fs);
+                if(d[i]*fs>c.height&&Math.random()>0.975)d[i]=0;
+                d[i]+=0.4;
+            }
+        },60);
+    })();
+    </script>
+</body>
+</html>
