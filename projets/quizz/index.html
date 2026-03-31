@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Bernard Quizz — Projet Personnel · Bernard Thiery</title>
+  <title>Bernard Quizz - Projet Personnel · Bernard Thiery</title>
   <link rel="icon" type="image/png" href="/images/bernard.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -261,7 +261,7 @@
   <!-- ════════════ HERO ════════════ -->
   <section class="detail-hero">
     <div class="live-badge"><span class="live-dot"></span> Déployé en production</div>
-    <div class="detail-category">Projet Personnel — Développement Full-Stack</div>
+    <div class="detail-category">Projet Personnel - Développement Full-Stack</div>
     <h1 class="detail-title">Bernard<br/>Quizz</h1>
     <p class="detail-subtitle">
       Application web de quiz multijoueur en temps réel. Salons par code PIN, avatars personnalisables, 3 modes de jeu, système de rôles hiérarchiques et chat intégré.
@@ -283,8 +283,8 @@
       <div class="info-block">
         <div class="info-label">Infos Projet</div>
         <div class="info-val"><span>Période :</span> <strong>Mars 2026</strong></div>
-        <div class="info-val"><span>Version :</span> <strong>1.0.0 — Production</strong></div>
-        <div class="info-val"><span>Contexte :</span> <strong>ADMIN1 — Projet personnel</strong></div>
+        <div class="info-val"><span>Version :</span> <strong>1.0.0 - Production</strong></div>
+        <div class="info-val"><span>Contexte :</span> <strong>ADMIN1 - Projet personnel</strong></div>
         <div class="info-val"><span>URL :</span> <strong>bernardquizz.alwaysdata.net</strong></div>
       </div>
 
@@ -294,7 +294,7 @@
           <img src="/images/screen_quizz_lobby.png" alt="Lobby Bernard Quizz" style="width:100%;height:auto;display:block;filter:brightness(0.85);"/>
         </div>
         <div style="font-size:0.72rem;color:var(--cream-dim);font-family:'Barlow Condensed',sans-serif;letter-spacing:0.08em;">
-          Lobby — personnalisation de l'avatar avant la partie
+          Lobby - personnalisation de l'avatar avant la partie
         </div>
       </div>
 
@@ -313,7 +313,7 @@
         <div class="info-label">Documentation</div>
         <div class="doc-links">
           <a href="/fichiers/suivi-projet-quizz.pdf" target="_blank" class="btn-main btn-outline" style="text-align:center;padding:12px;">Suivi de projet ↗</a>
-          <a href="/fichiers/doc-technique-quizz.pdf" target="_blank" class="btn-main btn-outline" style="text-align:center;padding:12px;margin-top:4px;">Doc technique ↗</a>
+          <a href="/fichiers/Doc-technique-quizz.pdf" target="_blank" class="btn-main btn-outline" style="text-align:center;padding:12px;margin-top:4px;">Doc technique ↗</a>
         </div>
       </div>
 
@@ -324,7 +324,7 @@
       <!-- 1. PRÉSENTATION -->
       <h2>1. Présentation du projet</h2>
       <p>
-        Bernard Quizz est une application web de quiz multijoueur en temps réel développée intégralement de A à Z. Un hôte crée un salon, choisit un quiz et un mode de jeu, puis partage un <strong>code PIN à 6 chiffres</strong>. Les joueurs rejoignent depuis n'importe quel appareil disposant d'un navigateur — sans installation. Les questions s'affichent simultanément sur tous les écrans, les scores sont mis à jour en temps réel, et un podium animé avec confettis clôture chaque partie.
+        Bernard Quizz est une application web de quiz multijoueur en temps réel développée intégralement de A à Z. Un hôte crée un salon, choisit un quiz et un mode de jeu, puis partage un <strong>code PIN à 6 chiffres</strong>. Les joueurs rejoignent depuis n'importe quel appareil disposant d'un navigateur - sans installation. Les questions s'affichent simultanément sur tous les écrans, les scores sont mis à jour en temps réel, et un podium animé avec confettis clôture chaque partie.
       </p>
       <p>
         Ce projet couvre l'ensemble de la chaîne : conception, développement, sécurisation et <strong>déploiement en environnement de production</strong> sur Alwaysdata.
@@ -382,11 +382,11 @@
           <tr>
             <td>Temps réel</td>
             <td>Polling HTTP 1,5s</td>
-            <td>WebSockets non disponibles en mutualisé — solution pragmatique</td>
+            <td>WebSockets non disponibles en mutualisé - solution pragmatique</td>
           </tr>
           <tr>
             <td>Sécurité mots de passe</td>
-            <td>bcrypt — <code>password_hash()</code></td>
+            <td>bcrypt - <code>password_hash()</code></td>
             <td>Algorithme adaptatif recommandé par PHP et OWASP</td>
           </tr>
           <tr>
@@ -401,31 +401,31 @@
       <h2 style="margin-top:50px;">3. Fonctionnalités développées</h2>
 
       <ul>
-        <li><strong>Authentification complète :</strong> Inscription, connexion, sessions PHP, hachage bcrypt — conforme OWASP</li>
-        <li><strong>Système de rôles hiérarchiques :</strong> 4 niveaux — utilisateur, créateur, admin, fondateur — vérifiés à chaque appel via <code>hasRole()</code></li>
+        <li><strong>Authentification complète :</strong> Inscription, connexion, sessions PHP, hachage bcrypt - conforme OWASP</li>
+        <li><strong>Système de rôles hiérarchiques :</strong> 4 niveaux - utilisateur, créateur, admin, fondateur - vérifiés à chaque appel via <code>hasRole()</code></li>
         <li><strong>Gestion de quiz :</strong> Éditeur CRUD complet (titre, image, questions, 4 options, timer, réponse correcte), visibilité public/privé</li>
-        <li><strong>Avatars multicouches (14 couches) :</strong> Personnalisation complète par z-index (peau, vêtements, cheveux, barbe, auras, effets visuels) — restrictions selon le niveau du compte</li>
+        <li><strong>Avatars multicouches (14 couches) :</strong> Personnalisation complète par z-index (peau, vêtements, cheveux, barbe, auras, effets visuels) - restrictions selon le niveau du compte</li>
         <li><strong>Tchat en temps réel :</strong> Messages avec raccourcis emoji déclenchant des effets sonores sur l'écran hôte, bulles flottantes</li>
         <li><strong>Joker 50/50 :</strong> Suppression de 2 mauvaises réponses, 1 fois par partie, membres uniquement</li>
         <li><strong>Système de progression :</strong> 5 rangs, 2 quêtes de déblocage d'effets, statistiques persistantes (parties, précision, podiums)</li>
-        <li><strong>Awards de fin de partie :</strong> L'Éclair, La Tortue, Le Miraculé — calculés côté serveur</li>
-        <li><strong>Panel d'administration :</strong> Gestion des rôles utilisateurs, accès aux quiz de tous — réservé admin/fondateur</li>
+        <li><strong>Awards de fin de partie :</strong> L'Éclair, La Tortue, Le Miraculé - calculés côté serveur</li>
+        <li><strong>Panel d'administration :</strong> Gestion des rôles utilisateurs, accès aux quiz de tous - réservé admin/fondateur</li>
       </ul>
 
       <!-- SCREENSHOTS RÉELS -->
       <div class="detail-image-box">
-        <img src="/images/screen_quizz_host.png" alt="Écran hôte Bernard Quizz — classement temps réel" />
-        <span class="detail-image-caption">Écran hôte — pilotage de la partie, timer et classement en temps réel</span>
+        <img src="/images/screen_quizz_host.png" alt="Écran hôte Bernard Quizz - classement temps réel" />
+        <span class="detail-image-caption">Écran hôte - pilotage de la partie, timer et classement en temps réel</span>
       </div>
 
       <div class="detail-image-box">
-        <img src="/images/screen_quizz_joueur.png" alt="Écran joueur Bernard Quizz — réponses et tchat" />
-        <span class="detail-image-caption">Écran joueur (mobile) — boutons de réponse, tchat et score en direct</span>
+        <img src="/images/screen_quizz_joueur.png" alt="Écran joueur Bernard Quizz - réponses et tchat" />
+        <span class="detail-image-caption">Écran joueur (mobile) - boutons de réponse, tchat et score en direct</span>
       </div>
 
       <div class="detail-image-box">
-        <img src="/images/screen_quizz_play.png" alt="Bernard Quizz — question en cours" />
-        <span class="detail-image-caption">Vue question en cours — affichage synchronisé sur tous les appareils</span>
+        <img src="/images/screen_quizz_play.png" alt="Bernard Quizz - question en cours" />
+        <span class="detail-image-caption">Vue question en cours - affichage synchronisé sur tous les appareils</span>
       </div>
 
       <!-- 4. BACKLOG -->
@@ -436,36 +436,36 @@
 
       <div class="epic-grid">
         <div class="epic-card">
-          <div class="epic-title">Epic 1 — Infrastructure &amp; Déploiement</div>
-          <div class="epic-count"><strong>4 user stories</strong> — Alwaysdata, .htaccess, .env, .gitignore</div>
+          <div class="epic-title">Epic 1 - Infrastructure &amp; Déploiement</div>
+          <div class="epic-count"><strong>4 user stories</strong> - Alwaysdata, .htaccess, .env, .gitignore</div>
         </div>
         <div class="epic-card">
-          <div class="epic-title">Epic 2 — Authentification &amp; Rôles</div>
-          <div class="epic-count"><strong>5 user stories</strong> — Inscription, connexion, 4 rôles, panel admin</div>
+          <div class="epic-title">Epic 2 - Authentification &amp; Rôles</div>
+          <div class="epic-count"><strong>5 user stories</strong> - Inscription, connexion, 4 rôles, panel admin</div>
         </div>
         <div class="epic-card">
-          <div class="epic-title">Epic 3 — Système de Jeu</div>
-          <div class="epic-count"><strong>9 user stories</strong> — 3 modes, écran hôte/joueur, joker, tchat, awards</div>
+          <div class="epic-title">Epic 3 - Système de Jeu</div>
+          <div class="epic-count"><strong>9 user stories</strong> - 3 modes, écran hôte/joueur, joker, tchat, awards</div>
         </div>
         <div class="epic-card">
-          <div class="epic-title">Epic 4 — Gestion des Quiz</div>
-          <div class="epic-count"><strong>4 user stories</strong> — Création, éditeur, bibliothèque, droits par rôle</div>
+          <div class="epic-title">Epic 4 - Gestion des Quiz</div>
+          <div class="epic-count"><strong>4 user stories</strong> - Création, éditeur, bibliothèque, droits par rôle</div>
         </div>
         <div class="epic-card" style="grid-column: span 2;">
-          <div class="epic-title">Epic 5 — Avatars (Bernard)</div>
-          <div class="epic-count"><strong>5 user stories</strong> — 14 couches z-index, personnalisation lobby, restrictions anonymes, auras, costumes thématiques</div>
+          <div class="epic-title">Epic 5 - Avatars (Bernard)</div>
+          <div class="epic-count"><strong>5 user stories</strong> - 14 couches z-index, personnalisation lobby, restrictions anonymes, auras, costumes thématiques</div>
         </div>
       </div>
 
       <!-- 5. APPORTS -->
       <h2 style="margin-top:50px;">5. Ce que ce projet m'a apporté</h2>
       <p>
-        Bernard Quizz est le premier projet que j'ai mené de la conception au déploiement en production. Il m'a permis de consolider mes compétences en <strong>développement web full-stack</strong> (PHP, MariaDB, JS), en <strong>sécurité applicative</strong> (injection SQL, hachage, gestion des sessions) et en <strong>administration de l'hébergement</strong> (configuration Apache, HTTPS, .htaccess, variables d'environnement). La contrainte technique des WebSockets m'a forcé à trouver une solution pragmatique avec le polling HTTP — une approche que l'on retrouve souvent en production réelle avec des hébergements mutualisés.
+        Bernard Quizz est le premier projet que j'ai mené de la conception au déploiement en production. Il m'a permis de consolider mes compétences en <strong>développement web full-stack</strong> (PHP, MariaDB, JS), en <strong>sécurité applicative</strong> (injection SQL, hachage, gestion des sessions) et en <strong>administration de l'hébergement</strong> (configuration Apache, HTTPS, .htaccess, variables d'environnement). La contrainte technique des WebSockets m'a forcé à trouver une solution pragmatique avec le polling HTTP - une approche que l'on retrouve souvent en production réelle avec des hébergements mutualisés.
       </p>
 
       <div class="detail-image-box">
-        <img src="/images/screen_quizz_profil.png" alt="Profil utilisateur Bernard Quizz — statistiques et rangs" />
-        <span class="detail-image-caption">Page profil — statistiques, rang, quêtes débloquées et Bernard favori</span>
+        <img src="/images/screen_quizz_profil.png" alt="Profil utilisateur Bernard Quizz - statistiques et rangs" />
+        <span class="detail-image-caption">Page profil - statistiques, rang, quêtes débloquées et Bernard favori</span>
       </div>
 
     </div>
