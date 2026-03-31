@@ -1,135 +1,104 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Veille Techno : Green IT | Bernard Thiery</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../style.css">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Veille Green IT — Bernard Thiery</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,900;1,900&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"/>
+  <link rel="stylesheet" href="../style.css"/>
+
+  <style>
+    .detail-hero { padding: 120px 40px 60px; border-bottom: 1px solid var(--border); }
+    .detail-title { font-family: 'Playfair Display', serif; font-weight: 900; font-size: clamp(3rem, 7vw, 5rem); color: var(--cream); line-height: 1; margin-bottom: 30px; }
+    .detail-tags { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+    .detail-tags span { font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--orange); border: 1px solid var(--orange-dim); padding: 5px 12px; border-radius: 2px; }
+    .detail-grid { display: grid; grid-template-columns: 300px 1fr; gap: 80px; padding: 80px 40px; }
+    .detail-sidebar { border-right: 1px solid var(--border); padding-right: 40px; }
+    .info-block { margin-bottom: 40px; }
+    .info-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.15em; color: var(--orange); margin-bottom: 12px; text-transform: uppercase; }
+    .info-val { font-size: 0.95rem; color: var(--cream); margin-bottom: 8px; font-weight: 500;}
+    .info-val span { color: var(--cream-dim); font-weight: 400; }
+    .detail-content h2 { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1.5rem; color: var(--cream); margin: 0 0 20px; letter-spacing: 0.05em; text-transform: uppercase; }
+    .detail-content p { font-size: 1rem; color: var(--cream-dim); line-height: 1.8; margin-bottom: 24px; }
+    .detail-content ul { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px; }
+    .detail-content li { font-size: 1rem; color: var(--cream-dim); padding-left: 16px; position: relative; }
+    .detail-content li::before { content: '—'; position: absolute; left: 0; color: var(--border-2); }
+    .detail-content strong { color: var(--cream); }
+    .detail-image-box { margin: 50px 0; padding: 20px; background: var(--ink-2); border: 1px solid var(--border); text-align: center; }
+    .detail-image-box img { max-width: 100%; border-radius: 2px; }
+    .detail-image-caption { display: block; margin-top: 15px; font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; color: var(--cream-dim); letter-spacing: 0.05em; text-transform: uppercase; }
+    .doc-links { display: flex; flex-direction: column; gap: 15px; }
+    @media(max-width: 900px) {
+      .detail-grid { grid-template-columns: 1fr; gap: 40px; padding: 40px 20px; }
+      .detail-sidebar { border-right: none; border-bottom: 1px solid var(--border); padding-right: 0; padding-bottom: 40px; }
+      .detail-hero { padding: 100px 20px 40px; }
+    }
+  </style>
 </head>
 <body>
-    <canvas id="matrix-bg"></canvas>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
 
+  <nav id="nav" class="scrolled">
+    <div class="nav-left"><span class="nav-index">©2026</span></div>
+    <div class="nav-center"><a href="../" class="nav-logo">BERNARD THIERY</a></div>
+    <div class="nav-right"><a href="../" class="nav-cta"><span class="cta-arrow">←</span> Retour</a></div>
+  </nav>
 
-    <div class="container py-5">
-        <a href="/" class="btn btn-outline-info mb-4" style="border-color: #00f2ff; color: #00f2ff; font-family: 'Share Tech Mono';">
-            <i class="bi bi-arrow-left"></i> RETOUR AU TERMINAL
-        </a>
-
-        <div class="row">
-            <div class="col-lg-4 mb-4">
-                <div class="tech-card p-4 h-100">
-                    <h3 class="text-cyan mb-4" style="font-family: 'Orbitron';">INFOS_VEILLE</h3>
-                    <ul class="list-unstyled text-pale-cyan font-monospace">
-                        <li class="mb-3"><strong class="text-cyan d-block">SUJET :</strong> Green IT (Numérique Responsable)</li>
-                        <li class="mb-3"><strong class="text-cyan d-block">DATE :</strong> 2025</li>
-                        <li class="mb-3"><strong class="text-cyan d-block">AXE :</strong> Développement Durable</li>
-                    </ul>
-
-                    <h4 class="text-cyan mt-4 mb-3 h6 font-monospace">CONCEPTS CLÉS :</h4>
-                    <div class="tags mb-4">
-                        <span class="badge border-cyan">Éco-conception</span>
-                        <span class="badge border-cyan">PUE / Datacenters</span>
-                        <span class="badge border-cyan">Analyse Cycle de Vie</span>
-                        <span class="badge border-cyan">Sobriété Numérique</span>
-                    </div>
-
-                    <h4 class="text-cyan mt-4 mb-3 h6 font-monospace">DOCUMENTATION :</h4>
-                    <div class="d-grid gap-2">
-                        <a href="../fichiers/Green IT.pdf" target="_blank" class="btn btn-outline-info fw-bold btn-sm">
-                            <i class="bi bi-eye"></i> CONSULTER LE PDF
-                        </a>
-                        <a href="../fichiers/Green IT.pdf" download="Veille_GreenIT_Thiery_Bernard.pdf" class="btn btn-info fw-bold btn-sm" style="background-color: #00f2ff; border: none; color: #020c1b;">
-                            <i class="bi bi-download"></i> TÉLÉCHARGER (.PDF)
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-8">
-                <div class="tech-card p-4 p-md-5">
-                    <h1 class="mb-4 text-cyan" style="font-family: 'Orbitron';">Le Green IT : Vers un Numérique Responsable</h1>
-                    
-                    <div class="text-pale-cyan">
-                        <h4 class="text-cyan mt-5 mb-3 font-monospace">> 1. ANALYSE DE L'IMPACT</h4>
-                        <p>Cette veille technologique porte sur l'empreinte environnementale croissante des technologies de l'information, représentant aujourd'hui une part significative des émissions de CO2 mondiales.</p>
-
-                        <h4 class="text-cyan mt-5 mb-3 font-monospace">> 2. PILIERS DU GREEN IT</h4>
-                        <p>L'étude se concentre sur plusieurs leviers d'action pour un système d'information plus durable :</p>
-                        <ul class="ps-3 mt-3">
-                            <li class="mb-2"><strong>Optimisation des Datacenters :</strong> Réduction de la consommation énergétique via l'amélioration du PUE (Power Usage Effectiveness) et le refroidissement passif.</li>
-                            <li class="mb-2"><strong>Cycle de Vie du Matériel :</strong> Allongement de la durée de vie des équipements et gestion responsable des déchets électroniques (D3E).</li>
-                            <li class="mb-2"><strong>Software Green :</strong> Développement d'applications moins gourmandes en ressources processeur et mémoire.</li>
-                        </ul>
-
-                        
-
-                        <div class="terminal-screenshot-window my-5 mx-auto" style="max-width: 500px;">
-    <div class="terminal-header">
-        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
-        <span class="ms-2 text-white user-select-none small font-monospace">green_it_impact.png</span>
+  <section class="detail-hero">
+    <div class="section-index">VEILLE — 09</div>
+    <h1 class="detail-title">Le Green IT</h1>
+    <div class="detail-tags">
+      <span>Environnement</span><span>Éco-conception</span><span>RSE</span><span>Analyse</span>
     </div>
-    <div class="terminal-body p-2 text-center" style="background: rgba(0,0,0,0.5);">
-        <img src="../images/screen_greenit.png" alt="Graphique Green IT" class="img-fluid rounded" style="max-height: 400px; width: auto;">
-        <small class="text-pale-cyan d-block mt-2 small font-monospace">// Analyse des indicateurs de maturité Green IT.</small>
-    </div>
-</div>
+  </section>
 
-                        <h4 class="text-cyan mt-5 mb-3 font-monospace">> 3. RÔLE DE L'ADMINISTRATEUR SISR</h4>
-                        <p>Pour un administrateur réseau, le Green IT se traduit par la virtualisation (mutualisation des serveurs) et la mise en place de politiques de gestion d'énergie automatisées sur le parc informatique.</p>
-                    </div>
-                </div>
-            </div>
+  <section class="detail-grid">
+    <aside class="detail-sidebar">
+      <div class="info-block">
+        <div class="info-label">Infos Techniques</div>
+        <div class="info-val"><span>Type :</span> Veille Technologique</div>
+        <div class="info-val"><span>Sujet :</span> Impact Numérique</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Documentation</div>
+        <div class="doc-links">
+          <a href="../fichiers/Green IT.pdf" target="_blank" class="btn-main btn-outline" style="text-align: center; padding: 12px;">Voir la doc ↗</a>
+          <a href="../fichiers/Green IT.pdf" download class="btn-main" style="text-align: center; padding: 12px;">Télécharger le PDF</a>
         </div>
+      </div>
+    </aside>
+
+    <div class="detail-content">
+      <h2>1. Le constat environnemental</h2>
+      <p>L'empreinte carbone du numérique mondial a dépassé celle de l'aviation civile. En tant que futurs ingénieurs et administrateurs réseaux, il est de notre responsabilité de comprendre l'impact matériel et logiciel de nos infrastructures sur l'environnement.</p>
+
+      <h2 style="margin-top: 50px;">2. Axes de recherche</h2>
+      <p>Cette veille technologique s'articule autour de plusieurs leviers d'amélioration :</p>
+      <ul>
+        <li><strong>Cycle de vie matériel :</strong> Comprendre l'impact de la fabrication (terres rares), de l'utilisation, et de la fin de vie (DEEE) des équipements réseaux.</li>
+        <li><strong>Optimisation des DataCenters :</strong> Étude du PUE (Power Usage Effectiveness) et des nouvelles méthodes de refroidissement.</li>
+        <li><strong>Éco-conception :</strong> Comment concevoir des architectures, des codes et des bases de données moins gourmands en ressources énergétiques.</li>
+      </ul>
+
+      <div class="detail-image-box">
+        <img src="../images/screen_greenit.png" alt="Illustration Green IT" />
+        <span class="detail-image-caption">Représentation du Numérique Responsable</span>
+      </div>
+
+      <h2>3. Bonnes pratiques</h2>
+      <p>Le document de synthèse propose des solutions concrètes pour appliquer une démarche RSE (Responsabilité Sociétale des Entreprises) à la DSI, en rallongeant la durée de vie des équipements et en favorisant la virtualisation optimisée.</p>
     </div>
+  </section>
 
-<div id="imageLightbox" class="lightbox" onclick="this.style.display='none'">
-        <span class="close-lightbox">&times;</span>
-        <img class="lightbox-content" id="imgFull">
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const lightbox = document.getElementById('imageLightbox');
-            const lightboxImg = document.getElementById('imgFull');
-            const images = document.querySelectorAll('.zoomable-img');
-
-            images.forEach(img => {
-                img.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation(); // Empêche les autres éléments de voler le clic
-                    
-                    lightboxImg.src = this.src;
-                    lightbox.style.display = 'block';
-                });
-            });
-        });
-    </script>
-
-    <!-- Matrix de fond -->
-    <script>
-    (function(){
-        const c=document.getElementById('matrix-bg');
-        if(!c)return;
-        c.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0.05;';
-        const ctx=c.getContext('2d');
-        const r=()=>{c.width=window.innerWidth;c.height=window.innerHeight;};
-        r(); window.addEventListener('resize',r);
-        const ch='01アイウエオカキクケコ'; const fs=14; let d=[];
-        const init=()=>{d=[];for(let i=0;i<Math.floor(c.width/fs);i++)d[i]=Math.random()*-c.height/fs;};
-        init(); window.addEventListener('resize',init);
-        setInterval(()=>{
-            ctx.fillStyle='rgba(2,12,27,0.08)';ctx.fillRect(0,0,c.width,c.height);
-            ctx.fillStyle='#00f2ff';ctx.font=fs+'px Share Tech Mono,monospace';
-            for(let i=0;i<d.length;i++){
-                ctx.fillText(ch[Math.floor(Math.random()*ch.length)],i*fs,d[i]*fs);
-                if(d[i]*fs>c.height&&Math.random()>0.975)d[i]=0;
-                d[i]+=0.4;
-            }
-        },60);
-    })();
-    </script>
+  <footer>
+    <span>© 2026 Bernard Thiery</span>
+    <span>BTS SIO SISR · Reims</span>
+    <a href="../rgpd/">RGPD</a>
+  </footer>
+  <script src="../main.js"></script>
 </body>
 </html>
