@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Audit & Défense Réseau - Bernard Thiery</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,900;1,900&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"/>
+  <link rel="stylesheet" href="/style.css"/>
+
+  <style>
+    .detail-hero { padding: 120px 40px 60px; border-bottom: 1px solid var(--border); }
+    .detail-title { font-family: 'Playfair Display', serif; font-weight: 900; font-size: clamp(3rem, 7vw, 5rem); color: var(--cream); line-height: 1; margin-bottom: 30px; }
+    .detail-tags { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+    .detail-tags span { font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--orange); border: 1px solid var(--orange-dim); padding: 5px 12px; border-radius: 2px; }
+
+    .detail-grid { display: grid; grid-template-columns: 300px 1fr; gap: 80px; padding: 80px 40px; }
+    .detail-sidebar { border-right: 1px solid var(--border); padding-right: 40px; }
+    .info-block { margin-bottom: 40px; }
+    .info-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.15em; color: var(--orange); margin-bottom: 12px; text-transform: uppercase; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    .info-val { font-size: 0.9rem; color: var(--cream-dim); margin-bottom: 6px; }
+    .info-val span { color: var(--cream-dim); }
+    .info-val strong { color: var(--cream); }
+    .doc-links { display: flex; flex-direction: column; gap: 12px; }
+
+    .detail-content h2 { font-family: 'Playfair Display', serif; font-weight: 900; font-size: 1.5rem; color: var(--cream); margin: 0 0 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+    .detail-content p { font-size: 0.9rem; color: var(--cream-dim); line-height: 1.8; margin-bottom: 20px; }
+    .detail-content ul { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px; }
+    .detail-content li { font-size: 0.88rem; color: var(--cream-dim); padding-left: 18px; position: relative; line-height: 1.6; }
+    .detail-content li::before { content: '→'; position: absolute; left: 0; color: var(--orange); font-size: 0.75rem; }
+    .detail-content li strong { color: var(--cream); }
+    .detail-content code { font-family: 'Barlow Condensed', monospace; font-size: 0.85rem; background: var(--ink-2); color: var(--orange); padding: 2px 8px; border-radius: 2px; border: 1px solid var(--border); }
+
+    /* ── BLOC TERMINAL ── */
+    .terminal-block {
+      background: var(--ink-2);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      margin: 24px 0;
+      overflow: hidden;
+    }
+    .terminal-bar {
+      background: rgba(240,236,227,0.05);
+      border-bottom: 1px solid var(--border);
+      padding: 8px 16px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .terminal-bar span {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem; letter-spacing: 0.12em;
+      color: var(--cream-dim);
+    }
+    .terminal-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .terminal-dot.red { background: #ff5f57; }
+    .terminal-dot.yellow { background: #febc2e; }
+    .terminal-dot.green { background: #28c840; }
+    .terminal-body { padding: 20px 24px; }
+    .terminal-body pre {
+      font-family: 'Courier New', monospace;
+      font-size: 0.82rem;
+      color: var(--cream-dim);
+      line-height: 1.7;
+      margin: 0; white-space: pre-wrap;
+    }
+    .terminal-body pre .cmd { color: var(--orange); }
+    .terminal-body pre .ok  { color: #6fcf97; }
+    .terminal-body pre .warn { color: #f2c94c; }
+    .terminal-body pre .crit { color: #eb5757; }
+    .terminal-body pre .dim  { color: rgba(240,236,227,0.4); }
+
+    /* ── TABLE PORTS ── */
+    .ports-table { width: 100%; border-collapse: collapse; margin: 20px 0 32px; font-size: 0.84rem; }
+    .ports-table th {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--orange); text-align: left;
+      padding: 10px 14px; border-bottom: 1px solid var(--border);
+    }
+    .ports-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--cream-dim); vertical-align: middle; }
+    .ports-table tr:last-child td { border-bottom: none; }
+    .ports-table td:first-child { font-family: 'Barlow Condensed', monospace; color: var(--cream); font-weight: 600; }
+    .risk-badge { font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; padding: 3px 9px; border-radius: 2px; }
+    .risk-faible  { background: rgba(40,200,64,0.12);  color: #6fcf97; }
+    .risk-moyen   { background: rgba(242,201,76,0.12); color: #f2c94c; }
+    .risk-eleve   { background: rgba(232,93,4,0.15);   color: var(--orange); }
+    .risk-critique{ background: rgba(235,87,87,0.15);  color: #eb5757; }
+
+    /* ── PHASES D'AUDIT ── */
+    .phase-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0 32px; }
+    .phase-card { border: 1px solid var(--border); padding: 20px; border-radius: 2px; }
+    .phase-num { font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.15em; color: var(--orange); margin-bottom: 8px; }
+    .phase-card h4 { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 0.95rem; letter-spacing: 0.05em; color: var(--cream); margin-bottom: 6px; }
+    .phase-card p { font-size: 0.8rem; color: var(--cream-dim); line-height: 1.5; margin: 0; }
+    .phase-pts { font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem; color: var(--orange); margin-top: 8px; }
+
+    /* ── SOURCES ── */
+    .sources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0 32px; }
+    .source-item { border: 1px solid var(--border); padding: 14px 16px; border-radius: 2px; }
+    .source-org { font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; color: var(--orange); margin-bottom: 4px; }
+    .source-item p { font-size: 0.78rem; color: var(--cream-dim); line-height: 1.5; margin: 0; }
+
+    @media(max-width: 900px) {
+      .detail-grid { grid-template-columns: 1fr; gap: 40px; padding: 40px 20px; }
+      .detail-sidebar { border-right: none; border-bottom: 1px solid var(--border); padding-right: 0; padding-bottom: 40px; }
+      .detail-hero { padding: 100px 20px 40px; }
+      .phase-grid, .sources-grid { grid-template-columns: 1fr; }
+      .ports-table { font-size: 0.78rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+
+  <nav id="nav" class="scrolled">
+    <div class="nav-left"><span class="nav-index">©2026</span></div>
+    <div class="nav-center"><a href="../" class="nav-logo">BERNARD THIERY</a></div>
+    <div class="nav-right"><a href="/" class="nav-cta"><span class="cta-arrow">←</span> Retour</a></div>
+  </nav>
+
+  <!-- ════════ HERO ════════ -->
+  <section class="detail-hero">
+    <div class="section-index">PROJET - CLASSE</div>
+    <h1 class="detail-title">Audit &amp; Défense<br/>Réseau</h1>
+    <div class="detail-tags">
+      <span>Nmap</span>
+      <span>Reconnaissance</span>
+      <span>Analyse de ports</span>
+      <span>Firewall Windows</span>
+      <span>Sécurité réseau</span>
+    </div>
+  </section>
+
+  <!-- ════════ GRID ════════ -->
+  <section class="detail-grid">
+    <aside class="detail-sidebar">
+
+      <div class="info-block">
+        <div class="info-label">Infos Techniques</div>
+        <div class="info-val"><span>Type :</span> <strong>Mission de sécurité</strong></div>
+        <div class="info-val"><span>Intervenant :</span> <strong>Faroyan Malchaz</strong></div>
+        <div class="info-val"><span>Programme :</span> <strong>BTS SIO - Sécurité Réseau</strong></div>
+        <div class="info-val"><span>Date :</span> <strong>02/04/2026</strong></div>
+        <div class="info-val"><span>Cible :</span> <strong>192.168.56.101</strong></div>
+        <div class="info-val"><span>Segment :</span> <strong>192.168.56.0/24</strong></div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-label">Outils utilisés</div>
+        <div class="info-val"><i class="bi bi-terminal" style="color:var(--orange);margin-right:6px;"></i>Nmap <code style="font-size:0.75rem;">-sV -T4</code></div>
+        <div class="info-val"><i class="bi bi-terminal" style="color:var(--orange);margin-right:6px;"></i>ss, ip, Netcat</div>
+        <div class="info-val"><i class="bi bi-terminal" style="color:var(--orange);margin-right:6px;"></i>curl, PuTTY</div>
+        <div class="info-val"><i class="bi bi-shield-check" style="color:var(--orange);margin-right:6px;"></i>Windows Defender Firewall</div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-label">Score obtenu</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <span style="font-family:'Barlow Condensed',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;background:var(--orange-dim);color:var(--orange);padding:4px 10px;border-radius:2px;">Recon - 4/4</span>
+          <span style="font-family:'Barlow Condensed',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;background:var(--orange-dim);color:var(--orange);padding:4px 10px;border-radius:2px;">Audit - 6/6</span>
+          <span style="font-family:'Barlow Condensed',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;background:var(--orange-dim);color:var(--orange);padding:4px 10px;border-radius:2px;">Veille - 4/4</span>
+          <span style="font-family:'Barlow Condensed',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;background:var(--orange-dim);color:var(--orange);padding:4px 10px;border-radius:2px;">Reméd. - 6/6</span>
+        </div>
+        <div style="margin-top:12px;font-family:'Playfair Display',serif;font-weight:900;font-size:1.8rem;color:var(--cream);">20 <span style="font-size:1rem;color:var(--cream-dim);font-family:'Barlow',sans-serif;font-weight:400;">/ 20</span></div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-label">Documentation</div>
+        <div class="doc-links">
+          <a href="/fichiers/Doc Malchaz.pdf" target="_blank" class="btn-main btn-outline" style="text-align:center;padding:12px;">Voir le rapport ↗</a>
+          <a href="/fichiers/Doc Malchaz.pdf" download class="btn-main" style="text-align:center;padding:12px;">Télécharger le PDF</a>
+        </div>
+      </div>
+
+    </aside>
+
+    <div class="detail-content">
+
+      <!-- 1. CONTEXTE -->
+      <h2>1. Contexte de la mission</h2>
+      <p>
+        Dans le cadre du cours de sécurité réseau animé par <strong>Faroyan Malchaz</strong>, cette mission d'audit avait pour objectif d'analyser un serveur cible (<code>192.168.56.101</code>) sur un segment réseau isolé, d'identifier ses vulnérabilités, et d'y apporter une remédiation concrète. La mission couvrait quatre phases évaluées : reconnaissance, audit profond, analyse documentée et remédiation.
+      </p>
+
+      <div class="phase-grid">
+        <div class="phase-card">
+          <div class="phase-num">PHASE 01</div>
+          <h4>Reconnaissance</h4>
+          <p>Analyse locale des ports avec <code>ss -tunlp</code> et identification de l'adresse IP cible.</p>
+          <div class="phase-pts">4 points</div>
+        </div>
+        <div class="phase-card">
+          <div class="phase-num">PHASE 02</div>
+          <h4>Audit Profond</h4>
+          <p>Démasquage des services réels via scan de version Nmap (<code>-sV</code>) et confirmation Netcat.</p>
+          <div class="phase-pts">6 points</div>
+        </div>
+        <div class="phase-card">
+          <div class="phase-num">PHASE 03</div>
+          <h4>Analyse &amp; Veille</h4>
+          <p>Justification du danger des services détectés, appuyée sur ANSSI, OWASP et CVE MITRE.</p>
+          <div class="phase-pts">4 points</div>
+        </div>
+        <div class="phase-card">
+          <div class="phase-num">PHASE 04</div>
+          <h4>Remédiation</h4>
+          <p>Filtrage réseau via règle Windows Defender Firewall, validé par re-scan Nmap.</p>
+          <div class="phase-pts">6 points</div>
+        </div>
+      </div>
+
+      <!-- 2. RECONNAISSANCE -->
+      <h2 style="margin-top:50px;">2. Reconnaissance - Cartographie des ports</h2>
+      <p>
+        La première étape consistait à observer le serveur depuis l'intérieur afin de comprendre sa configuration réseau. Les commandes <code>ip -c a</code> et <code>ss -tunlp</code> ont permis d'identifier l'ensemble des ports en écoute et de dresser un premier tableau des risques.
+      </p>
+
+      <div class="terminal-block">
+        <div class="terminal-bar">
+          <div class="terminal-dot red"></div>
+          <div class="terminal-dot yellow"></div>
+          <div class="terminal-dot green"></div>
+          <span>root@cible:~$</span>
+        </div>
+        <div class="terminal-body">
+          <pre><span class="cmd">ip -c a</span>
+<span class="dim">→ 192.168.56.101/24 sur enp0s8</span>
+
+<span class="cmd">ss -tunlp</span>
+<span class="dim">Netid  State  Recv-Q  Send-Q  Local Address:Port</span>
+tcp    LISTEN 0       32      0.0.0.0:<span class="warn">21</span>      vsftpd
+tcp    LISTEN 0       128     0.0.0.0:<span class="ok">22</span>      sshd
+tcp    LISTEN 0       511     0.0.0.0:<span class="warn">30</span>      apache2
+tcp    LISTEN 0       4       0.0.0.0:<span class="crit">80</span>      telnetd
+tcp    LISTEN 0       100     0.0.0.0:<span class="warn">110</span>     dovecot
+tcp    LISTEN 0       50      0.0.0.0:<span class="warn">139</span>     smbd
+tcp    LISTEN 0       100     0.0.0.0:<span class="warn">143</span>     dovecot
+tcp    LISTEN 0       50      0.0.0.0:<span class="warn">445</span>     smbd</pre>
+        </div>
+      </div>
+
+      <table class="ports-table">
+        <thead>
+          <tr>
+            <th>Port</th>
+            <th>Service standard</th>
+            <th>Service détecté</th>
+            <th>Niveau de risque</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>21/tcp</td>
+            <td>FTP</td>
+            <td>vsftpd 3.0.5</td>
+            <td><span class="risk-badge risk-moyen">Moyen</span></td>
+          </tr>
+          <tr>
+            <td>22/tcp</td>
+            <td>SSH</td>
+            <td>OpenSSH 10.0p2</td>
+            <td><span class="risk-badge risk-faible">Faible</span></td>
+          </tr>
+          <tr>
+            <td>30/tcp</td>
+            <td>Non attribué</td>
+            <td>Apache httpd 2.4.66</td>
+            <td><span class="risk-badge risk-eleve">⚠ Élevé</span></td>
+          </tr>
+          <tr>
+            <td>80/tcp</td>
+            <td>HTTP</td>
+            <td>Telnet</td>
+            <td><span class="risk-badge risk-critique">🚨 Critique</span></td>
+          </tr>
+          <tr>
+            <td>110/tcp</td>
+            <td>POP3</td>
+            <td>Dovecot pop3d</td>
+            <td><span class="risk-badge risk-moyen">Moyen</span></td>
+          </tr>
+          <tr>
+            <td>139/tcp</td>
+            <td>NetBIOS</td>
+            <td>Samba smbd 4</td>
+            <td><span class="risk-badge risk-moyen">Moyen</span></td>
+          </tr>
+          <tr>
+            <td>143/tcp</td>
+            <td>IMAP</td>
+            <td>Dovecot imapd</td>
+            <td><span class="risk-badge risk-moyen">Moyen</span></td>
+          </tr>
+          <tr>
+            <td>445/tcp</td>
+            <td>SMB</td>
+            <td>Samba smbd 4</td>
+            <td><span class="risk-badge risk-moyen">Moyen</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- 3. AUDIT PROFOND -->
+      <h2 style="margin-top:50px;">3. Audit profond - Démasquage des services</h2>
+      <p>
+        La <strong>sécurité par l'obscurité</strong> consiste à masquer des services sur des ports non standard. L'outil Nmap avec le flag <code>-sV</code> permet de démasquer la véritable identité de chaque service, indépendamment du port utilisé. Deux anomalies majeures ont été identifiées.
+      </p>
+
+      <div class="terminal-block">
+        <div class="terminal-bar">
+          <div class="terminal-dot red"></div>
+          <div class="terminal-dot yellow"></div>
+          <div class="terminal-dot green"></div>
+          <span>attaquant@kali:~$</span>
+        </div>
+        <div class="terminal-body">
+          <pre><span class="cmd">nmap -sV -T4 192.168.56.101</span>
+
+PORT    STATE SERVICE VERSION
+21/tcp  open  ftp     vsftpd 3.0.5
+22/tcp  open  ssh     OpenSSH 10.0p2
+<span class="warn">30/tcp  open  http    Apache httpd 2.4.66</span>   <span class="dim">← Devrait être sur 80/443</span>
+<span class="crit">80/tcp  open  telnet  Linux telnetd</span>         <span class="dim">← Port HTTP utilisé par Telnet !</span>
+110/tcp open  pop3    Dovecot pop3d
+139/tcp open  netbios Samba smbd 4
+143/tcp open  imap    Dovecot imapd
+445/tcp open  smb     Samba smbd 4
+
+<span class="cmd">nc -v 192.168.56.101 30</span>
+<span class="ok">✓ Apache2 Debian Default Page - It works!</span>
+
+<span class="cmd">curl http://192.168.56.101:30</span>
+<span class="ok">✓ Réponse HTTP 200 confirmée - Apache 2.4.66 sur port 30</span></pre>
+        </div>
+      </div>
+
+      <!-- 4. ANALYSE -->
+      <h2 style="margin-top:50px;">4. Analyse des vulnérabilités</h2>
+      <p>
+        Le service le plus critique est <strong>Telnet tournant sur le port 80</strong>. Cette configuration cumule trois risques majeurs : transmission de credentials en clair (sniffable), contournement des pare-feux filtrant le port 23, et discrétion pour un attaquant souhaitant maintenir un accès persistant sans déclencher les IDS. Apache sur le port 30 présente également un risque d'invisibilité aux scans basiques.
+      </p>
+
+      <div class="sources-grid">
+        <div class="source-item">
+          <div class="source-org">ANSSI</div>
+          <p>Guide Hygiène Informatique - Règle 15 : Chiffrer les communications sensibles</p>
+        </div>
+        <div class="source-item">
+          <div class="source-org">OWASP</div>
+          <p>A02:2021 - Cryptographic Failures : utilisation de protocoles non chiffrés</p>
+        </div>
+        <div class="source-item">
+          <div class="source-org">CVE MITRE</div>
+          <p>CWE-312 : Cleartext Storage / CWE-319 : Cleartext Transmission</p>
+        </div>
+        <div class="source-item">
+          <div class="source-org">RFC 854</div>
+          <p>Telnet Protocol Specification - protocole conçu sans aucune sécurité (1983)</p>
+        </div>
+      </div>
+
+      <!-- 5. REMÉDIATION -->
+      <h2 style="margin-top:50px;">5. Remédiation - Blocage pare-feu</h2>
+      <p>
+        Sans droits root sur la VM cible, la remédiation a été appliquée au niveau du <strong>pare-feu Windows de la machine hôte</strong> via Windows Defender Firewall avec fonctions avancées. Une règle de trafic sortant bloque les connexions vers le port 80 de la cible.
+      </p>
+      <ul>
+        <li>Ouverture de <strong>Windows Defender Firewall → Paramètres avancés</strong></li>
+        <li>Création d'une <strong>règle de trafic sortant</strong> : Type Port → TCP → Port 80</li>
+        <li>Action : <strong>Bloquer la connexion</strong> - Profils : Domaine, Privé, Public</li>
+        <li>Nom de la règle : <strong>Blocage Telnet port 80</strong></li>
+      </ul>
+
+      <div class="terminal-block">
+        <div class="terminal-bar">
+          <div class="terminal-dot red"></div>
+          <div class="terminal-dot yellow"></div>
+          <div class="terminal-dot green"></div>
+          <span>attaquant@kali:~$ - Validation post-remédiation</span>
+        </div>
+        <div class="terminal-body">
+          <pre><span class="cmd">nmap -sV -T4 192.168.56.101</span>
+
+PORT    STATE  SERVICE VERSION
+21/tcp  open   ftp     vsftpd 3.0.5
+22/tcp  open   ssh     OpenSSH 10.0p2
+30/tcp  open   http    Apache httpd 2.4.66
+<span class="ok">80/tcp  filtered -</span>   <span class="dim">← Port 80 filtré, Telnet inaccessible ✓</span>
+110/tcp open   pop3    Dovecot pop3d</pre>
+        </div>
+      </div>
+
+      <p>
+        Le port 80 n'apparaît plus comme <code>open</code> dans les résultats Nmap - il apparaît désormais <code>filtered</code>, confirmant que la règle pare-feu est active. La connexion Telnet sur ce port est bloquée avec succès.
+      </p>
+
+      <ul>
+        <li><strong>Recommandation 1 :</strong> Remplacer Telnet par SSH (port 22) - protocole chiffré</li>
+        <li><strong>Recommandation 2 :</strong> Reconfigurer Apache sur le port 443 avec certificat SSL/TLS</li>
+        <li><strong>Recommandation 3 :</strong> Mettre en place une règle firewall permanente sur la VM elle-même</li>
+        <li><strong>Recommandation 4 :</strong> Réaliser des audits réguliers avec <code>nmap -sV</code> pour détecter toute anomalie</li>
+      </ul>
+
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 Bernard Thiery</span>
+    <span>BTS SIO SISR · Reims</span>
+    <a href="../rgpd/">RGPD</a>
+  </footer>
+
+  <script src="../main.js"></script>
+</body>
+</html>
