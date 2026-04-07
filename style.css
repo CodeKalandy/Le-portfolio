@@ -751,7 +751,138 @@ footer a:hover { color: var(--orange); }
   .hero-scroll-hint { display: none; }
   .nav-right .nav-cta { font-size: 0.72rem; }
 }
-/* ---- THEME TOGGLE BUTTON ---- */
+  position: fixed;
+  bottom: 36px;
+  right: 36px;
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  border: 1px solid var(--border-2);
+  color: var(--cream-dim);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 2px;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition: opacity 0.3s, transform 0.3s, color 0.2s, border-color 0.2s;
+}
+#back-to-top.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+#back-to-top:hover {
+  color: var(--orange);
+  border-color: var(--orange);
+}
+ 
+ 
+/* ════════════════════════════════════════
+   FILTRE PROJETS
+   ════════════════════════════════════════ */
+#proj-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+ 
+.proj-filter-btn {
+  background: transparent;
+  border: 1px solid var(--border-2);
+  color: var(--cream-dim);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+.proj-filter-btn:hover {
+  color: var(--cream);
+  border-color: var(--cream);
+}
+.proj-filter-btn.active {
+  background: var(--orange);
+  border-color: var(--orange);
+  color: var(--ink);
+}
+ 
+.proj-card {
+  transition: background 0.3s, opacity 0.3s, transform 0.3s;
+}
+.proj-card[style*="display: none"] {
+  display: none !important;
+}
+ 
+ 
+/* ════════════════════════════════════════
+   COPIER LES BLOCS DE CODE
+   ════════════════════════════════════════ */
+.copy-code-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: transparent;
+  border: 1px solid rgba(240,236,227,0.15);
+  color: var(--cream-dim);
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 2px;
+  cursor: pointer;
+  line-height: 1;
+  opacity: 0;
+  transition: opacity 0.2s, color 0.2s, border-color 0.2s;
+}
+pre:hover .copy-code-btn,
+.bg-black:hover .copy-code-btn {
+  opacity: 1;
+}
+.copy-code-btn:hover {
+  color: var(--cream);
+  border-color: var(--border-2);
+}
+.copy-code-btn.copied {
+  color: #81c784;
+  border-color: #81c784;
+  opacity: 1;
+}
+ 
+ 
+/* ════════════════════════════════════════
+   ANIMATION HERO - CLIP-PATH REVEAL
+   ════════════════════════════════════════ */
+@keyframes clipReveal {
+  from { clip-path: inset(0 100% 0 0); opacity: 0; }
+  to   { clip-path: inset(0 0% 0 0);   opacity: 1; }
+}
+ 
+/* On surcharge les animations slideUp des hero-word
+   pour ajouter le clip-path reveal en plus */
+.hero-word {
+  animation: clipReveal 0.9s cubic-bezier(.16,1,.3,1) both !important;
+}
+.hero-line--1 .hero-word:nth-child(1) { animation-delay: 0.1s !important; }
+.hero-line--1 .hero-word:nth-child(2) { animation-delay: 0.22s !important; }
+.hero-line--2 .hero-word:nth-child(1) { animation-delay: 0.18s !important; }
+.hero-line--2 .hero-word:nth-child(2) { animation-delay: 0.3s !important; }
+.hero-line--3 .hero-word:nth-child(1) { animation-delay: 0.38s !important; }
+.hero-line--3 .hero-word:nth-child(2) { animation-delay: 0.48s !important; }
+ 
+ 
+/* ════════════════════════════════════════
+   THEME TOGGLE BUTTON
+   ════════════════════════════════════════ */
 #theme-toggle {
   background: transparent;
   border: 1px solid var(--border-2);
@@ -767,8 +898,8 @@ footer a:hover { color: var(--orange); }
   display: flex;
   align-items: center;
   gap: 6px;
-  transition: color 0.2s, border-color 0.2s, background 0.2s;
   margin-right: 16px;
+  flex-shrink: 0;
 }
 #theme-toggle:hover {
   color: var(--orange);
@@ -776,65 +907,117 @@ footer a:hover { color: var(--orange); }
 }
 #theme-toggle .toggle-icon {
   font-size: 0.9rem;
+  display: inline-block;
   transition: transform 0.4s ease;
 }
 #theme-toggle:hover .toggle-icon {
   transform: rotate(20deg);
 }
  
-/* ---- LIGHT MODE VARIABLES ---- */
+ 
+/* ════════════════════════════════════════
+   LIGHT THEME
+   ════════════════════════════════════════ */
 body.light {
-  --ink:        #f5f1eb;
-  --ink-2:      #e8e3da;
-  --cream:      #1a1714;
-  --cream-dim:  #5a534b;
+  --ink:         #f5f1eb;
+  --ink-2:       #e8e3da;
+  --cream:       #1a1714;
+  --cream-dim:   #5a534b;
   --cream-ghost: rgba(26,23,20,0.06);
-  --border:     rgba(26,23,20,0.12);
-  --border-2:   rgba(26,23,20,0.22);
-  --orange:     #c44e00;
-  --orange-dim: rgba(196,78,0,0.12);
+  --border:      rgba(26,23,20,0.12);
+  --border-2:    rgba(26,23,20,0.22);
+  --orange:      #c44e00;
+  --orange-dim:  rgba(196,78,0,0.12);
 }
  
-/* Scrollbar en mode clair */
 body.light ::-webkit-scrollbar-track { background: var(--ink); }
 body.light ::-webkit-scrollbar-thumb { background: var(--orange); }
  
-/* Nav scrolled en mode clair */
 body.light #nav.scrolled {
   background: rgba(245,241,235,0.92);
 }
  
-/* Cursor en mode clair */
-body.light .cursor { border-color: var(--orange); }
-body.light .cursor-dot { background: var(--orange); }
- 
-/* Images projets : légèrement moins sombres en mode clair */
 body.light .proj-img img {
-  filter: brightness(0.75) grayscale(10%);
+  filter: brightness(0.72) grayscale(10%);
 }
 body.light .proj-card:hover .proj-img img {
-  filter: brightness(0.6);
+  filter: brightness(0.55);
 }
  
-/* Transition globale fluide */
-body, body * {
-  transition-property: background-color, color, border-color, box-shadow;
-  transition-duration: 0.35s;
+body.light #back-to-top {
+  border-color: rgba(26,23,20,0.25);
+}
+ 
+body.light .copy-code-btn {
+  border-color: rgba(26,23,20,0.18);
+}
+ 
+/* Transitions globales fluides (hors éléments d'animation) */
+body,
+body *:not(.hero-word):not(.reveal):not(.cursor):not(.cursor-dot):not(#read-progress) {
+  transition-property: background-color, color, border-color, box-shadow, filter;
+  transition-duration: 0.32s;
   transition-timing-function: ease;
 }
  
-/* On exclut les transitions qui gêneraient les animations existantes */
-body .reveal,
-body .cursor,
-body .cursor-dot,
-body .proj-img img {
-  transition-property: opacity, transform, background-color, color, border-color, filter;
-}
- 
-/* Bouton toggle : pas de conflit avec les transitions d'hover */
+/* Préserve les transitions propres à certains éléments */
 #theme-toggle,
-#theme-toggle .toggle-icon {
-  transition-property: color, border-color, background, transform;
+.proj-filter-btn,
+#back-to-top,
+.copy-code-btn,
+.btn-main,
+.btn-outline,
+.btn-text,
+.nav-cta,
+.proj-card,
+.proj-img img {
+  transition-property: background-color, color, border-color, opacity, transform, filter;
   transition-duration: 0.2s;
 }
  
+/* Synchro préférence système */
+@media (prefers-color-scheme: light) {
+  /* Géré via JS - ici juste le fallback no-JS */
+  body:not(.dark-forced) {
+    /* le JS applique .light automatiquement */
+  }
+}
+ 
+ 
+/* ════════════════════════════════════════
+   LAZY LOADING - image placeholder
+   ════════════════════════════════════════ */
+img[loading="lazy"] {
+  background: var(--ink-2);
+}
+ 
+ 
+/* ════════════════════════════════════════
+   RESPONSIVE - ajustements des nouveaux éléments
+   ════════════════════════════════════════ */
+@media (max-width: 768px) {
+  #back-to-top {
+    bottom: 20px;
+    right: 20px;
+    width: 38px;
+    height: 38px;
+    font-size: 1rem;
+  }
+ 
+  #proj-filters {
+    gap: 6px;
+  }
+ 
+  .proj-filter-btn {
+    font-size: 0.66rem;
+    padding: 4px 10px;
+  }
+ 
+  #theme-toggle .toggle-label {
+    display: none; /* Sur mobile : icône seule */
+  }
+  #theme-toggle {
+    margin-right: 10px;
+    padding: 5px 9px;
+  }
+}
