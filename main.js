@@ -1,4 +1,4 @@
-/* main.js — Bernard Thiery Portfolio */
+/* main.js - Bernard Thiery Portfolio */
 
 /* ════════════════════════════════════════
    CUSTOM CURSOR
@@ -58,23 +58,39 @@ window.addEventListener('scroll', () => {
 
 
 /* ════════════════════════════════════════
-   REVEAL ON SCROLL
+   REVEAL ON SCROLL - observateur unifié
+   Gère à la fois :
+   - les éléments avec class="reveal" déjà dans le HTML
+   - les éléments ciblés par sélecteur (sans .reveal dans le HTML)
    ════════════════════════════════════════ */
-const reveals = document.querySelectorAll(
-  '.about-grid, .skills-header, .skills-cols, .certs-band, .proj-header, .proj-grid, .tl-row, .contact-inner'
-);
 
+// Éléments à animer qui n'ont pas .reveal dans le HTML
+const revealSelectors = [
+  '.about-grid',
+  '.skills-header', '.skills-cols', '.certs-band',
+  '.proj-header', '.proj-grid',
+  '.tl-row',
+  '.contact-inner'
+];
+
+// Ajoute .reveal aux éléments ciblés s'ils ne l'ont pas déjà
+revealSelectors.forEach(sel => {
+  document.querySelectorAll(sel).forEach(el => {
+    el.classList.add('reveal');
+  });
+});
+
+// Un seul observateur pour TOUS les .reveal de la page
 const io = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      entry.target.classList.add('reveal', 'visible');
+      entry.target.classList.add('visible');
       io.unobserve(entry.target);
     }
   });
 }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
-reveals.forEach(el => {
-  el.classList.add('reveal');
+document.querySelectorAll('.reveal').forEach(el => {
   io.observe(el);
 });
 

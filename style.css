@@ -751,6 +751,12 @@ footer a:hover { color: var(--orange); }
   .hero-scroll-hint { display: none; }
   .nav-right .nav-cta { font-size: 0.72rem; }
 }
+
+
+/* ════════════════════════════════════════
+   BOUTON RETOUR EN HAUT
+   ════════════════════════════════════════ */
+#back-to-top {
   position: fixed;
   bottom: 36px;
   right: 36px;
