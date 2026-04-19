@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Serveur Multimédia Conteneurisé - Bernard Thiery</title>
+  <link rel="icon" type="image/png" href="/images/bernard.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,900;1,900&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"/>
+  <link rel="stylesheet" href="/style.css"/>
+
+  <style>
+    .detail-hero { padding: 120px 40px 60px; border-bottom: 1px solid var(--border); }
+    .detail-title { font-family: 'Playfair Display', serif; font-weight: 900; font-size: clamp(3rem, 7vw, 5rem); color: var(--cream); line-height: 1; margin-bottom: 30px; }
+    .detail-tags { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+    .detail-tags span { font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--orange); border: 1px solid var(--orange-dim); padding: 5px 12px; border-radius: 2px; }
+
+    .detail-grid { display: grid; grid-template-columns: 300px 1fr; gap: 80px; padding: 80px 40px; }
+    .detail-sidebar { border-right: 1px solid var(--border); padding-right: 40px; }
+    .info-block { margin-bottom: 40px; }
+    .info-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.15em; color: var(--orange); margin-bottom: 12px; text-transform: uppercase; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    .info-val { font-size: 0.9rem; color: var(--cream-dim); margin-bottom: 6px; }
+    .info-val strong { color: var(--cream); }
+    .doc-links { display: flex; flex-direction: column; gap: 12px; }
+
+    .detail-content h2 { font-family: 'Playfair Display', serif; font-weight: 900; font-size: 1.5rem; color: var(--cream); margin: 0 0 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+    .detail-content p { font-size: 0.9rem; color: var(--cream-dim); line-height: 1.8; margin-bottom: 20px; }
+    .detail-content ul { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px; }
+    .detail-content li { font-size: 0.88rem; color: var(--cream-dim); padding-left: 18px; position: relative; line-height: 1.6; }
+    .detail-content li::before { content: '→'; position: absolute; left: 0; color: var(--orange); font-size: 0.75rem; }
+    .detail-content li strong { color: var(--cream); }
+    .detail-content code { font-family: 'Barlow Condensed', monospace; font-size: 0.85rem; background: var(--ink-2); color: var(--orange); padding: 2px 8px; border-radius: 2px; border: 1px solid var(--border); }
+
+    /* ── PHASES ── */
+    .phase-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0 32px; }
+    .phase-card { border: 1px solid var(--border); padding: 20px; border-radius: 2px; }
+    .phase-num { font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.15em; color: var(--orange); margin-bottom: 8px; }
+    .phase-card h4 { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 0.95rem; letter-spacing: 0.05em; color: var(--cream); margin-bottom: 6px; }
+    .phase-card p { font-size: 0.8rem; color: var(--cream-dim); line-height: 1.5; margin: 0; }
+
+    /* ── TERMINAL ── */
+    .terminal-block { background: var(--ink-2); border: 1px solid var(--border); border-radius: 2px; margin: 24px 0; overflow: hidden; }
+    .terminal-bar { background: rgba(240,236,227,0.05); border-bottom: 1px solid var(--border); padding: 8px 16px; display: flex; align-items: center; gap: 8px; }
+    .terminal-bar span { font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; letter-spacing: 0.12em; color: var(--cream-dim); }
+    .terminal-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .terminal-dot.red { background: #ff5f57; }
+    .terminal-dot.yellow { background: #febc2e; }
+    .terminal-dot.green { background: #28c840; }
+    .terminal-body { padding: 20px 24px; }
+    .terminal-body pre { font-family: 'Courier New', monospace; font-size: 0.82rem; color: var(--cream-dim); line-height: 1.7; margin: 0; white-space: pre-wrap; }
+    .terminal-body pre .cmd { color: var(--orange); }
+    .terminal-body pre .ok  { color: #6fcf97; }
+    .terminal-body pre .dim { color: rgba(240,236,227,0.4); }
+    .terminal-body pre .warn { color: #f2c94c; }
+
+    /* ── BACKLOG TABLE ── */
+    .backlog-table { width: 100%; border-collapse: collapse; margin: 20px 0 32px; font-size: 0.84rem; }
+    .backlog-table th { font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--orange); text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--border); }
+    .backlog-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--cream-dim); vertical-align: middle; }
+    .backlog-table tr:last-child td { border-bottom: none; }
+    .backlog-table td:first-child { font-family: 'Barlow Condensed', monospace; color: var(--orange); font-weight: 600; }
+    .status-done { font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; padding: 3px 9px; border-radius: 2px; background: rgba(40,200,64,0.12); color: #6fcf97; }
+
+    /* ── ARCHI SCHEMA ── */
+    .archi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0 32px; }
+    .archi-card { border: 1px solid var(--border); padding: 20px 24px; border-radius: 2px; display: flex; flex-direction: column; gap: 8px; }
+    .archi-card-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.1em; color: var(--cream); display: flex; align-items: center; gap: 10px; }
+    .archi-card-title i { color: var(--orange); }
+    .archi-card p { font-size: 0.8rem; color: var(--cream-dim); line-height: 1.5; margin: 0; }
+    .archi-port { font-family: 'Barlow Condensed', monospace; font-size: 0.75rem; color: var(--orange); margin-top: 4px; }
+
+    /* ── SÉCURITÉ GRID ── */
+    .secu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0 32px; }
+    .secu-item { border: 1px solid var(--border); padding: 16px 18px; border-radius: 2px; }
+    .secu-item-title { font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; color: var(--orange); margin-bottom: 6px; }
+    .secu-item p { font-size: 0.78rem; color: var(--cream-dim); line-height: 1.5; margin: 0; }
+
+    @media(max-width: 900px) {
+      .detail-grid { grid-template-columns: 1fr; gap: 40px; padding: 40px 20px; }
+      .detail-sidebar { border-right: none; border-bottom: 1px solid var(--border); padding-right: 0; padding-bottom: 40px; }
+      .detail-hero { padding: 100px 20px 40px; }
+      .phase-grid, .archi-grid, .secu-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+
+  <nav id="nav" class="scrolled">
+    <div class="nav-left"><span class="nav-index">©2026</span></div>
+    <div class="nav-center"><a href="/" class="nav-logo">BERNARD THIERY</a></div>
+    <div class="nav-right"><a href="/" class="nav-cta"><span class="cta-arrow">←</span> Retour</a></div>
+  </nav>
+
+  <!-- ════════ HERO ════════ -->
+  <section class="detail-hero">
+    <div class="section-index">PROJET - AUTO-FORMATION</div>
+    <h1 class="detail-title">Serveur Multimédia<br/>Conteneurisé</h1>
+    <div class="detail-tags">
+      <span>Docker</span>
+      <span>Nginx Proxy Manager</span>
+      <span>Jellyfin</span>
+      <span>Reverse Proxy</span>
+      <span>Linux Debian</span>
+      <span>SSH Hardening</span>
+    </div>
+  </section>
+
+  <!-- ════════ GRID ════════ -->
+  <section class="detail-grid">
+    <aside class="detail-sidebar">
+
+      <div class="info-block">
+        <div class="info-label">Infos Techniques</div>
+        <div class="info-val"><strong>Auteur :</strong> Bernard Thiery</div>
+        <div class="info-val"><strong>Programme :</strong> Auto-formation DevOps / SISR</div>
+        <div class="info-val"><strong>Période :</strong> Avril 2026</div>
+        <div class="info-val"><strong>Version :</strong> 1.0.0 - Production</div>
+        <div class="info-val"><strong>Environnement :</strong> VirtualBox (Local)</div>
+        <div class="info-val"><strong>VM :</strong> SRV-MEDIA-01</div>
+        <div class="info-val"><strong>IP statique :</strong> 192.168.1.23</div>
+        <div class="info-val"><strong>Port SSH :</strong> 2222</div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-label">Stack</div>
+        <div class="info-val"><i class="bi bi-terminal" style="color:var(--orange);margin-right:6px;"></i>OS : <strong>Debian 12 (Bookworm)</strong></div>
+        <div class="info-val"><i class="bi bi-box" style="color:var(--orange);margin-right:6px;"></i>Conteneurs : <strong>Docker Engine</strong></div>
+        <div class="info-val"><i class="bi bi-diagram-3" style="color:var(--orange);margin-right:6px;"></i>Orchestration : <strong>Docker Compose v5.1.1</strong></div>
+        <div class="info-val"><i class="bi bi-shield-lock" style="color:var(--orange);margin-right:6px;"></i>Auth SSH : <strong>Ed25519 + clé</strong></div>
+        <div class="info-val"><i class="bi bi-cloud-upload" style="color:var(--orange);margin-right:6px;"></i>Transfert : <strong>WinSCP / SFTP</strong></div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-label">Backlog</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <span style="font-family:'Barlow Condensed',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;background:var(--orange-dim);color:var(--orange);padding:4px 10px;border-radius:2px;">9 / 9 US</span>
+          <span style="font-family:'Barlow Condensed',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;background:rgba(40,200,64,0.12);color:#6fcf97;padding:4px 10px;border-radius:2px;">100% Livrées</span>
+        </div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-label">Documentation</div>
+        <div class="doc-links">
+          <a href="/fichiers/Doc_Conteneur.pdf" target="_blank" class="btn-main btn-outline" style="text-align:center;padding:12px;">Voir la doc ↗</a>
+          <a href="/fichiers/Doc_Conteneur.pdf" download class="btn-main" style="text-align:center;padding:12px;">Télécharger le PDF</a>
+        </div>
+      </div>
+
+    </aside>
+
+    <div class="detail-content">
+
+      <!-- 1. CONTEXTE -->
+      <h2>1. Contexte du projet</h2>
+      <p>
+        Ce projet d'auto-formation s'inscrit dans une démarche personnelle DevOps / SISR. L'objectif est de concevoir, déployer et sécuriser un <strong>serveur multimédia privé</strong> entièrement conteneurisé sur une machine virtuelle locale. La stack repose sur deux services Docker orchestrés : <strong>Jellyfin</strong> (serveur multimédia) et <strong>Nginx Proxy Manager</strong> (reverse proxy), communiquant sur un réseau Docker isolé.
+      </p>
+
+      <div class="phase-grid">
+        <div class="phase-card">
+          <div class="phase-num">PARTIE I</div>
+          <h4>Infrastructure Système</h4>
+          <p>Provisionnement VM, IP statique, durcissement SSH avec clé Ed25519.</p>
+        </div>
+        <div class="phase-card">
+          <div class="phase-num">PARTIE II</div>
+          <h4>Environnement Docker</h4>
+          <p>Installation Docker Engine via dépôt officiel, Docker Compose, gestion des droits.</p>
+        </div>
+        <div class="phase-card">
+          <div class="phase-num">PARTIE III</div>
+          <h4>Déploiement IaC</h4>
+          <p>Arborescence de persistance, rédaction du docker-compose.yml, mise en production.</p>
+        </div>
+        <div class="phase-card">
+          <div class="phase-num">PARTIES IV–VI</div>
+          <h4>Exploitation & Synthèse</h4>
+          <p>Configuration NPM, initialisation Jellyfin, injection de médias, synthèse de sécurité.</p>
+        </div>
+      </div>
+
+      <!-- 2. INFRA -->
+      <h2 style="margin-top:50px;">2. Infrastructure système - Socle</h2>
+      <p>
+        La VM <strong>SRV-MEDIA-01</strong> est créée sous VirtualBox avec 2 Go de RAM et un disque VDI dynamique de 20 Go. L'adresse IP est fixée statiquement pour éviter toute perte de référence par le reverse proxy en cas de renouvellement DHCP. Le service SSH est immédiatement durci.
+      </p>
+
+      <div class="terminal-block">
+        <div class="terminal-bar">
+          <div class="terminal-dot red"></div>
+          <div class="terminal-dot yellow"></div>
+          <div class="terminal-dot green"></div>
+          <span>debian@SRV-MEDIA-01:~$</span>
+        </div>
+        <div class="terminal-body">
+          <pre><span class="dim"># Vérification de l'IP statique après configuration</span>
+<span class="cmd">ip -c a</span>
+<span class="dim">2: enp0s3: inet </span><span class="ok">192.168.1.23/24</span><span class="dim"> brd 192.168.1.255 scope global enp0s3</span>
+
+<span class="dim"># Tests de connectivité (Recette T-02)</span>
+<span class="cmd">ping -c 3 192.168.1.1 && ping -c 3 google.fr</span>
+<span class="ok">✓ 0% packet loss — Passerelle et DNS opérationnels</span></pre>
+        </div>
+      </div>
+
+      <p>Le durcissement SSH (<strong>Hardening US-03</strong>) désactive l'authentification par mot de passe, interdit la connexion root, et déplace le service sur le port <code>2222</code> pour limiter l'exposition aux scans automatiques. L'accès ne se fait plus qu'avec une paire de clés <strong>Ed25519</strong> générée depuis le PC Windows.</p>
+
+      <div class="terminal-block">
+        <div class="terminal-bar">
+          <div class="terminal-dot red"></div>
+          <div class="terminal-dot yellow"></div>
+          <div class="terminal-dot green"></div>
+          <span>PowerShell (PC Windows)</span>
+        </div>
+        <div class="terminal-body">
+          <pre><span class="dim"># Génération de la paire de clés Ed25519</span>
+<span class="cmd">ssh-keygen -t ed25519</span>
+<span class="dim">→ Clé privée : C:\Users\..\.ssh\id_ed25519</span>
+<span class="dim">→ Clé publique : C:\Users\..\.ssh\id_ed25519.pub</span>
+
+<span class="dim"># Copie de la clé publique sur la VM</span>
+<span class="cmd">ssh-copy-id -i ~/.ssh/id_ed25519.pub debian@192.168.1.23</span>
+<span class="ok">✓ Clé autorisée — connexion sans mot de passe opérationnelle</span>
+
+<span class="dim"># Connexion sur le nouveau port</span>
+<span class="cmd">ssh -p 2222 debian@192.168.1.23</span></pre>
+        </div>
+      </div>
+
+      <!-- 3. DOCKER -->
+      <h2 style="margin-top:50px;">3. Environnement Docker & Architecture IaC</h2>
+      <p>
+        Docker Engine est installé via le dépôt officiel avec signature GPG. L'utilisateur <code>debian</code> est ajouté au groupe <code>docker</code> pour éviter tout usage de <code>sudo</code>. L'arborescence de persistance garantit la conservation des données entre les redémarrages des conteneurs.
+      </p>
+
+      <div class="terminal-block">
+        <div class="terminal-bar">
+          <div class="terminal-dot red"></div>
+          <div class="terminal-dot yellow"></div>
+          <div class="terminal-dot green"></div>
+          <span>debian@SRV-MEDIA-01:~/mediaserver$</span>
+        </div>
+        <div class="terminal-body">
+          <pre><span class="dim"># Arborescence de persistance (US-07)</span>
+<span class="cmd">mkdir -p config/npm config/jellyfin data/media</span>
+
+<span class="dim"># Déploiement de la stack (US-09)</span>
+<span class="cmd">docker compose up -d</span>
+<span class="dim">[+] Running 3/3</span>
+<span class="ok"> ✔ Network media-network      Created</span>
+<span class="ok"> ✔ Container nginx-proxy-manager  Started</span>
+<span class="ok"> ✔ Container jellyfin             Started</span>
+
+<span class="dim"># Vérification des états</span>
+<span class="cmd">docker ps</span>
+<span class="dim">CONTAINER ID   IMAGE                       STATUS</span>
+<span class="ok">a1b2c3d4e5f6   jc21/nginx-proxy-manager    Up (healthy)</span>
+<span class="ok">f5e4d3c2b1a0   jellyfin/jellyfin           Up (healthy)</span></pre>
+        </div>
+      </div>
+
+      <p>Le fichier <strong>docker-compose.yml</strong> définit les deux services sur un réseau isolé <code>media-network</code>. Jellyfin s'exécute avec l'UID/GID <code>1000:1000</code> de l'utilisateur système pour garantir les droits en lecture sur le volume de médias.</p>
+
+      <!-- 4. ARCHITECTURE -->
+      <h2 style="margin-top:50px;">4. Architecture des services</h2>
+      <p>
+        Le Reverse Proxy est le point d'entrée unique de l'infrastructure. Les clients n'accèdent jamais directement au port technique <code>8096</code> de Jellyfin — Nginx Proxy Manager route les requêtes HTTP (port 80) vers Jellyfin via son nom de conteneur sur le réseau Docker.
+      </p>
+
+      <div class="archi-grid">
+        <div class="archi-card">
+          <div class="archi-card-title"><i class="bi bi-diagram-3"></i> Nginx Proxy Manager</div>
+          <p>Point d'entrée unique. Gère le routage HTTP/HTTPS et filtre les exploits communs. Interface d'administration sur le port 81.</p>
+          <div class="archi-port">:80 → HTTP publique · :81 → Admin NPM · :443 → HTTPS</div>
+        </div>
+        <div class="archi-card">
+          <div class="archi-card-title"><i class="bi bi-film"></i> Jellyfin</div>
+          <p>Serveur multimédia open-source. Accessible uniquement via NPM sur le réseau interne <code>media-network</code>. Port technique masqué.</p>
+          <div class="archi-port">:8096 → interne uniquement (non exposé hôte)</div>
+        </div>
+        <div class="archi-card" style="grid-column: span 2;">
+          <div class="archi-card-title"><i class="bi bi-hdd-network"></i> Réseau media-network (Bridge)</div>
+          <p>Les conteneurs communiquent par leur nom (<code>jellyfin</code>) — NPM résout l'IP interne dynamiquement. Aucun des ports de Jellyfin n'est exposé directement sur l'hôte.</p>
+        </div>
+      </div>
+
+      <!-- 5. CONFIG NPM -->
+      <h2 style="margin-top:50px;">5. Configuration du Reverse Proxy</h2>
+      <p>
+        Via l'interface web de NPM (<code>http://192.168.1.23:81</code>), un <em>Proxy Host</em> est créé pour router le trafic entrant vers Jellyfin. La fonctionnalité <strong>Block Common Exploits</strong> est activée pour filtrer automatiquement les requêtes malveillantes courantes.
+      </p>
+      <ul>
+        <li><strong>Domain :</strong> <code>192.168.1.23</code> ou nom local <code>media.lan</code></li>
+        <li><strong>Scheme :</strong> <code>http</code></li>
+        <li><strong>Forward Hostname :</strong> <code>jellyfin</code> (nom DNS interne Docker)</li>
+        <li><strong>Forward Port :</strong> <code>8096</code></li>
+        <li><strong>Block Common Exploits :</strong> activé</li>
+      </ul>
+      <p>Jellyfin est désormais accessible directement sur <code>http://192.168.1.23</code> sans préciser de port.</p>
+
+      <!-- 6. INJECTION MÉDIA -->
+      <h2 style="margin-top:50px;">6. Injection de médias via SFTP - Validation T-03</h2>
+      <p>
+        La validation finale consiste à transférer un fichier vidéo depuis le PC Windows vers la VM, puis à vérifier que Jellyfin l'indexe correctement. WinSCP est utilisé avec la clé privée convertie au format <code>.ppk</code> via PuTTYgen.
+      </p>
+      <ul>
+        <li><strong>Outil :</strong> WinSCP avec authentification par clé Ed25519 (<code>.ppk</code>)</li>
+        <li><strong>Connexion :</strong> Hôte <code>192.168.1.23</code> / Port <code>2222</code> / Utilisateur <code>debian</code></li>
+        <li><strong>Cible :</strong> <code>/home/debian/mediaserver/data/media/</code></li>
+        <li><strong>Volume Docker :</strong> Ce dossier est monté dans le conteneur Jellyfin sous <code>/media</code></li>
+      </ul>
+
+      <div class="terminal-block">
+        <div class="terminal-bar">
+          <div class="terminal-dot red"></div>
+          <div class="terminal-dot yellow"></div>
+          <div class="terminal-dot green"></div>
+          <span>Tableau de bord Jellyfin — Administration</span>
+        </div>
+        <div class="terminal-body">
+          <pre><span class="dim">Bibliothèque : Films</span>
+<span class="dim">Dossier      : /media   (→ physique : ~/mediaserver/data/media/)</span>
+<span class="dim">Langue       : Français / France</span>
+
+<span class="dim"># Après transfert SFTP du fichier .mkv</span>
+<span class="dim">Tableau de bord → Médiathèques → Analyser les médiathèques</span>
+<span class="ok">✓ Film indexé — Métadonnées et affiche récupérées depuis TMDB</span>
+<span class="ok">✓ Lecture validée depuis le navigateur via http://192.168.1.23</span></pre>
+        </div>
+      </div>
+
+      <!-- 7. SÉCURITÉ -->
+      <h2 style="margin-top:50px;">7. Synthèse de la sécurité appliquée</h2>
+      <p>
+        L'infrastructure a été conçue selon le principe du <strong>moindre privilège</strong> et de la <strong>défense en profondeur</strong>, avec plusieurs couches de sécurité indépendantes.
+      </p>
+
+      <div class="secu-grid">
+        <div class="secu-item">
+          <div class="secu-item-title">Accès SSH</div>
+          <p>Clé Ed25519 sur le port 2222. Authentification par mot de passe et connexion root désactivées dans <code>sshd_config</code>.</p>
+        </div>
+        <div class="secu-item">
+          <div class="secu-item-title">Isolation réseau</div>
+          <p>Services sur un réseau Docker bridge <code>media-network</code> — non accessible directement depuis l'extérieur.</p>
+        </div>
+        <div class="secu-item">
+          <div class="secu-item-title">Reverse Proxy</div>
+          <p>NPM est le seul point d'entrée. Masque les ports techniques et filtre les exploits communs.</p>
+        </div>
+        <div class="secu-item">
+          <div class="secu-item-title">Droits fichiers</div>
+          <p>Jellyfin s'exécute avec l'UID <code>1000</code> — pas de conteneur en root. Volumes montés avec droits restreints.</p>
+        </div>
+      </div>
+
+      <!-- 8. BACKLOG -->
+      <h2 style="margin-top:50px;">8. État final du backlog</h2>
+      <p>L'intégralité des 9 User Stories du périmètre initial a été livrée.</p>
+
+      <table class="backlog-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Titre</th>
+            <th>Description</th>
+            <th>Statut</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>US-01</td>
+            <td>Provisionnement VM</td>
+            <td>Création de la machine Debian 12</td>
+            <td><span class="status-done">✓ Terminé</span></td>
+          </tr>
+          <tr>
+            <td>US-02</td>
+            <td>Configuration Réseau</td>
+            <td>Fixation de l'IP statique (192.168.1.23)</td>
+            <td><span class="status-done">✓ Terminé</span></td>
+          </tr>
+          <tr>
+            <td>US-03</td>
+            <td>Hardening SSH</td>
+            <td>Port 2222 et authentification par clé</td>
+            <td><span class="status-done">✓ Terminé</span></td>
+          </tr>
+          <tr>
+            <td>US-04</td>
+            <td>Installation Docker</td>
+            <td>Déploiement du moteur Docker Engine</td>
+            <td><span class="status-done">✓ Terminé</span></td>
+          </tr>
+          <tr>
+            <td>US-05</td>
+            <td>Droits Utilisateur</td>
+            <td>Groupe docker pour l'utilisateur debian</td>
+            <td><span class="status-done">✓ Terminé</span></td>
+          </tr>
+          <tr>
+            <td>US-06</td>
+            <td>Docker Compose</td>
+            <td>Validation de l'orchestrateur v5.1.1</td>
+            <td><span class="status-done">✓ Terminé</span></td>
+          </tr>
+          <tr>
+            <td>US-07</td>
+            <td>Arborescence IaC</td>
+            <td>Création des dossiers de persistance</td>
+            <td><span class="status-done">✓ Terminé</span></td>
+          </tr>
+          <tr>
+            <td>US-08</td>
+            <td>YAML de la stack</td>
+            <td>Rédaction du fichier docker-compose.yml</td>
+            <td><span class="status-done">✓ Terminé</span></td>
+          </tr>
+          <tr>
+            <td>US-09</td>
+            <td>Déploiement</td>
+            <td>Mise en production et configuration des services</td>
+            <td><span class="status-done">✓ Terminé</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- 9. PERSPECTIVES -->
+      <h2 style="margin-top:50px;">9. Perspectives d'évolution</h2>
+      <p>Ce projet constitue une base DevOps évolutive. Les étapes suivantes sont envisagées pour monter en compétences :</p>
+      <ul>
+        <li><strong>Supervision (EPIC 4) :</strong> Intégration d'une stack Prometheus &amp; Grafana pour monitorer l'utilisation des ressources en temps réel.</li>
+        <li><strong>Automatisation (EPIC 5) :</strong> Utilisation d'Ansible pour automatiser le déploiement de cette configuration sur n'importe quel nouveau serveur Linux.</li>
+        <li><strong>Accès distant sécurisé :</strong> Mise en place d'un tunnel WireGuard ou Cloudflare Tunnel pour accéder aux médias hors du réseau local sans ouvrir de ports sur la box.</li>
+      </ul>
+
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 Bernard Thiery</span>
+    <span>BTS SIO SISR · Reims</span>
+    <a href="/rgpd/">RGPD</a>
+  </footer>
+
+  <script src="/main.js"></script>
+</body>
+</html>
