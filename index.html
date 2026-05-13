@@ -783,6 +783,60 @@
     </div>
   </section>
 
+    <!-- PROJET EXAMEN -->
+    <div class="proj-section-block reveal">
+      <div class="proj-category-label">Projet Examen <span class="proj-cat-count">- 01</span></div>
+      <div class="proj-grid" style="grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));">
+ 
+        <a href="projets/m2l" class="proj-card" style="border:1px solid var(--orange-dim);">
+          <div class="proj-img" style="background:linear-gradient(135deg,#1a0e06 0%,#0d0d0d 100%);display:flex;align-items:center;justify-content:center;min-height:220px;position:relative;overflow:hidden;">
+            <!-- Schéma réseau SVG minimaliste en fond -->
+            <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:0.18;" viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg">
+              <rect x="160" y="10" width="80" height="32" rx="4" fill="none" stroke="#e85d04" stroke-width="1.5"/>
+              <text font-family="monospace" font-size="9" x="200" y="30" text-anchor="middle" fill="#e85d04">Zyxel USG40</text>
+              <line x1="200" y1="42" x2="200" y2="68" stroke="#e85d04" stroke-width="1"/>
+              <rect x="150" y="68" width="100" height="28" rx="4" fill="none" stroke="#888" stroke-width="1"/>
+              <text font-family="monospace" font-size="9" x="200" y="86" text-anchor="middle" fill="#888">Switch</text>
+              <line x1="200" y1="96" x2="200" y2="116" stroke="#888" stroke-width="1"/>
+              <rect x="130" y="116" width="140" height="28" rx="4" fill="none" stroke="#a371f7" stroke-width="1.5"/>
+              <text font-family="monospace" font-size="9" x="200" y="134" text-anchor="middle" fill="#a371f7">Proxmox PVE-labo-0C</text>
+              <!-- DMZ -->
+              <line x1="200" y1="144" x2="80" y2="164" stroke="#d29922" stroke-width="1" stroke-dasharray="3 2"/>
+              <rect x="20" y="164" width="120" height="42" rx="4" fill="none" stroke="#d29922" stroke-width="1"/>
+              <text font-family="monospace" font-size="8" x="80" y="179" text-anchor="middle" fill="#d29922">DMZ 10.0.40.0/24</text>
+              <text font-family="monospace" font-size="7" x="80" y="193" text-anchor="middle" fill="#d29922">SRV-WEB · SRV-FTP</text>
+              <!-- LAN2 -->
+              <line x1="200" y1="144" x2="320" y2="164" stroke="#3fb950" stroke-width="1" stroke-dasharray="3 2"/>
+              <rect x="260" y="164" width="120" height="42" rx="4" fill="none" stroke="#3fb950" stroke-width="1"/>
+              <text font-family="monospace" font-size="8" x="320" y="179" text-anchor="middle" fill="#3fb950">LAN2 10.0.20.0/24</text>
+              <text font-family="monospace" font-size="7" x="320" y="193" text-anchor="middle" fill="#3fb950">MariaDB · Zabbix</text>
+            </svg>
+            <!-- Icône verrou au centre -->
+            <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:10px;">
+              <i class="bi bi-shield-lock" style="font-size:2.6rem;color:var(--orange);opacity:0.9;"></i>
+              <span style="font-family:'Barlow Condensed',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.18em;color:var(--orange);text-transform:uppercase;opacity:0.8;">Accès protégé</span>
+            </div>
+            <div class="proj-hover-label">Accéder →</div>
+          </div>
+          <div class="proj-meta">
+            <span class="proj-num" style="color:var(--orange);">EXM</span>
+            <div class="proj-info">
+              <h3>Infrastructure Sécurisée M2L</h3>
+              <p>Déploiement complet d'une infrastructure multi-zones — DMZ, LAN Admin, LAN Données — avec pare-feu Zyxel, supervision Zabbix et protection Fail2ban.</p>
+              <div class="proj-tags">
+                <span>Proxmox</span>
+                <span>Zyxel USG40</span>
+                <span>Zabbix</span>
+                <span>Fail2ban</span>
+                <span>MariaDB</span>
+              </div>
+            </div>
+          </div>
+        </a>
+ 
+      </div>
+    </div>
+
   <!-- ════════════════════ VEILLES TECHNOLOGIQUES ════════════════════ -->
   <section id="veilles">
     <div class="reveal" style="display:flex;flex-direction:column;margin-bottom:20px;">

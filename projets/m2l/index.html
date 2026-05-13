@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Infrastructure M2L — Projet Examen · Bernard Thiery</title>
+  <link rel="icon" type="image/png" href="/images/bernard.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,900;1,900&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"/>
+  <link rel="stylesheet" href="/style.css"/>
+
+  <style>
+    /* ── GATE (écran mot de passe) ── */
+    #gate {
+      position: fixed; inset: 0;
+      background: var(--ink);
+      z-index: 200;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column;
+      gap: 0;
+    }
+    #gate.unlocked {
+      animation: gateOut 0.55s cubic-bezier(.77,0,.18,1) forwards;
+      pointer-events: none;
+    }
+    @keyframes gateOut {
+      0%   { clip-path: inset(0 0 0 0); opacity: 1; }
+      100% { clip-path: inset(0 0 100% 0); opacity: 0; }
+    }
+
+    .gate-inner {
+      width: 100%; max-width: 480px;
+      padding: 0 32px;
+      display: flex; flex-direction: column; gap: 32px;
+    }
+
+    .gate-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--orange);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .gate-eyebrow::before {
+      content: ''; display: inline-block;
+      width: 20px; height: 1px; background: var(--orange);
+    }
+
+    .gate-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900; font-size: clamp(2.2rem, 6vw, 3.4rem);
+      color: var(--cream); line-height: 1;
+    }
+    .gate-title em { font-style: italic; color: var(--orange); }
+
+    .gate-desc {
+      font-size: 0.84rem; color: var(--cream-dim); line-height: 1.7;
+    }
+
+    .gate-form {
+      display: flex; flex-direction: column; gap: 12px;
+    }
+
+    .gate-input-wrap {
+      position: relative;
+    }
+
+    .gate-input {
+      width: 100%;
+      background: transparent;
+      border: 1px solid rgba(240,236,227,0.18);
+      color: var(--cream);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem; font-weight: 500;
+      letter-spacing: 0.2em;
+      padding: 14px 48px 14px 18px;
+      border-radius: 2px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .gate-input::placeholder { color: rgba(240,236,227,0.3); letter-spacing: 0.1em; }
+    .gate-input:focus { border-color: var(--orange); }
+    .gate-input.error { border-color: #e74c3c; animation: shake 0.4s ease; }
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      20%,60% { transform: translateX(-6px); }
+      40%,80% { transform: translateX(6px); }
+    }
+
+    .gate-toggle-vis {
+      position: absolute; right: 14px; top: 50%;
+      transform: translateY(-50%);
+      background: none; border: none; cursor: pointer;
+      color: rgba(240,236,227,0.35);
+      font-size: 1rem; padding: 0; line-height: 1;
+      transition: color 0.2s;
+    }
+    .gate-toggle-vis:hover { color: var(--orange); }
+
+    .gate-error {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.1em; color: #e74c3c;
+      opacity: 0; transition: opacity 0.2s;
+      min-height: 18px;
+    }
+    .gate-error.show { opacity: 1; }
+
+    .gate-btn {
+      width: 100%;
+      background: var(--orange); color: var(--ink);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 0.85rem;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 15px 24px; border: none; border-radius: 2px;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .gate-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    .gate-btn:active { transform: translateY(0); }
+
+    .gate-hint {
+      font-size: 0.76rem; color: rgba(240,236,227,0.22);
+      line-height: 1.5; text-align: center;
+    }
+
+    /* lock icon animé */
+    .gate-lock {
+      font-size: 2.4rem; color: var(--orange);
+      margin-bottom: 4px;
+      animation: lockPulse 2.5s ease-in-out infinite;
+    }
+    @keyframes lockPulse {
+      0%,100% { opacity: 0.7; transform: scale(1); }
+      50%      { opacity: 1;   transform: scale(1.07); }
+    }
+
+    /* ── CONTENU (masqué jusqu'à unlock) ── */
+    #content { visibility: hidden; }
+    #content.revealed { visibility: visible; }
+
+    /* ── DETAIL PAGE ── */
+    .detail-hero {
+      padding: 120px 40px 60px;
+      border-bottom: 1px solid var(--border);
+    }
+    .detail-category {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 10px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .detail-category::before {
+      content:''; display:inline-block;
+      width:20px; height:1px; background:var(--orange);
+    }
+    .detail-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: clamp(3rem, 7vw, 5rem);
+      color: var(--cream);
+      line-height: 1;
+      margin-bottom: 28px;
+    }
+    .detail-tags { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+    .detail-tags span {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--orange); border: 1px solid var(--orange-dim);
+      padding: 5px 12px; border-radius: 2px;
+    }
+
+    /* ── GRID ── */
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 80px;
+      padding: 80px 40px;
+      border-bottom: 1px solid var(--border);
+    }
+    .detail-sidebar {
+      border-right: 1px solid var(--border);
+      padding-right: 40px;
+    }
+    .info-block { margin-bottom: 40px; }
+    .info-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.8rem; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--orange); border-bottom: 1px solid var(--border);
+      padding-bottom: 8px; margin-bottom: 14px;
+    }
+    .info-val {
+      font-size: 0.88rem; color: var(--cream-dim);
+      margin-bottom: 8px; line-height: 1.5;
+    }
+    .info-val strong { color: var(--cream); }
+
+    /* ── CONTENU TECHNIQUE ── */
+    .detail-content h2 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900; font-size: 1.5rem;
+      color: var(--cream); margin: 0 0 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .detail-content p {
+      font-size: 0.9rem; color: var(--cream-dim);
+      line-height: 1.8; margin-bottom: 18px;
+    }
+    .detail-content ul {
+      list-style: none;
+      display: flex; flex-direction: column; gap: 10px;
+      margin-bottom: 32px;
+    }
+    .detail-content li {
+      font-size: 0.88rem; color: var(--cream-dim);
+      padding-left: 18px; position: relative; line-height: 1.6;
+    }
+    .detail-content li::before {
+      content: '→'; position: absolute; left: 0;
+      color: var(--orange); font-size: 0.75rem;
+    }
+    .detail-content li strong { color: var(--cream); }
+    .detail-content code {
+      font-family: 'Barlow Condensed', monospace;
+      font-size: 0.82rem;
+      background: rgba(240,236,227,0.06);
+      color: var(--orange);
+      padding: 2px 8px; border-radius: 2px;
+      border: 1px solid var(--border);
+    }
+
+    /* ── TABLEAUX ── */
+    .data-table {
+      width: 100%; border-collapse: collapse;
+      margin: 20px 0 32px; font-size: 0.84rem;
+    }
+    .data-table th {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--orange); text-align: left;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .data-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--cream-dim); vertical-align: middle;
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table td:first-child { color: var(--cream); font-weight: 500; }
+
+    /* ── ZONES ── */
+    .zone-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 14px; margin: 20px 0 32px;
+    }
+    .zone-card {
+      border: 1px solid var(--border);
+      padding: 20px; border-radius: 2px;
+      transition: border-color 0.3s;
+    }
+    .zone-card:hover { border-color: var(--border-2); }
+    .zone-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.15em; color: var(--orange);
+      margin-bottom: 6px;
+    }
+    .zone-card h4 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 0.92rem;
+      color: var(--cream); margin-bottom: 4px;
+    }
+    .zone-card p { font-size: 0.8rem; color: var(--cream-dim); line-height: 1.5; margin: 0; }
+    .zone-net {
+      font-family: 'Barlow Condensed', monospace;
+      font-size: 0.78rem; color: var(--orange);
+      margin-top: 6px;
+    }
+
+    /* ── TERMINAL ── */
+    .terminal-block {
+      background: rgba(240,236,227,0.03);
+      border: 1px solid var(--border);
+      border-radius: 2px; margin: 24px 0; overflow: hidden;
+    }
+    .terminal-bar {
+      background: rgba(240,236,227,0.05);
+      border-bottom: 1px solid var(--border);
+      padding: 8px 16px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .terminal-bar span {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem; letter-spacing: 0.12em; color: var(--cream-dim);
+    }
+    .tdot { width: 10px; height: 10px; border-radius: 50%; }
+    .tdot.r { background: #ff5f57; }
+    .tdot.y { background: #febc2e; }
+    .tdot.g { background: #28c840; }
+    .terminal-body { padding: 18px 22px; }
+    .terminal-body pre {
+      font-family: 'Courier New', monospace;
+      font-size: 0.82rem; color: var(--cream-dim);
+      line-height: 1.7; margin: 0; white-space: pre-wrap;
+    }
+    .terminal-body pre .cmd   { color: var(--orange); }
+    .terminal-body pre .ok    { color: #6fcf97; }
+    .terminal-body pre .dim   { color: rgba(240,236,227,0.35); }
+    .terminal-body pre .warn  { color: #f2c94c; }
+
+    /* ── RÈGLES FIREWALL ── */
+    .rule-row {
+      display: grid; grid-template-columns: 1fr 1fr 1fr auto;
+      gap: 0; border-bottom: 1px solid var(--border);
+      padding: 10px 14px; font-size: 0.83rem;
+      align-items: center;
+    }
+    .rule-row.header {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.13em; text-transform: uppercase;
+      color: var(--orange); background: rgba(232,93,4,0.04);
+    }
+    .rule-row .src { color: var(--cream); }
+    .rule-row .dst { color: var(--cream-dim); }
+    .rule-row .port { color: var(--orange); font-family: 'Barlow Condensed', monospace; font-size: 0.8rem; }
+    .badge-allow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em;
+      padding: 3px 9px; border-radius: 2px;
+      background: rgba(40,200,64,0.12); color: #6fcf97;
+    }
+    .badge-block {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em;
+      padding: 3px 9px; border-radius: 2px;
+      background: rgba(235,87,87,0.12); color: #eb5757;
+    }
+    .rules-box {
+      border: 1px solid var(--border);
+      border-radius: 2px; overflow: hidden;
+      margin: 20px 0 32px;
+    }
+
+    /* ── BOUTON PRÉSENTATION ── */
+    .pres-btn {
+      display: flex; flex-direction: column; gap: 0;
+      border: 1px solid var(--border-2);
+      border-radius: 2px; overflow: hidden;
+      text-decoration: none;
+      transition: border-color 0.25s;
+    }
+    .pres-btn:hover { border-color: var(--orange); }
+
+    .pres-btn-preview {
+      position: relative;
+      background: #0d0d0d;
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .pres-btn-preview svg { display: block; width: 100%; height: auto; }
+
+    .pres-btn-overlay {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 4px;
+      background: rgba(13,13,13,0.6);
+      opacity: 0; transition: opacity 0.2s;
+    }
+    .pres-btn:hover .pres-btn-overlay { opacity: 1; }
+    .pres-btn-overlay i {
+      font-size: 1.8rem; color: var(--orange);
+    }
+    .pres-btn-overlay span {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--cream);
+    }
+
+    .pres-btn-label {
+      padding: 12px 14px;
+      display: flex; flex-direction: column; gap: 3px;
+      background: rgba(240,236,227,0.02);
+    }
+    .pres-btn-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.82rem; font-weight: 700;
+      letter-spacing: 0.05em; color: var(--cream);
+    }
+    .pres-btn-sub {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.68rem; letter-spacing: 0.05em;
+      color: var(--orange);
+    }
+
+    /* ── SCHEMA NETWORK MINI ── */
+    .archi-visual {
+      border: 1px solid var(--border);
+      border-radius: 2px; padding: 28px;
+      margin: 20px 0 32px;
+      background: rgba(240,236,227,0.02);
+    }
+    .archi-visual svg { width: 100%; height: auto; display: block; }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width: 900px) {
+      .detail-grid { grid-template-columns: 1fr; gap: 40px; padding: 40px 20px; }
+      .detail-sidebar { border-right: none; border-bottom: 1px solid var(--border); padding-right: 0; padding-bottom: 40px; }
+      .detail-hero { padding: 100px 20px 40px; }
+      .zone-grid { grid-template-columns: 1fr; }
+      .rule-row { grid-template-columns: 1fr 1fr; gap: 6px; }
+    }
+    @media(max-width: 480px) {
+      .gate-inner { padding: 0 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+
+  <!-- ══════════════════════ GATE ══════════════════════ -->
+  <div id="gate">
+    <div class="gate-inner">
+      <i class="bi bi-shield-lock gate-lock"></i>
+      <div>
+        <div class="gate-eyebrow">Accès restreint</div>
+        <div class="gate-title">Projet<br/><em>Examen</em></div>
+      </div>
+      <p class="gate-desc">
+        Ce dossier technique est protégé.<br/>
+        Saisissez le mot de passe pour consulter l'infrastructure M2L.
+      </p>
+      <div class="gate-form">
+        <div class="gate-input-wrap">
+          <input
+            class="gate-input"
+            id="gate-input"
+            type="password"
+            placeholder="••••••••"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <button class="gate-toggle-vis" id="gate-vis" type="button" aria-label="Afficher / masquer">
+            <i class="bi bi-eye" id="gate-eye-icon"></i>
+          </button>
+        </div>
+        <div class="gate-error" id="gate-error">Mot de passe incorrect</div>
+        <button class="gate-btn" id="gate-btn" type="button">Déverrouiller →</button>
+      </div>
+      <p class="gate-hint">Ce document est confidentiel — usage pédagogique uniquement.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════ CONTENU ══════════════════════ -->
+  <div id="content">
+
+    <nav id="nav" class="scrolled">
+      <div class="nav-left"><span class="nav-index">©2026</span></div>
+      <div class="nav-center"><a href="/" class="nav-logo">BERNARD THIERY</a></div>
+      <div class="nav-right"><a href="/" class="nav-cta"><span class="cta-arrow">←</span> Retour</a></div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="detail-hero">
+      <div class="detail-category">Projet Examen — BTS SIO SISR</div>
+      <h1 class="detail-title">Infrastructure<br/>Sécurisée M2L</h1>
+      <p style="font-size:0.9rem;color:var(--cream-dim);line-height:1.7;max-width:560px;margin-bottom:24px;">
+        Conception, déploiement et sécurisation d'une infrastructure complète pour la Maison des Ligues —
+        segmentation réseau, services publiés, supervision et protection contre la force brute.
+      </p>
+      <div class="detail-tags">
+        <span>Proxmox PVE</span>
+        <span>Zyxel USG40</span>
+        <span>DMZ / LAN</span>
+        <span>Zabbix 7.0</span>
+        <span>vsftpd + Fail2ban</span>
+        <span>MariaDB</span>
+        <span>Apache / PHP</span>
+        <span>NAT / ACL</span>
+      </div>
+    </section>
+
+    <!-- GRID -->
+    <section class="detail-grid">
+      <aside class="detail-sidebar">
+
+        <div class="info-block">
+          <div class="info-label">Infos Projet</div>
+          <div class="info-val"><strong>Auteur :</strong> Bernard Thiery</div>
+          <div class="info-val"><strong>Version :</strong> 1.0</div>
+          <div class="info-val"><strong>Date :</strong> 13 Mai 2026</div>
+          <div class="info-val"><strong>Contexte :</strong> Épreuve BTS SIO SISR</div>
+        </div>
+
+        <div class="info-block">
+          <div class="info-label">Équipements physiques</div>
+          <div class="info-val"><i class="bi bi-server" style="color:var(--orange);margin-right:6px;"></i><strong>Proxmox</strong> PVE-labo-0C</div>
+          <div class="info-val"><i class="bi bi-shield-check" style="color:var(--orange);margin-right:6px;"></i><strong>Zyxel</strong> USG40</div>
+          <div class="info-val"><i class="bi bi-hdd-network" style="color:var(--orange);margin-right:6px;"></i><strong>Switch</strong> générique (sans VLAN)</div>
+        </div>
+
+        <div class="info-block">
+          <div class="info-label">VMs déployées</div>
+          <div class="info-val"><strong>SRV-WEB</strong> — 10.0.40.10</div>
+          <div class="info-val"><strong>SRV-FTP</strong> — 10.0.40.20</div>
+          <div class="info-val"><strong>DEB-BASKET</strong> — 10.0.20.60</div>
+          <div class="info-val"><strong>SRV-MONITOR</strong> — 10.0.20.80</div>
+        </div>
+
+        <div class="info-block">
+          <div class="info-label">Principes appliqués</div>
+          <div class="info-val">✦ Moindre privilège</div>
+          <div class="info-val">✦ Défense en profondeur</div>
+          <div class="info-val">✦ Micro-segmentation SQL</div>
+          <div class="info-val">✦ Supervision temps réel</div>
+        </div>
+
+        <div class="info-block">
+          <div class="info-label">Schéma animé</div>
+          <a href="/projets/m2l/presentation.html" class="pres-btn" id="pres-link">
+            <div class="pres-btn-preview">
+              <svg viewBox="0 0 160 90" xmlns="http://www.w3.org/2000/svg">
+                <rect x="4" y="4" width="152" height="82" rx="6" fill="#0d0d0d" stroke="rgba(232,93,4,0.3)" stroke-width="1"/>
+                <rect x="14" y="12" width="60" height="18" rx="3" fill="rgba(232,93,4,0.08)" stroke="rgba(248,81,73,0.5)" stroke-width="0.8"/>
+                <text font-family="Barlow Condensed,sans-serif" font-size="7" font-weight="700" x="44" y="24" text-anchor="middle" fill="#f85149">Zyxel USG40</text>
+                <line x1="44" y1="30" x2="44" y2="42" stroke="rgba(110,118,129,0.6)" stroke-width="0.8"/>
+                <rect x="22" y="42" width="42" height="14" rx="2" fill="#1c2128" stroke="rgba(68,76,86,0.8)" stroke-width="0.8"/>
+                <text font-family="Barlow Condensed,sans-serif" font-size="6" font-weight="700" x="43" y="52" text-anchor="middle" fill="#e6edf3">Switch</text>
+                <line x1="44" y1="56" x2="44" y2="66" stroke="rgba(110,118,129,0.6)" stroke-width="0.8"/>
+                <rect x="16" y="66" width="56" height="14" rx="2" fill="#1e1a2e" stroke="rgba(163,113,247,0.7)" stroke-width="0.8"/>
+                <text font-family="Barlow Condensed,sans-serif" font-size="6" font-weight="700" x="44" y="76" text-anchor="middle" fill="#a371f7">Proxmox</text>
+                <line x1="88" y1="56" x2="88" y2="44" stroke="rgba(68,76,86,0.5)" stroke-width="0.7" stroke-dasharray="3 2"/>
+                <rect x="76" y="32" width="40" height="12" rx="2" fill="rgba(210,153,34,0.06)" stroke="rgba(210,153,34,0.5)" stroke-width="0.7" stroke-dasharray="3 2"/>
+                <text font-family="Barlow Condensed,sans-serif" font-size="5" x="96" y="41" text-anchor="middle" fill="#d29922">DMZ</text>
+                <line x1="116" y1="56" x2="116" y2="44" stroke="rgba(68,76,86,0.5)" stroke-width="0.7" stroke-dasharray="3 2"/>
+                <rect x="104" y="32" width="40" height="12" rx="2" fill="rgba(63,185,80,0.06)" stroke="rgba(63,185,80,0.5)" stroke-width="0.7" stroke-dasharray="3 2"/>
+                <text font-family="Barlow Condensed,sans-serif" font-size="5" x="124" y="41" text-anchor="middle" fill="#3fb950">LAN2</text>
+              </svg>
+              <div class="pres-btn-overlay">
+                <i class="bi bi-play-circle"></i>
+                <span>Lancer</span>
+              </div>
+            </div>
+            <div class="pres-btn-label">
+              <span class="pres-btn-title">Présentation animée</span>
+              <span class="pres-btn-sub">20 étapes · Cisco-style · Plein écran</span>
+            </div>
+          </a>
+        </div>
+
+      </aside>
+
+      <div class="detail-content">
+
+        <!-- 1. INTRO -->
+        <h2>1. Contexte et objectifs</h2>
+        <p>
+          Ce projet déploie l'infrastructure informatique complète de la <strong>Maison des Ligues (M2L)</strong>. L'objectif est de fournir un environnement de services Web, FTP et Base de données hautement sécurisé, segmenté en zones logiques et supervisé en temps réel, en tenant compte des contraintes matérielles du laboratoire de test.
+        </p>
+        <p>
+          Malgré l'absence de support VLAN sur le switch physique, la sécurité repose sur la segmentation logique du pare-feu Zyxel USG40 et un jeu de règles ACL strict appliquant le principe du <strong>moindre privilège</strong>.
+        </p>
+
+        <!-- 2. ARCHITECTURE PHYSIQUE -->
+        <h2 style="margin-top:50px;">2. Architecture physique</h2>
+        <p>
+          L'infrastructure repose sur un triptyque matériel : le serveur Proxmox héberge toutes les VMs sous Debian 12 ; le Zyxel USG40 assure le routage inter-zones, le filtrage ACL et la gestion NAT ; le switch générique interconnecte les deux.
+        </p>
+
+        <div class="archi-visual">
+          <svg viewBox="0 0 640 180" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </marker>
+            </defs>
+            <!-- Internet -->
+            <ellipse cx="80" cy="90" rx="54" ry="30" fill="#1c2b3a" stroke="#378ADD" stroke-width="1.5"/>
+            <text font-family="Barlow Condensed,sans-serif" font-size="12" font-weight="700" x="80" y="86" text-anchor="middle" fill="#58a6ff">Internet</text>
+            <text font-family="Barlow Condensed,sans-serif" font-size="10" x="80" y="100" text-anchor="middle" fill="#378ADD">WAN</text>
+            <!-- Arrow -->
+            <line x1="134" y1="90" x2="174" y2="90" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+            <!-- Zyxel -->
+            <rect x="174" y="62" width="130" height="56" rx="4" fill="#2d1515" stroke="#f85149" stroke-width="1.5"/>
+            <text font-family="Barlow Condensed,sans-serif" font-size="12" font-weight="700" x="239" y="86" text-anchor="middle" fill="#ff7b72">Zyxel USG40</text>
+            <text font-family="Barlow Condensed,sans-serif" font-size="9" x="239" y="100" text-anchor="middle" fill="#f85149">Pare-feu / NAT / ACL</text>
+            <text font-family="Barlow Condensed,sans-serif" font-size="9" x="239" y="112" text-anchor="middle" fill="#da3633">192.168.193.122</text>
+            <!-- Arrow -->
+            <line x1="304" y1="90" x2="344" y2="90" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+            <!-- Switch -->
+            <rect x="344" y="70" width="110" height="40" rx="4" fill="#1c2128" stroke="#444c56" stroke-width="1.5"/>
+            <text font-family="Barlow Condensed,sans-serif" font-size="12" font-weight="700" x="399" y="88" text-anchor="middle" fill="#e6edf3">Switch</text>
+            <text font-family="Barlow Condensed,sans-serif" font-size="9" x="399" y="101" text-anchor="middle" fill="#6e7681">Sans VLAN</text>
+            <!-- Arrow -->
+            <line x1="454" y1="90" x2="494" y2="90" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+            <!-- Proxmox -->
+            <rect x="494" y="56" width="130" height="68" rx="4" fill="#1e1a2e" stroke="#a371f7" stroke-width="1.5"/>
+            <text font-family="Barlow Condensed,sans-serif" font-size="12" font-weight="700" x="559" y="80" text-anchor="middle" fill="#cae8ff">Proxmox</text>
+            <text font-family="Barlow Condensed,sans-serif" font-size="9" x="559" y="93" text-anchor="middle" fill="#a371f7">PVE-labo-0C</text>
+            <text font-family="Barlow Condensed,sans-serif" font-size="9" x="559" y="106" text-anchor="middle" fill="#8b949e">KVM + LXC</text>
+            <text font-family="Barlow Condensed,sans-serif" font-size="9" x="559" y="118" text-anchor="middle" fill="#6e7681">Debian 12</text>
+          </svg>
+        </div>
+
+        <!-- 3. PLAN D'ADRESSAGE -->
+        <h2 style="margin-top:50px;">3. Plan d'adressage et segmentation</h2>
+        <p>
+          L'infrastructure est découpée en quatre zones de sécurité distinctes gérées par les interfaces du Zyxel USG40. L'adressage est intégralement statique — aucun serveur DHCP n'a été déployé afin d'éviter tout conflit avec les projets tiers partageant le même segment réseau physique.
+        </p>
+
+        <div class="zone-grid">
+          <div class="zone-card">
+            <div class="zone-label">WAN — P1 (wan1)</div>
+            <h4>Zone Internet</h4>
+            <p>Accès Internet et proxy école</p>
+            <div class="zone-net">192.168.193.122 / 24</div>
+          </div>
+          <div class="zone-card">
+            <div class="zone-label">LAN1 — P2 (lan1)</div>
+            <h4>Zone Admin</h4>
+            <p>Poste d'administration isolé</p>
+            <div class="zone-net">172.16.10.254 / 24</div>
+          </div>
+          <div class="zone-card">
+            <div class="zone-label">DMZ — P4 (dmz)</div>
+            <h4>Zone Publique</h4>
+            <p>SRV-WEB (Apache/PHP) · SRV-FTP (vsftpd)</p>
+            <div class="zone-net">10.0.40.254 / 24</div>
+          </div>
+          <div class="zone-card">
+            <div class="zone-label">LAN2 — P3 (lan2)</div>
+            <h4>Zone Données</h4>
+            <p>DEB-BASKET (MariaDB) · SRV-MONITOR (Zabbix)</p>
+            <div class="zone-net">10.0.20.254 / 24</div>
+          </div>
+        </div>
+
+        <p>Contrainte appliquée : les adresses finissant par <code>.1</code>, <code>.50</code>, <code>.100</code> et <code>.200</code> sont proscrites sur tous les segments.</p>
+
+        <!-- 4. INVENTAIRE VMs -->
+        <h2 style="margin-top:50px;">4. Inventaire des machines virtuelles</h2>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Nom VM</th>
+              <th>Adresse IP</th>
+              <th>OS</th>
+              <th>Rôle principal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>SRV-WEB</td>
+              <td style="font-family:monospace;color:var(--orange)">10.0.40.10</td>
+              <td>Debian 12</td>
+              <td>Apache / PHP — Portail M2L</td>
+            </tr>
+            <tr>
+              <td>SRV-FTP</td>
+              <td style="font-family:monospace;color:var(--orange)">10.0.40.20</td>
+              <td>Debian 12</td>
+              <td>vsftpd + Fail2ban</td>
+            </tr>
+            <tr>
+              <td>DEB-BASKET</td>
+              <td style="font-family:monospace;color:var(--orange)">10.0.20.60</td>
+              <td>Debian 12</td>
+              <td>Base de données MariaDB</td>
+            </tr>
+            <tr>
+              <td>SRV-MONITOR</td>
+              <td style="font-family:monospace;color:var(--orange)">10.0.20.80</td>
+              <td>Debian 12</td>
+              <td>Zabbix 7.0 — Supervision</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- 5. POLITIQUE SECURITE -->
+        <h2 style="margin-top:50px;">5. Politique de sécurité et filtrage</h2>
+        <p>
+          Le pare-feu Zyxel USG40 applique le principe du <strong>moindre privilège</strong> via des objets nommés et des règles de Security Policy. Quatre règles structurent les échanges inter-zones.
+        </p>
+
+        <div class="rules-box">
+          <div class="rule-row header">
+            <span>Source</span>
+            <span>Destination</span>
+            <span>Port</span>
+            <span>Action</span>
+          </div>
+          <div class="rule-row">
+            <span class="src">SRV-WEB (DMZ)</span>
+            <span class="dst">DEB-BASKET (LAN2)</span>
+            <span class="port">TCP 3306</span>
+            <span><span class="badge-allow">Autorisé</span></span>
+          </div>
+          <div class="rule-row">
+            <span class="src">Toutes zones</span>
+            <span class="dst">SRV-MONITOR (LAN2)</span>
+            <span class="port">TCP 10051</span>
+            <span><span class="badge-allow">Autorisé</span></span>
+          </div>
+          <div class="rule-row">
+            <span class="src">WAN (Internet)</span>
+            <span class="dst">SRV-WEB / SRV-FTP / ZBX</span>
+            <span class="port">NAT :8080 / :21 / :8081</span>
+            <span><span class="badge-allow">NAT</span></span>
+          </div>
+          <div class="rule-row">
+            <span class="src">DMZ / LAN2</span>
+            <span class="dst">LAN1 (Admin)</span>
+            <span class="port">Tout</span>
+            <span><span class="badge-block">Bloqué</span></span>
+          </div>
+        </div>
+
+        <!-- 6. SRV-FTP -->
+        <h2 style="margin-top:50px;">6. Serveur FTP sécurisé (SRV-FTP)</h2>
+        <p>
+          Le serveur FTP est configuré avec <strong>vsftpd</strong> en mode <em>chroot</em> pour emprisonner chaque utilisateur dans son répertoire. Les logs de transfert sont activés et exploités par Fail2ban pour bloquer automatiquement les tentatives de force brute.
+        </p>
+
+        <div class="terminal-block">
+          <div class="terminal-bar">
+            <div class="tdot r"></div><div class="tdot y"></div><div class="tdot g"></div>
+            <span>/etc/vsftpd.conf</span>
+          </div>
+          <div class="terminal-body">
+            <pre><span class="dim">anonymous_enable=</span><span class="cmd">NO</span>
+<span class="dim">local_enable=</span><span class="ok">YES</span>
+<span class="dim">write_enable=</span><span class="ok">YES</span>
+<span class="dim">local_umask=</span><span class="warn">022</span>
+<span class="dim">chroot_local_user=</span><span class="ok">YES</span>
+<span class="dim">allow_writeable_chroot=</span><span class="ok">YES</span>
+<span class="dim">xferlog_enable=</span><span class="ok">YES</span>
+<span class="dim">vsftpd_log_file=</span>/var/log/vsftpd.log</pre>
+          </div>
+        </div>
+
+        <p>Structure des répertoires partagés par ligue :</p>
+        <ul>
+          <li><code>/srv/ftp/basket/</code> — propriétaire : <strong>user_basket</strong></li>
+          <li><code>/srv/ftp/escrime/</code> — propriétaire : <strong>user_escrime</strong></li>
+        </ul>
+
+        <div class="terminal-block">
+          <div class="terminal-bar">
+            <div class="tdot r"></div><div class="tdot y"></div><div class="tdot g"></div>
+            <span>/etc/fail2ban/jail.local</span>
+          </div>
+          <div class="terminal-body">
+            <pre><span class="warn">[vsftpd]</span>
+<span class="dim">enabled  = </span><span class="ok">true</span>
+<span class="dim">port     = </span>ftp,ftp-data,ftps,ftps-data
+<span class="dim">filter   = </span>vsftpd
+<span class="dim">logpath  = </span>/var/log/vsftpd.log
+<span class="dim">maxretry = </span><span class="warn">3</span>
+<span class="dim">bantime  = </span><span class="warn">3600</span>
+<span class="dim">findtime = </span>600</pre>
+          </div>
+        </div>
+
+        <!-- 7. SUPERVISION ZABBIX -->
+        <h2 style="margin-top:50px;">7. Supervision centralisée — Zabbix 7.0</h2>
+        <p>
+          Chaque serveur utilise <strong>Zabbix Agent 2</strong> configuré en mode <em>actif</em>, ce qui permet aux agents d'initier la connexion vers le serveur de supervision (port <code>10051</code>) sans nécessiter d'ouverture de flux entrants depuis le LAN2 vers la DMZ.
+        </p>
+
+        <div class="terminal-block">
+          <div class="terminal-bar">
+            <div class="tdot r"></div><div class="tdot y"></div><div class="tdot g"></div>
+            <span>zabbix_agent2.conf — SRV-FTP</span>
+          </div>
+          <div class="terminal-body">
+            <pre><span class="dim">Server=</span><span class="ok">10.0.20.80</span>
+<span class="dim">ServerActive=</span><span class="ok">10.0.20.80</span>
+<span class="dim">Hostname=</span><span class="warn">SRV-FTP</span></pre>
+          </div>
+        </div>
+
+        <p>Items de monitoring spécifiques déployés sur SRV-FTP :</p>
+        <ul>
+          <li><code>log[/var/log/vsftpd.log,"FAIL LOGIN"]</code> → déclenche une alerte <strong>Tentative d'intrusion FTP</strong></li>
+          <li><code>log[/var/log/vsftpd.log,"DELETE|RENAME|MKDIR"]</code> → surveille les modifications structurelles des dossiers partagés</li>
+          <li>Trigger actif si Fail2ban bannit une IP — analysé via <code>/var/log/fail2ban.log</code></li>
+        </ul>
+
+        <!-- 8. CHOIX TECHNIQUES -->
+        <h2 style="margin-top:50px;">8. Choix techniques et contraintes</h2>
+        <ul>
+          <li><strong>Absence de VLANs :</strong> le switch physique ne supportant pas le marquage 802.1Q, l'isolation repose exclusivement sur la segmentation logique du pare-feu</li>
+          <li><strong>Adressage statique :</strong> aucun DHCP déployé afin d'éviter tout conflit avec les projets tiers du même segment réseau</li>
+          <li><strong>Objets nommés Zyxel :</strong> <code>ADDR_SRV_WEB</code>, <code>ADDR_DB_BASKET</code>, <code>SERVICE_MYSQL</code>, <code>SERVICE_ZABBIX_AGENT</code> — simplifient la lecture et la maintenance des règles ACL</li>
+          <li><strong>Zabbix Agent 2 en mode actif :</strong> traverse plus facilement le pare-feu sans nécessiter de règles de retour complexes</li>
+          <li><strong>Fail2ban sur vsftpd :</strong> bannissement automatique après 3 tentatives échouées en 10 minutes, pour 1 heure</li>
+        </ul>
+
+        <!-- 9. BILAN -->
+        <h2 style="margin-top:50px;">9. Bilan</h2>
+        <p>
+          L'infrastructure M2L est opérationnelle. La segmentation via le Zyxel USG40 garantit un niveau de sécurité élevé malgré les limitations matérielles. La micro-segmentation SQL, l'isolation de la zone admin, la protection Fail2ban sur le FTP et la supervision temps réel via Zabbix offrent une visibilité et une sécurité complètes sur l'ensemble des services déployés.
+        </p>
+        <ul>
+          <li>4 zones de sécurité isolées sur un seul pare-feu physique</li>
+          <li>4 VMs Debian 12 hébergées sur Proxmox avec des rôles strictement définis</li>
+          <li>Accès publics publiés via NAT avec ports remappés (8080, 21, 8081)</li>
+          <li>Supervision active de tous les hôtes — alertes et logs centralisés sur SRV-MONITOR</li>
+        </ul>
+
+      </div>
+    </section>
+
+    <footer>
+      <span>© 2026 Bernard Thiery</span>
+      <span>BTS SIO SISR · Reims</span>
+      <a href="/rgpd/">RGPD</a>
+    </footer>
+
+  </div><!-- /content -->
+
+  <script>
+  (function () {
+    const HASH = '81d93757457f988523814ae0009837ae893f38d3fe123f2c37896f118b4c7804';
+
+    async function sha256(str) {
+      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function tryUnlock() {
+      const val = document.getElementById('gate-input').value;
+      const h = await sha256(val);
+      const errEl = document.getElementById('gate-error');
+      const inputEl = document.getElementById('gate-input');
+
+      if (h === HASH) {
+        document.getElementById('gate').classList.add('unlocked');
+        document.getElementById('content').classList.add('revealed');
+        setTimeout(() => {
+          document.getElementById('gate').style.display = 'none';
+        }, 600);
+      } else {
+        errEl.classList.add('show');
+        inputEl.classList.add('error');
+        setTimeout(() => {
+          inputEl.classList.remove('error');
+          errEl.classList.remove('show');
+        }, 1800);
+      }
+    }
+
+    document.getElementById('gate-btn').addEventListener('click', tryUnlock);
+    document.getElementById('gate-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') tryUnlock();
+    });
+
+    /* Toggle visibilité mot de passe */
+    const vis = document.getElementById('gate-vis');
+    const inp = document.getElementById('gate-input');
+    const ico = document.getElementById('gate-eye-icon');
+    vis.addEventListener('click', () => {
+      const hidden = inp.type === 'password';
+      inp.type = hidden ? 'text' : 'password';
+      ico.className = hidden ? 'bi bi-eye-slash' : 'bi bi-eye';
+    });
+  })();
+  </script>
+
+  <script src="/main.js"></script>
+</body>
+</html>
