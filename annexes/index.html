@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Annexes BTS SIO 2026 - Bernard Thiery</title>
+  <link rel="icon" type="image/png" href="/images/bernard.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,900;1,900&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"/>
+  <link rel="stylesheet" href="/style.css"/>
+  <style>
+    .detail-hero{padding:120px 40px 60px;border-bottom:1px solid var(--border)}
+    .detail-title{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(2.4rem,6vw,4.5rem);color:var(--cream);line-height:1;margin-bottom:24px}
+    .detail-subtitle{font-size:.95rem;color:var(--cream-dim);max-width:600px;line-height:1.7;margin-bottom:30px}
+    .detail-tags{display:flex;gap:10px;flex-wrap:wrap}
+    .detail-tags span{font-family:'Barlow Condensed',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--orange);border:1px solid var(--orange-dim);padding:5px 12px;border-radius:2px}
+
+    /* ── GRILLE ANNEXES ── */
+    .annexes-section{padding:80px 40px;border-bottom:1px solid var(--border)}
+    .annexes-section:last-child{border-bottom:none}
+    .section-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:40px;gap:20px;flex-wrap:wrap}
+    .section-header h2{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(1.8rem,3.5vw,2.8rem);color:var(--cream);line-height:1.1}
+    .section-header h2 em{font-style:italic;color:var(--orange)}
+    .section-header p{font-size:.88rem;color:var(--cream-dim);max-width:320px;line-height:1.7}
+
+    .annexes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:2px;background:var(--border)}
+    .annexe-card{background:var(--ink);padding:32px 28px;display:flex;flex-direction:column;gap:16px;transition:background .3s;text-decoration:none}
+    .annexe-card:hover{background:var(--ink-2)}
+    .annexe-num{font-family:'Barlow Condensed',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.18em;color:var(--orange);text-transform:uppercase}
+    .annexe-card h3{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.1rem;letter-spacing:.04em;color:var(--cream);line-height:1.3;margin:0}
+    .annexe-card p{font-size:.84rem;color:var(--cream-dim);line-height:1.6;margin:0;flex:1}
+    .annexe-meta{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+    .annexe-type{font-family:'Barlow Condensed',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:2px}
+    .type-pdf{background:rgba(248,81,73,.12);color:#f85149;border:1px solid rgba(248,81,73,.2)}
+    .type-xlsx{background:rgba(129,199,132,.12);color:#81c784;border:1px solid rgba(129,199,132,.2)}
+    .annexe-action{font-family:'Barlow Condensed',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.1em;color:var(--orange);display:flex;align-items:center;gap:6px;transition:gap .2s}
+    .annexe-card:hover .annexe-action{gap:10px}
+
+    /* ── PDF VIEWER EMBED ── */
+    .pdf-viewer-section{padding:80px 40px}
+    .pdf-viewer-section h2{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.4rem;color:var(--cream);margin-bottom:20px;letter-spacing:.08em;text-transform:uppercase;border-left:3px solid var(--orange);padding-left:14px}
+    .pdf-tabs{display:flex;gap:2px;margin-bottom:2px;background:var(--border)}
+    .pdf-tab{flex:1;font-family:'Barlow Condensed',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:12px 20px;background:var(--ink-2);color:var(--cream-dim);border:none;cursor:pointer;transition:background .2s,color .2s}
+    .pdf-tab.active{background:var(--orange);color:var(--ink)}
+    .pdf-tab:hover:not(.active){background:var(--ink);color:var(--cream)}
+    .pdf-frame-wrap{position:relative}
+    .pdf-frame{display:none;width:100%;height:800px;border:1px solid var(--border);border-radius:0 0 2px 2px}
+    .pdf-frame.active{display:block}
+    .pdf-frame-fallback{display:none;padding:40px;background:var(--ink-2);border:1px solid var(--border);text-align:center}
+    .pdf-frame-fallback p{color:var(--cream-dim);font-size:.9rem;margin-bottom:16px}
+
+    @media(max-width:768px){
+      .annexes-section,.pdf-viewer-section{padding:60px 20px}
+      .detail-hero{padding:100px 20px 50px}
+      .pdf-frame{height:500px}
+      .pdf-tabs{flex-direction:column}
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <nav id="nav" class="scrolled">
+    <div class="nav-left"><span class="nav-index">©2026</span></div>
+    <div class="nav-center"><a href="/" class="nav-logo">BERNARD THIERY</a></div>
+    <div class="nav-right"><a href="/" class="nav-cta"><span class="cta-arrow">←</span> Retour</a></div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="detail-hero">
+    <div class="section-index">BTS SIO SISR — SESSION 2026</div>
+    <h1 class="detail-title">Annexes<br/><em style="font-style:italic;color:var(--orange);">Épreuves E5 &amp; E6</em></h1>
+    <p class="detail-subtitle">Documents officiels à destination du jury — grilles d'évaluation, fiches descriptives de réalisations professionnelles, contrôles de conformité et tableau de synthèse des compétences mobilisées.</p>
+    <div class="detail-tags">
+      <span>Épreuve E5</span><span>Épreuve E6</span><span>Option SISR</span><span>Session 2026</span>
+    </div>
+  </section>
+
+  <!-- SECTION E6 -->
+  <section class="annexes-section">
+    <div class="section-header">
+      <div>
+        <div class="section-index">ÉPREUVE E6 — COEFFICIENT 4</div>
+        <h2>Administration des<br/><em>systèmes &amp; réseaux</em></h2>
+      </div>
+      <p>Dossier numérique constitué des fiches descriptives des deux réalisations professionnelles, des schémas d'infrastructure, et de la grille d'aide à l'évaluation.</p>
+    </div>
+    <div class="annexes-grid">
+
+      <a href="/fichiers/annexe_e6.pdf" target="_blank" class="annexe-card">
+        <div class="annexe-num">Annexe VII</div>
+        <h3>Dossier complet — Épreuve E6</h3>
+        <p>Fiches descriptives des deux réalisations professionnelles (architecture réseau M2L + supervision SOC Zabbix), grilles d'évaluation, contrôle de conformité et organisation de l'épreuve.</p>
+        <div class="annexe-meta">
+          <span class="annexe-type type-pdf"><i class="bi bi-file-earmark-pdf"></i> PDF</span>
+          <span class="annexe-action">Ouvrir <i class="bi bi-arrow-right"></i></span>
+        </div>
+      </a>
+
+      <a href="/projets/m2l-projet1" class="annexe-card">
+        <div class="annexe-num">Réalisation n°1</div>
+        <h3>Architecture Réseau Périmétrique &amp; Application N-Tier</h3>
+        <p>Infrastructure multi-zones (DMZ/LAN) sur Zyxel USG40, application 3-Tiers Apache/PHP/MariaDB, SFTP sécurisé, Fail2Ban. Documentation complète avec schémas interactifs.</p>
+        <div class="annexe-meta">
+          <span class="annexe-type" style="background:rgba(232,93,4,.12);color:var(--orange);border:1px solid var(--orange-dim)"><i class="bi bi-diagram-3"></i> Page projet</span>
+          <span class="annexe-action">Voir le projet <i class="bi bi-arrow-right"></i></span>
+        </div>
+      </a>
+
+      <a href="/projets/m2l-projet2" class="annexe-card">
+        <div class="annexe-num">Réalisation n°2</div>
+        <h3>Supervision SOC &amp; Centre de Cyber-Vigilance</h3>
+        <p>Déploiement Zabbix 7.0 LTS en architecture Maître/Agents, FIM sur sshd_config, dashboard SOC temps réel, corrélation des bannissements Fail2Ban.</p>
+        <div class="annexe-meta">
+          <span class="annexe-type" style="background:rgba(232,93,4,.12);color:var(--orange);border:1px solid var(--orange-dim)"><i class="bi bi-eye"></i> Page projet</span>
+          <span class="annexe-action">Voir le projet <i class="bi bi-arrow-right"></i></span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- SECTION E5 -->
+  <section class="annexes-section">
+    <div class="section-header">
+      <div>
+        <div class="section-index">ÉPREUVE E5 — COEFFICIENT 4</div>
+        <h2>Support &amp; mise à<br/><em>disposition de services</em></h2>
+      </div>
+      <p>Portfolio retraçant le parcours de professionnalisation, tableau de synthèse des réalisations et grille d'évaluation des compétences du bloc.</p>
+    </div>
+    <div class="annexes-grid">
+
+      <a href="/fichiers/annexe_e5.pdf" target="_blank" class="annexe-card">
+        <div class="annexe-num">Annexe VI</div>
+        <h3>Dossier complet — Épreuve E5</h3>
+        <p>Déroulement et évaluation de l'épreuve E5, modèle de fiche de contrôle de conformité, grille d'aide à l'évaluation (recto/verso) et fiche d'appréciation destinée au candidat.</p>
+        <div class="annexe-meta">
+          <span class="annexe-type type-pdf"><i class="bi bi-file-earmark-pdf"></i> PDF</span>
+          <span class="annexe-action">Ouvrir <i class="bi bi-arrow-right"></i></span>
+        </div>
+      </a>
+
+      <a href="/fichiers/tableau_synthese_e5.xlsx" target="_blank" class="annexe-card">
+        <div class="annexe-num">Annexe VI-1</div>
+        <h3>Tableau de Synthèse des Réalisations</h3>
+        <p>Fichier au format Office Open XML (.xlsx) récapitulant l'ensemble des réalisations professionnelles présentées dans le portfolio, avec les compétences mobilisées et les périodes de réalisation.</p>
+        <div class="annexe-meta">
+          <span class="annexe-type type-xlsx"><i class="bi bi-file-earmark-spreadsheet"></i> XLSX</span>
+          <span class="annexe-action">Ouvrir <i class="bi bi-arrow-right"></i></span>
+        </div>
+      </a>
+
+      <a href="/" class="annexe-card">
+        <div class="annexe-num">Portfolio</div>
+        <h3>Portfolio de Professionnalisation</h3>
+        <p>Support numérique retraçant le parcours de formation — projets techniques, veilles technologiques, expériences terrain au CHU de Reims, certifications Fortinet NSE 1·2·3.</p>
+        <div class="annexe-meta">
+          <span class="annexe-type" style="background:rgba(88,166,255,.12);color:#58a6ff;border:1px solid rgba(88,166,255,.2)"><i class="bi bi-globe"></i> Site web</span>
+          <span class="annexe-action">Voir le portfolio <i class="bi bi-arrow-right"></i></span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- VISIONNEUSE PDF INTÉGRÉE -->
+  <section class="pdf-viewer-section">
+    <h2>Visualisation directe des documents</h2>
+    <div class="pdf-tabs">
+      <button class="pdf-tab active" onclick="switchTab('e6')"><i class="bi bi-file-earmark-pdf"></i> Annexe E6</button>
+      <button class="pdf-tab" onclick="switchTab('e5')"><i class="bi bi-file-earmark-pdf"></i> Annexe E5</button>
+    </div>
+    <div class="pdf-frame-wrap">
+      <iframe id="frame-e6" class="pdf-frame active" src="/fichiers/annexe_e6.pdf" title="Annexe E6"></iframe>
+      <iframe id="frame-e5" class="pdf-frame" src="" data-src="/fichiers/annexe_e5.pdf" title="Annexe E5"></iframe>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 Bernard Thiery</span><span>BTS SIO SISR · Reims</span>
+    <a href="/rgpd/">RGPD</a><a href="/sources/">Sources</a>
+  </footer>
+  <script src="/main.js"></script>
+  <script>
+    function switchTab(id) {
+      document.querySelectorAll('.pdf-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.pdf-frame').forEach(f => f.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+      const frame = document.getElementById('frame-' + id);
+      // Lazy load
+      if (frame.dataset.src && !frame.src.includes(frame.dataset.src)) {
+        frame.src = frame.dataset.src;
+      }
+      frame.classList.add('active');
+    }
+  </script>
+</body>
+</html>

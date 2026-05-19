@@ -783,52 +783,95 @@
     </div>
   </section>
 
-    <!-- PROJET EXAMEN -->
+<!-- ÉPREUVE E6 -->
     <div class="proj-section-block reveal">
-      <div class="proj-category-label">Projet Examen <span class="proj-cat-count">- 01</span></div>
+      <div class="proj-category-label">Épreuve E6 <span class="proj-cat-count">- 02</span></div>
       <div class="proj-grid" style="grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));">
  
-        <a href="projets/m2l" class="proj-card" style="border:1px solid var(--orange-dim);">
-          <div class="proj-img" style="background:linear-gradient(135deg,#1a0e06 0%,#0d0d0d 100%);display:flex;align-items:center;justify-content:center;min-height:220px;position:relative;overflow:hidden;">
-            <!-- Schéma réseau SVG minimaliste en fond -->
-            <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:0.18;" viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg">
-              <rect x="160" y="10" width="80" height="32" rx="4" fill="none" stroke="#e85d04" stroke-width="1.5"/>
-              <text font-family="monospace" font-size="9" x="200" y="30" text-anchor="middle" fill="#e85d04">Zyxel USG40</text>
-              <line x1="200" y1="42" x2="200" y2="68" stroke="#e85d04" stroke-width="1"/>
-              <rect x="150" y="68" width="100" height="28" rx="4" fill="none" stroke="#888" stroke-width="1"/>
-              <text font-family="monospace" font-size="9" x="200" y="86" text-anchor="middle" fill="#888">Switch</text>
-              <line x1="200" y1="96" x2="200" y2="116" stroke="#888" stroke-width="1"/>
-              <rect x="130" y="116" width="140" height="28" rx="4" fill="none" stroke="#a371f7" stroke-width="1.5"/>
-              <text font-family="monospace" font-size="9" x="200" y="134" text-anchor="middle" fill="#a371f7">Proxmox PVE-labo-0C</text>
-              <!-- DMZ -->
-              <line x1="200" y1="144" x2="80" y2="164" stroke="#d29922" stroke-width="1" stroke-dasharray="3 2"/>
-              <rect x="20" y="164" width="120" height="42" rx="4" fill="none" stroke="#d29922" stroke-width="1"/>
-              <text font-family="monospace" font-size="8" x="80" y="179" text-anchor="middle" fill="#d29922">DMZ 10.0.40.0/24</text>
-              <text font-family="monospace" font-size="7" x="80" y="193" text-anchor="middle" fill="#d29922">SRV-WEB · SRV-FTP</text>
-              <!-- LAN2 -->
-              <line x1="200" y1="144" x2="320" y2="164" stroke="#3fb950" stroke-width="1" stroke-dasharray="3 2"/>
-              <rect x="260" y="164" width="120" height="42" rx="4" fill="none" stroke="#3fb950" stroke-width="1"/>
-              <text font-family="monospace" font-size="8" x="320" y="179" text-anchor="middle" fill="#3fb950">LAN2 10.0.20.0/24</text>
-              <text font-family="monospace" font-size="7" x="320" y="193" text-anchor="middle" fill="#3fb950">MariaDB · Zabbix</text>
+        <!-- PROJET 1 -->
+        <a href="projets/m2l-projet1" class="proj-card" style="border:1px solid var(--orange-dim);">
+          <div class="proj-img" style="background:linear-gradient(135deg,#0d1a0d 0%,#0d0d0d 100%);display:flex;align-items:center;justify-content:center;min-height:220px;position:relative;overflow:hidden;">
+            <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.2;" viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg">
+              <defs><style>.ci1{stroke-dasharray:7 5;animation:cfd 1.4s linear infinite}.ci2{stroke-dasharray:7 5;animation:cfd 1.7s linear infinite}@keyframes cfd{to{stroke-dashoffset:-24}}</style>
+              <marker id="ci-o" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3z" fill="#e85d04"/></marker>
+              <marker id="ci-g" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3z" fill="#81c784"/></marker>
+              <marker id="ci-y" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3z" fill="#d29922"/></marker>
+              </defs>
+              <rect x="155" y="6" width="90" height="28" rx="3" fill="none" stroke="#e85d04" stroke-width="1.5"/>
+              <text font-family="monospace" font-size="8" x="200" y="24" text-anchor="middle" fill="#e85d04">Zyxel USG40</text>
+              <line x1="200" y1="34" x2="200" y2="58" stroke="#e85d04" stroke-width="1.5" class="ci1" marker-end="url(#ci-o)"/>
+              <line x1="200" y1="58" x2="75" y2="96" stroke="#a371f7" stroke-width="1" stroke-dasharray="4 3"/>
+              <line x1="200" y1="58" x2="200" y2="110" stroke="#81c784" stroke-width="1.5" class="ci2" marker-end="url(#ci-g)"/>
+              <line x1="200" y1="58" x2="325" y2="96" stroke="#d29922" stroke-width="1.5" class="ci1" marker-end="url(#ci-y)"/>
+              <rect x="20" y="96" width="110" height="50" rx="3" fill="none" stroke="#a371f7" stroke-width="1"/>
+              <text font-family="monospace" font-size="7" x="75" y="118" text-anchor="middle" fill="#a371f7">LAN1 Admin</text>
+              <rect x="145" y="110" width="110" height="60" rx="3" fill="none" stroke="#81c784" stroke-width="1.5"/>
+              <text font-family="monospace" font-size="7" x="200" y="134" text-anchor="middle" fill="#81c784">LAN2</text>
+              <text font-family="monospace" font-size="6.5" x="200" y="148" text-anchor="middle" fill="#81c784">DEB-BASKET</text>
+              <text font-family="monospace" font-size="6" x="200" y="162" text-anchor="middle" fill="#58a6ff" opacity=".8">SRV-MONITOR</text>
+              <rect x="270" y="96" width="110" height="80" rx="3" fill="none" stroke="#d29922" stroke-width="1.5"/>
+              <text font-family="monospace" font-size="7" x="325" y="115" text-anchor="middle" fill="#d29922">DMZ</text>
+              <text font-family="monospace" font-size="6.5" x="325" y="130" text-anchor="middle" fill="#d29922">SRV-WEB</text>
+              <text font-family="monospace" font-size="6.5" x="325" y="145" text-anchor="middle" fill="#d29922">SRV-FTP</text>
             </svg>
-            <!-- Icône verrou au centre -->
             <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:10px;">
-              <i class="bi bi-shield-lock" style="font-size:2.6rem;color:var(--orange);opacity:0.9;"></i>
-              <span style="font-family:'Barlow Condensed',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.18em;color:var(--orange);text-transform:uppercase;opacity:0.8;">Accès protégé</span>
+              <i class="bi bi-diagram-3-fill" style="font-size:2.6rem;color:var(--orange);opacity:.9;"></i>
+              <span style="font-family:'Barlow Condensed',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.18em;color:var(--orange);text-transform:uppercase;opacity:.8;">Architecture N-Tier</span>
             </div>
-            <div class="proj-hover-label">Accéder →</div>
+            <div class="proj-hover-label">Voir →</div>
           </div>
           <div class="proj-meta">
-            <span class="proj-num" style="color:var(--orange);">EXM</span>
+            <span class="proj-num" style="color:var(--orange);">E6·01</span>
             <div class="proj-info">
-              <h3>Infrastructure Sécurisée M2L</h3>
-              <p>Déploiement complet d'une infrastructure multi-zones — DMZ, LAN Admin, LAN Données — avec pare-feu Zyxel, supervision Zabbix et protection Fail2ban.</p>
+              <h3>Architecture Réseau Périmétrique</h3>
+              <p>Infrastructure multi-zones avec pare-feu Zyxel USG40, application 3-Tiers sécurisée, SFTP et Fail2Ban. Schémas réseau interactifs.</p>
               <div class="proj-tags">
-                <span>Proxmox</span>
-                <span>Zyxel USG40</span>
-                <span>Zabbix</span>
-                <span>Fail2ban</span>
-                <span>MariaDB</span>
+                <span>Proxmox</span><span>Zyxel USG40</span><span>DMZ</span>
+                <span>PHP/PDO</span><span>MariaDB</span><span>Fail2Ban</span>
+              </div>
+            </div>
+          </div>
+        </a>
+ 
+        <!-- PROJET 2 -->
+        <a href="projets/m2l-projet2" class="proj-card" style="border:1px solid var(--orange-dim);">
+          <div class="proj-img" style="background:linear-gradient(135deg,#0a0d1a 0%,#0d0d0d 100%);display:flex;align-items:center;justify-content:center;min-height:220px;position:relative;overflow:hidden;">
+            <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.2;" viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg">
+              <defs><style>.zi1{stroke-dasharray:7 5;animation:zfd 1.4s linear infinite}.zi2{stroke-dasharray:6 4;animation:zfd 1.8s linear infinite}.zi3{stroke-dasharray:5 4;animation:zfdr 1.3s linear infinite}@keyframes zfd{to{stroke-dashoffset:-24}}@keyframes zfdr{to{stroke-dashoffset:24}}</style>
+              <marker id="zi-b" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3z" fill="#58a6ff"/></marker>
+              <marker id="zi-r" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3z" fill="#f85149"/></marker>
+              </defs>
+              <rect x="135" y="6" width="130" height="40" rx="3" fill="none" stroke="#58a6ff" stroke-width="1.5"/>
+              <text font-family="monospace" font-size="7.5" x="200" y="22" text-anchor="middle" fill="#58a6ff">SRV-MONITOR</text>
+              <text font-family="monospace" font-size="6.5" x="200" y="36" text-anchor="middle" fill="#58a6ff" opacity=".7">Zabbix 7.0 LTS</text>
+              <line x1="200" y1="46" x2="100" y2="90" stroke="#58a6ff" stroke-width="1.5" class="zi1" marker-end="url(#zi-b)"/>
+              <line x1="200" y1="46" x2="300" y2="90" stroke="#58a6ff" stroke-width="1.5" class="zi2" marker-end="url(#zi-b)"/>
+              <rect x="25" y="90" width="150" height="80" rx="3" fill="none" stroke="#d29922" stroke-width="1.5"/>
+              <text font-family="monospace" font-size="7.5" x="100" y="108" text-anchor="middle" fill="#d29922">SRV-WEB</text>
+              <rect x="40" y="116" width="120" height="20" rx="2" fill="none" stroke="#58a6ff" stroke-width="1"/>
+              <text font-family="monospace" font-size="6.5" x="100" y="130" text-anchor="middle" fill="#58a6ff">zabbix-agent</text>
+              <rect x="225" y="90" width="150" height="100" rx="3" fill="none" stroke="#d29922" stroke-width="1.5"/>
+              <text font-family="monospace" font-size="7.5" x="300" y="108" text-anchor="middle" fill="#d29922">SRV-FTP</text>
+              <rect x="240" y="116" width="120" height="20" rx="2" fill="none" stroke="#58a6ff" stroke-width="1"/>
+              <text font-family="monospace" font-size="6.5" x="300" y="130" text-anchor="middle" fill="#58a6ff">zabbix-agent</text>
+              <rect x="240" y="144" width="120" height="18" rx="2" fill="none" stroke="#f85149" stroke-width="1"/>
+              <text font-family="monospace" font-size="6" x="300" y="157" text-anchor="middle" fill="#f85149">FIM sshd_config</text>
+              <path d="M300 162 Q300 185 200 185 Q150 185 150 170 Q150 155 152 150" stroke="#f85149" stroke-width="1" fill="none" class="zi3" marker-end="url(#zi-r)" opacity=".7"/>
+            </svg>
+            <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:10px;">
+              <i class="bi bi-eye-fill" style="font-size:2.6rem;color:var(--orange);opacity:.9;"></i>
+              <span style="font-family:'Barlow Condensed',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.18em;color:var(--orange);text-transform:uppercase;opacity:.8;">SOC · Zabbix 7.0 LTS</span>
+            </div>
+            <div class="proj-hover-label">Voir →</div>
+          </div>
+          <div class="proj-meta">
+            <span class="proj-num" style="color:var(--orange);">E6·02</span>
+            <div class="proj-info">
+              <h3>Supervision SOC &amp; Cyber-Vigilance</h3>
+              <p>Zabbix 7.0 LTS Maître/Agents, FIM temps réel sur sshd_config, dashboard SOC avec corrélation Fail2Ban. Schémas interactifs.</p>
+              <div class="proj-tags">
+                <span>Zabbix 7.0</span><span>FIM</span><span>Fail2Ban</span>
+                <span>SOC</span><span>MariaDB</span>
               </div>
             </div>
           </div>
@@ -836,7 +879,33 @@
  
       </div>
     </div>
-
+ 
+    <!-- ANNEXES -->
+    <div class="proj-section-block reveal">
+      <div class="proj-category-label">Documents officiels <span class="proj-cat-count">- 03</span></div>
+      <div class="proj-grid" style="grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));">
+ 
+        <a href="annexes" class="proj-card" style="border:1px solid var(--border);">
+          <div class="proj-img" style="background:linear-gradient(135deg,#0d0d0d 0%,#1a1a1a 100%);display:flex;align-items:center;justify-content:center;min-height:180px;gap:20px;">
+            <i class="bi bi-file-earmark-pdf" style="font-size:2.4rem;color:#f85149;opacity:.8;"></i>
+            <i class="bi bi-file-earmark-spreadsheet" style="font-size:2.4rem;color:#81c784;opacity:.8;"></i>
+            <div class="proj-hover-label">Voir →</div>
+          </div>
+          <div class="proj-meta">
+            <span class="proj-num" style="color:var(--cream-dim);">ANN</span>
+            <div class="proj-info">
+              <h3>Annexes E5 &amp; E6</h3>
+              <p>Grilles d'évaluation, fiches descriptives, contrôles de conformité et tableau de synthèse des compétences mobilisées — BTS SIO Session 2026.</p>
+              <div class="proj-tags">
+                <span>Annexe VI</span><span>Annexe VII</span><span>XLSX</span><span>PDF</span>
+              </div>
+            </div>
+          </div>
+        </a>
+ 
+      </div>
+    </div>
+ 
   <!-- ════════════════════ VEILLES TECHNOLOGIQUES ════════════════════ -->
   <section id="veilles">
     <div class="reveal" style="display:flex;flex-direction:column;margin-bottom:20px;">
