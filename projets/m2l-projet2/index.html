@@ -133,11 +133,11 @@
       <p>Ce projet implémente une solution de <strong>supervision d'entreprise</strong> et un <strong>centre opérationnel de sécurité (SOC)</strong> pour la M2L, unifiés sur une console de contrôle unique. L'objectif est de détecter instantanément deux menaces majeures : les <strong>attaques périmétriques par force brute</strong> et les <strong>tentatives d'altération interne de fichiers de configuration critiques</strong>.</p>
       <p>L'ensemble des flux de supervision transite de manière étanche à travers les zones physiques du pare-feu Zyxel USG40, en couche de surveillance complémentaire au Projet 1.</p>
  
-      <!-- SCHÉMA PROJET 2 -->
+      <!-- SCHÉMA PROJET 2 - fidèle au dossier technique -->
       <h2>2. Architecture Maître / Agents - Projet 2</h2>
-      <div class="schema-label">Schéma de supervision SOC</div>
+      <div class="schema-label">Schéma de supervision SOC - mode push (agents → SRV-MONITOR via TCP 10051)</div>
       <div class="diagram-wrap">
-        <svg id="svgP2" viewBox="0 0 760 420" xmlns="http://www.w3.org/2000/svg">
+        <svg id="svgP2" viewBox="0 0 760 430" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <marker id="p2-blu" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3z" fill="#58a6ff"/></marker>
             <marker id="p2-red" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3z" fill="#f85149"/></marker>
@@ -145,116 +145,111 @@
             <marker id="p2-grn" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3z" fill="#81c784"/></marker>
             <filter id="gl3"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
             <style>
-              .p2f1{stroke-dasharray:8 5;animation:p2fd 1.4s linear infinite}
-              .p2f2{stroke-dasharray:8 5;animation:p2fd 1.7s linear infinite}
               .p2f3{stroke-dasharray:6 4;animation:p2fd 1.3s linear infinite}
               .p2f4{stroke-dasharray:5 3;animation:p2fd 2s linear infinite}
               .p2fr{stroke-dasharray:5 4;animation:p2fdr 1.4s linear infinite}
               @keyframes p2fd{to{stroke-dashoffset:-26}}
               @keyframes p2fdr{to{stroke-dashoffset:26}}
-              .pulse-ring{animation:pulse2 2s ease-out infinite}
-              @keyframes pulse2{0%{opacity:.8}50%{opacity:.2}100%{opacity:0}}
+              .pulse2{animation:pulseAnim 2s ease-out infinite}
+              @keyframes pulseAnim{0%{opacity:.9}50%{opacity:.2}100%{opacity:0}}
             </style>
           </defs>
  
-          <!-- ════ LIGNE 1 : SRV-MONITOR + DASHBOARD ════ -->
+          <!-- ══ ZYXEL - contexte uniquement, n'est pas un nœud de routage des flux push ══ -->
+          <rect x="270" y="10" width="220" height="34" rx="3" fill="#1a0a00" stroke="#e85d04" stroke-width="1.5"/>
+          <text font-family="'Barlow Condensed',sans-serif" font-size="10" font-weight="700" x="380" y="25" text-anchor="middle" fill="#e85d04" letter-spacing="1">ZYXEL USG40</text>
+          <text font-family="monospace" font-size="7.5" x="380" y="38" text-anchor="middle" fill="#e85d04" opacity=".5">Règle Allow_Agents_to_ZBX : DMZ → LAN2 · TCP 10051</text>
  
-          <!-- SRV-MONITOR -->
-          <rect x="220" y="14" width="260" height="72" rx="4" fill="#0a0d1a" stroke="#58a6ff" stroke-width="2" filter="url(#gl3)"/>
-          <text font-family="'Barlow Condensed',sans-serif" font-size="12" font-weight="700" x="350" y="34" text-anchor="middle" fill="#58a6ff" letter-spacing="2">SRV-MONITOR</text>
-          <text font-family="monospace" font-size="8.5" x="350" y="50" text-anchor="middle" fill="#58a6ff" opacity=".7">10.0.20.10 - Zabbix 7.0 LTS</text>
-          <text font-family="monospace" font-size="8" x="350" y="64" text-anchor="middle" fill="#58a6ff" opacity=".5">MariaDB locale · Port public 8081 · ZONE LAN2</text>
+          <!-- ══ SRV-MONITOR (LAN2) - Zabbix Server + Dashboard intégré ══ -->
+          <rect x="210" y="62" width="340" height="118" rx="4" fill="#0a0d1a" stroke="#58a6ff" stroke-width="2" filter="url(#gl3)"/>
+          <text font-family="'Barlow Condensed',sans-serif" font-size="12" font-weight="700" x="380" y="82" text-anchor="middle" fill="#58a6ff" letter-spacing="2">SRV-MONITOR</text>
+          <text font-family="monospace" font-size="8" x="380" y="96" text-anchor="middle" fill="#58a6ff" opacity=".7">10.0.20.10 - Zabbix 7.0 LTS · ZONE LAN2</text>
+          <text font-family="monospace" font-size="7.5" x="380" y="109" text-anchor="middle" fill="#58a6ff" opacity=".5">MariaDB locale (DB: zabbix / User: zabbix) · NAT :8081</text>
+          <!-- Dashboard = interface web Zabbix sur ce même serveur -->
+          <rect x="224" y="116" width="312" height="52" rx="3" fill="#0d1a0d" stroke="#81c784" stroke-width="1.2"/>
+          <text font-family="'Barlow Condensed',sans-serif" font-size="9" font-weight="700" x="380" y="133" text-anchor="middle" fill="#81c784">DASHBOARD SOC - Interface Web Zabbix :8081</text>
+          <text font-family="monospace" font-size="7.5" x="380" y="147" text-anchor="middle" fill="#81c784" opacity=".7">Widget Logs : log[fail2ban.log,"Ban"] · Widget Alertes FIM</text>
+          <text font-family="monospace" font-size="7" x="380" y="160" text-anchor="middle" fill="#81c784" opacity=".5">"CENTRE DE CYBER-VIGILANCE M2L" - Admin / zabbix</text>
  
-          <!-- Dashboard SOC -->
-          <rect x="510" y="14" width="230" height="72" rx="4" fill="#0d1a0d" stroke="#81c784" stroke-width="1.5"/>
-          <text font-family="'Barlow Condensed',sans-serif" font-size="10" font-weight="700" x="625" y="32" text-anchor="middle" fill="#81c784" letter-spacing="1">DASHBOARD SOC</text>
-          <text font-family="monospace" font-size="8" x="625" y="48" text-anchor="middle" fill="#81c784" opacity=".7">Centre de Cyber-Vigilance M2L</text>
-          <text font-family="monospace" font-size="7.5" x="625" y="62" text-anchor="middle" fill="#81c784" opacity=".5">Widget Logs · Widget Alertes</text>
-          <!-- Monitor → Dashboard (horizontal) -->
-          <line x1="480" y1="50" x2="510" y2="50" stroke="#81c784" stroke-width="1.5" class="p2f4" marker-end="url(#p2-grn)"/>
+          <!-- Auto-surveillance : Server=127.0.0.1 dans zabbix_agentd.conf de SRV-MONITOR -->
+          <line x1="210" y1="116" x2="184" y2="116" stroke="#58a6ff" stroke-width="1" class="p2f4" opacity=".6"/>
+          <line x1="184" y1="116" x2="184" y2="82" stroke="#58a6ff" stroke-width="1" class="p2f4" opacity=".6"/>
+          <line x1="184" y1="82" x2="210" y2="82" stroke="#58a6ff" stroke-width="1.2" class="p2f4" marker-end="url(#p2-blu)" opacity=".65"/>
+          <text font-family="monospace" font-size="6.5" x="138" y="97" fill="#58a6ff" opacity=".55">Auto-surv.</text>
+          <text font-family="monospace" font-size="6" x="138" y="108" fill="#58a6ff" opacity=".4">127.0.0.1</text>
  
-          <!-- ════ LIGNE 2 : ZYXEL ════ -->
+          <!-- ══ SRV-WEB (gauche) ══ -->
+          <rect x="14" y="218" width="326" height="110" rx="4" fill="#1a1500" stroke="#d29922" stroke-width="1.5"/>
+          <text font-family="'Barlow Condensed',sans-serif" font-size="10" font-weight="700" x="177" y="236" text-anchor="middle" fill="#d29922" letter-spacing="1">SRV-WEB</text>
+          <text font-family="monospace" font-size="7.5" x="177" y="250" text-anchor="middle" fill="#d29922" opacity=".6">10.0.40.10 - Apache/PHP · Zone DMZ</text>
+          <rect x="26" y="258" width="302" height="58" rx="3" fill="#0a0d1a" stroke="#58a6ff" stroke-width="1.2"/>
+          <text font-family="'Barlow Condensed',sans-serif" font-size="9" font-weight="700" x="177" y="276" text-anchor="middle" fill="#58a6ff">zabbix-agent (mode push)</text>
+          <text font-family="monospace" font-size="7.5" x="177" y="290" text-anchor="middle" fill="#58a6ff" opacity=".7">Collecte locale : CPU · RAM · Uptime</text>
+          <text font-family="monospace" font-size="7" x="177" y="303" text-anchor="middle" fill="#58a6ff" opacity=".5">Server=10.0.20.10,10.0.40.254 (whitelist SNAT)</text>
+          <text font-family="monospace" font-size="7" x="177" y="316" text-anchor="middle" fill="#58a6ff" opacity=".4">Envoie vers SRV-MONITOR · TCP 10051</text>
  
-          <!-- Ligne verticale Monitor → Zyxel -->
-          <line x1="350" y1="86" x2="350" y2="118" stroke="#58a6ff" stroke-width="1.5" class="p2f1" marker-end="url(#p2-blu)"/>
-          <text font-family="monospace" font-size="7.5" x="360" y="106" fill="#58a6ff" opacity=".6">Requêtes actives</text>
- 
-          <!-- Zyxel -->
-          <rect x="250" y="118" width="200" height="34" rx="4" fill="#1a0a00" stroke="#e85d04" stroke-width="1.5"/>
-          <text font-family="'Barlow Condensed',sans-serif" font-size="10" font-weight="700" x="350" y="133" text-anchor="middle" fill="#e85d04" letter-spacing="1">ZYXEL USG40</text>
-          <text font-family="monospace" font-size="7.5" x="350" y="146" text-anchor="middle" fill="#e85d04" opacity=".5">Allow_Agents_to_ZBX · TCP 10051</text>
- 
-          <!-- ════ LIGNES ZYXEL → SRV-WEB et SRV-FTP ════ -->
-          <!-- Zyxel → SRV-WEB : descend verticalement à gauche puis diagonale -->
-          <line x1="280" y1="152" x2="170" y2="192" stroke="#d29922" stroke-width="1.5" class="p2f1" marker-end="url(#p2-ylw)"/>
-          <text font-family="monospace" font-size="7.5" x="202" y="170" fill="#d29922" opacity=".6">TCP 10051</text>
-          <!-- Zyxel → SRV-FTP : diagonale droite -->
-          <line x1="420" y1="152" x2="570" y2="192" stroke="#d29922" stroke-width="1.5" class="p2f2" marker-end="url(#p2-ylw)"/>
-          <text font-family="monospace" font-size="7.5" x="510" y="170" fill="#d29922" opacity=".6">TCP 10051</text>
- 
-          <!-- ════ LIGNE 3 : SRV-WEB (gauche) + SRV-FTP (droite) ════ -->
- 
-          <!-- SRV-WEB -->
-          <rect x="20" y="192" width="290" height="96" rx="4" fill="#1a1500" stroke="#d29922" stroke-width="1.5"/>
-          <text font-family="'Barlow Condensed',sans-serif" font-size="10" font-weight="700" x="165" y="210" text-anchor="middle" fill="#d29922" letter-spacing="1">SRV-WEB</text>
-          <text font-family="monospace" font-size="8" x="165" y="224" text-anchor="middle" fill="#d29922" opacity=".6">10.0.40.10 - Apache/PHP · Zone DMZ</text>
-          <rect x="34" y="232" width="262" height="44" rx="3" fill="#0a0d1a" stroke="#58a6ff" stroke-width="1.2"/>
-          <text font-family="'Barlow Condensed',sans-serif" font-size="9" font-weight="700" x="165" y="249" text-anchor="middle" fill="#58a6ff">zabbix-agent</text>
-          <text font-family="monospace" font-size="7.5" x="165" y="263" text-anchor="middle" fill="#58a6ff" opacity=".7">CPU · RAM · Uptime</text>
-          <text font-family="monospace" font-size="7" x="165" y="274" text-anchor="middle" fill="#58a6ff" opacity=".5">Mode push → SRV-MONITOR</text>
- 
-          <!-- SRV-FTP -->
-          <rect x="450" y="192" width="290" height="188" rx="4" fill="#1a1500" stroke="#d29922" stroke-width="1.5"/>
-          <text font-family="'Barlow Condensed',sans-serif" font-size="10" font-weight="700" x="595" y="210" text-anchor="middle" fill="#d29922" letter-spacing="1">SRV-FTP</text>
-          <text font-family="monospace" font-size="8" x="595" y="224" text-anchor="middle" fill="#d29922" opacity=".6">10.0.40.20 - SFTP/OpenSSH · Zone DMZ</text>
-          <!-- Agent -->
-          <rect x="464" y="232" width="262" height="44" rx="3" fill="#0a0d1a" stroke="#58a6ff" stroke-width="1.2"/>
-          <text font-family="'Barlow Condensed',sans-serif" font-size="9" font-weight="700" x="595" y="249" text-anchor="middle" fill="#58a6ff">zabbix-agent</text>
-          <text font-family="monospace" font-size="7.5" x="595" y="263" text-anchor="middle" fill="#58a6ff" opacity=".7">CPU · RAM · Logs</text>
-          <text font-family="monospace" font-size="7" x="595" y="274" text-anchor="middle" fill="#58a6ff" opacity=".5">Mode push → SRV-MONITOR</text>
+          <!-- ══ SRV-FTP (droite) ══ -->
+          <rect x="420" y="218" width="326" height="198" rx="4" fill="#1a1500" stroke="#d29922" stroke-width="1.5"/>
+          <text font-family="'Barlow Condensed',sans-serif" font-size="10" font-weight="700" x="583" y="236" text-anchor="middle" fill="#d29922" letter-spacing="1">SRV-FTP</text>
+          <text font-family="monospace" font-size="7.5" x="583" y="250" text-anchor="middle" fill="#d29922" opacity=".6">10.0.40.20 - SFTP/OpenSSH · Zone DMZ</text>
+          <!-- zabbix-agent -->
+          <rect x="432" y="258" width="302" height="58" rx="3" fill="#0a0d1a" stroke="#58a6ff" stroke-width="1.2"/>
+          <text font-family="'Barlow Condensed',sans-serif" font-size="9" font-weight="700" x="583" y="276" text-anchor="middle" fill="#58a6ff">zabbix-agent (mode push)</text>
+          <text font-family="monospace" font-size="7.5" x="583" y="290" text-anchor="middle" fill="#58a6ff" opacity=".7">Collecte locale : CPU · RAM · Logs auth.log</text>
+          <text font-family="monospace" font-size="7" x="583" y="303" text-anchor="middle" fill="#58a6ff" opacity=".5">Server=10.0.20.10,10.0.40.254 (whitelist SNAT)</text>
+          <text font-family="monospace" font-size="7" x="583" y="316" text-anchor="middle" fill="#58a6ff" opacity=".4">Envoie vers SRV-MONITOR · TCP 10051</text>
           <!-- FIM -->
-          <rect x="464" y="286" width="262" height="40" rx="3" fill="#1a0800" stroke="#f85149" stroke-width="1.5"/>
-          <text font-family="'Barlow Condensed',sans-serif" font-size="9" font-weight="700" x="595" y="302" text-anchor="middle" fill="#f85149">FIM - vfs.file.cksum</text>
-          <text font-family="monospace" font-size="7.5" x="595" y="316" text-anchor="middle" fill="#f85149" opacity=".8">/etc/ssh/sshd_config - toutes les 105s</text>
-          <!-- Pulse -->
-          <circle cx="476" cy="306" r="5" fill="none" stroke="#f85149" stroke-width="1.5" class="pulse-ring"/>
-          <circle cx="476" cy="306" r="3" fill="#f85149" opacity=".9"/>
+          <rect x="432" y="326" width="302" height="40" rx="3" fill="#1a0800" stroke="#f85149" stroke-width="1.5"/>
+          <text font-family="'Barlow Condensed',sans-serif" font-size="9" font-weight="700" x="583" y="342" text-anchor="middle" fill="#f85149">FIM - vfs.file.cksum</text>
+          <text font-family="monospace" font-size="7.5" x="583" y="356" text-anchor="middle" fill="#f85149" opacity=".8">/etc/ssh/sshd_config · intervalle 105s</text>
+          <circle cx="444" cy="346" r="5" fill="none" stroke="#f85149" stroke-width="1.5" class="pulse2"/>
+          <circle cx="444" cy="346" r="3" fill="#f85149" opacity=".9"/>
           <!-- Fail2Ban -->
-          <rect x="464" y="334" width="262" height="36" rx="3" fill="none" stroke="#f85149" stroke-width="1" opacity=".6"/>
-          <text font-family="'Barlow Condensed',sans-serif" font-size="9" font-weight="700" x="595" y="350" text-anchor="middle" fill="#f85149" opacity=".8">Fail2Ban</text>
-          <text font-family="monospace" font-size="7" x="595" y="363" text-anchor="middle" fill="#f85149" opacity=".6">log[/var/log/fail2ban.log,"Ban"]</text>
+          <rect x="432" y="376" width="302" height="30" rx="3" fill="none" stroke="#f85149" stroke-width="1" opacity=".7"/>
+          <text font-family="'Barlow Condensed',sans-serif" font-size="9" font-weight="700" x="583" y="391" text-anchor="middle" fill="#f85149" opacity=".85">Fail2Ban</text>
+          <text font-family="monospace" font-size="7" x="583" y="401" text-anchor="middle" fill="#f85149" opacity=".5">log[/var/log/fail2ban.log,"Ban"] · maxretry=3 · bantime=30s</text>
  
-          <!-- ════ RETOURS AGENTS → ZYXEL → MONITOR ════ -->
-          <!-- Colonne de routage gauche (x=8) : SRV-WEB agent remonte -->
-          <line x1="165" y1="288" x2="165" y2="310" stroke="#58a6ff" stroke-width="1" class="p2f3" opacity=".6"/>
-          <line x1="165" y1="310" x2="8" y2="310" stroke="#58a6ff" stroke-width="1" class="p2f3" opacity=".6"/>
-          <line x1="8" y1="310" x2="8" y2="135" stroke="#58a6ff" stroke-width="1" class="p2f3" opacity=".6"/>
-          <line x1="8" y1="135" x2="250" y2="135" stroke="#58a6ff" stroke-width="1.2" class="p2f3" marker-end="url(#p2-blu)" opacity=".7"/>
-          <text font-family="monospace" font-size="7" x="12" y="220" fill="#58a6ff" opacity=".5">TCP 10051</text>
+          <!-- ══ PUSH TCP 10051 : SRV-WEB → SRV-MONITOR (colonne gauche x=6) ══ -->
+          <line x1="177" y1="328" x2="177" y2="354" stroke="#58a6ff" stroke-width="1" class="p2f3" opacity=".65"/>
+          <line x1="177" y1="354" x2="6" y2="354" stroke="#58a6ff" stroke-width="1" class="p2f3" opacity=".65"/>
+          <line x1="6" y1="354" x2="6" y2="120" stroke="#58a6ff" stroke-width="1" class="p2f3" opacity=".65"/>
+          <line x1="6" y1="120" x2="210" y2="98" stroke="#58a6ff" stroke-width="1.3" class="p2f3" marker-end="url(#p2-blu)" opacity=".75"/>
+          <text font-family="monospace" font-size="7" x="10" y="228" fill="#58a6ff" opacity=".55">Push</text>
+          <text font-family="monospace" font-size="7" x="10" y="239" fill="#58a6ff" opacity=".55">TCP</text>
+          <text font-family="monospace" font-size="7" x="10" y="250" fill="#58a6ff" opacity=".55">10051</text>
  
-          <!-- Colonne de routage droite (x=752) : SRV-FTP agent remonte -->
-          <line x1="595" y1="276" x2="595" y2="308" stroke="#58a6ff" stroke-width="1" class="p2f3" opacity=".6"/>
-          <line x1="595" y1="308" x2="752" y2="308" stroke="#58a6ff" stroke-width="1" class="p2f3" opacity=".6"/>
-          <line x1="752" y1="308" x2="752" y2="135" stroke="#58a6ff" stroke-width="1" class="p2f3" opacity=".6"/>
-          <line x1="752" y1="135" x2="450" y2="135" stroke="#58a6ff" stroke-width="1.2" class="p2f3" marker-end="url(#p2-blu)" opacity=".7"/>
-          <text font-family="monospace" font-size="7" x="734" y="220" fill="#58a6ff" opacity=".5">TCP 10051</text>
+          <!-- ══ PUSH TCP 10051 : SRV-FTP → SRV-MONITOR (colonne droite x=752) ══ -->
+          <line x1="583" y1="316" x2="583" y2="356" stroke="#58a6ff" stroke-width="1" class="p2f3" opacity=".65"/>
+          <line x1="583" y1="356" x2="752" y2="356" stroke="#58a6ff" stroke-width="1" class="p2f3" opacity=".65"/>
+          <line x1="752" y1="356" x2="752" y2="120" stroke="#58a6ff" stroke-width="1" class="p2f3" opacity=".65"/>
+          <line x1="752" y1="120" x2="550" y2="98" stroke="#58a6ff" stroke-width="1.3" class="p2f3" marker-end="url(#p2-blu)" opacity=".75"/>
+          <text font-family="monospace" font-size="7" x="734" y="228" fill="#58a6ff" opacity=".55">Push</text>
+          <text font-family="monospace" font-size="7" x="734" y="239" fill="#58a6ff" opacity=".55">TCP</text>
+          <text font-family="monospace" font-size="7" x="734" y="250" fill="#58a6ff" opacity=".55">10051</text>
  
-          <!-- Alerte FIM → remonte via colonne droite vers Monitor (rouge) -->
-          <line x1="595" y1="380" x2="595" y2="400" stroke="#f85149" stroke-width="1" class="p2fr" opacity=".6"/>
-          <line x1="595" y1="400" x2="740" y2="400" stroke="#f85149" stroke-width="1" class="p2fr" opacity=".6"/>
-          <line x1="740" y1="400" x2="740" y2="50" stroke="#f85149" stroke-width="1" class="p2fr" opacity=".6"/>
-          <line x1="740" y1="50" x2="510" y2="50" stroke="#f85149" stroke-width="1.2" class="p2fr" marker-end="url(#p2-red)" opacity=".7"/>
-          <text font-family="monospace" font-size="7" x="620" y="408" fill="#f85149" opacity=".6">Alerte FIM → PROBLEM / High</text>
+          <!-- ══ ALERTE FIM → SRV-MONITOR (trigger différentiel - colonne x=738) ══ -->
+          <line x1="583" y1="366" x2="583" y2="412" stroke="#f85149" stroke-width="1" class="p2fr" opacity=".6"/>
+          <line x1="583" y1="412" x2="738" y2="412" stroke="#f85149" stroke-width="1" class="p2fr" opacity=".6"/>
+          <line x1="738" y1="412" x2="738" y2="56" stroke="#f85149" stroke-width="1" class="p2fr" opacity=".6"/>
+          <line x1="738" y1="56" x2="550" y2="108" stroke="#f85149" stroke-width="1.2" class="p2fr" marker-end="url(#p2-red)" opacity=".7"/>
+          <text font-family="monospace" font-size="7" x="606" y="420" fill="#f85149" opacity=".65">Trigger différentiel → PROBLEM High</text>
+ 
+          <!-- ══ LOGS FAIL2BAN → Widget Logs (ligne basse) ══ -->
+          <line x1="420" y1="388" x2="394" y2="388" stroke="#f85149" stroke-width="1" class="p2fr" opacity=".45"/>
+          <line x1="394" y1="388" x2="394" y2="424" stroke="#f85149" stroke-width="1" opacity=".25" stroke-dasharray="3 4"/>
+          <line x1="394" y1="424" x2="14" y2="424" stroke="#f85149" stroke-width="1" opacity=".2" stroke-dasharray="3 4"/>
+          <text font-family="monospace" font-size="7" x="180" y="422" fill="#f85149" opacity=".4">log[fail2ban.log,"Ban"] → Widget Logs Zabbix</text>
         </svg>
         <div class="diagram-hint"><i class="bi bi-eye"></i> Schéma SOC</div>
       </div>
       <div class="legend-bar">
-        <div class="legend-item"><div class="legend-dot" style="background:#58a6ff"></div> SRV-MONITOR / Zabbix</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#d29922"></div> Agents DMZ</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#58a6ff"></div> SRV-MONITOR / Zabbix (LAN2)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#d29922"></div> Agents DMZ (push TCP 10051)</div>
         <div class="legend-item"><div class="legend-dot" style="background:#f85149"></div> Alertes FIM / Fail2Ban</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#81c784"></div> Dashboard SOC</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#e85d04"></div> Pare-feu / NAT</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#81c784"></div> Dashboard SOC (interface Zabbix intégrée)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#e85d04"></div> Pare-feu (règle TCP 10051)</div>
       </div>
+ 
  
       <!-- SCHÉMA GLOBAL INTER-PROJETS -->
       <h2>3. Vue Globale - Infrastructure Complète M2L</h2>
@@ -340,7 +335,7 @@
           <!-- FIM Alerte → Monitor -->
           <path d="M633 234 Q633 260 385 260 Q270 260 270 234" stroke="#f85149" stroke-width="1" fill="none" stroke-dasharray="4 3" class="ggf3" marker-end="url(#gg5)" opacity=".5"/>
           <text font-family="monospace" font-size="7" x="450" y="275" fill="#f85149" opacity=".6">Alerte FIM → PROBLEM High</text>
- 
+
           <!-- Légendes zones -->
           <text font-family="'Barlow Condensed',sans-serif" font-size="8" font-weight="700" x="633" y="295" text-anchor="middle" fill="#d29922" opacity=".6">APPLICATION &amp; SFTP - PROJET 1</text>
           <text font-family="'Barlow Condensed',sans-serif" font-size="8" font-weight="700" x="385" y="295" text-anchor="middle" fill="#81c784" opacity=".6">DONNÉES &amp; SUPERVISION</text>
@@ -438,3 +433,4 @@
   <script src="/main.js"></script>
 </body>
 </html>
+ 

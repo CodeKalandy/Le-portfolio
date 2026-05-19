@@ -44,11 +44,11 @@
     .secret-row{background:var(--ink-2);border:1px solid var(--border);border-radius:2px;padding:14px 18px;font-size:.82rem}
     .secret-row .s-label{font-family:'Barlow Condensed',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.14em;color:var(--orange);text-transform:uppercase;margin-bottom:6px}
     .secret-row .s-val{color:var(--cream);font-family:monospace;font-size:.8rem}
-
+ 
     /* ── SCHÉMA INTERACTIF ── */
     .schema-label{font-family:'Barlow Condensed',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin-bottom:12px;display:flex;align-items:center;gap:10px}
     .schema-label::after{content:'';flex:1;height:1px;background:var(--border)}
-    .diagram-wrap{position:relative;border:1px solid var(--border);border-radius:2px;overflow:hidden;cursor:default;background:#111;transition:border-color .3s}
+    .diagram-wrap{position:relative;border:1px solid var(--border);border-radius:2px;overflow:hidden;cursor:pointer;background:#111;transition:border-color .3s}
     .diagram-wrap:hover{border-color:var(--orange-dim)}
     .diagram-hint{position:absolute;bottom:12px;right:14px;font-family:'Barlow Condensed',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cream-dim);background:rgba(13,13,13,.75);padding:4px 10px;border-radius:2px;display:flex;align-items:center;gap:6px;pointer-events:none;transition:color .3s}
     .diagram-wrap:hover .diagram-hint{color:var(--orange)}
@@ -56,7 +56,7 @@
     .legend-item{display:flex;align-items:center;gap:8px;font-family:'Barlow Condensed',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cream-dim)}
     .legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
     .legend-line{width:24px;height:2px;flex-shrink:0}
-
+ 
     /* ── MODAL ── */
     .diagram-modal{position:fixed;inset:0;background:rgba(13,13,13,.92);backdrop-filter:blur(8px);z-index:2000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
     .diagram-modal.open{opacity:1;pointer-events:all}
@@ -64,7 +64,7 @@
     .modal-inner svg{width:100%;height:auto}
     .modal-close{position:absolute;top:-44px;right:0;background:transparent;border:1px solid var(--border-2);color:var(--cream-dim);font-family:'Barlow Condensed',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.1em;padding:6px 16px;border-radius:2px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:color .2s,border-color .2s}
     .modal-close:hover{color:var(--orange);border-color:var(--orange)}
-
+ 
     @media(max-width:900px){
       .detail-grid{grid-template-columns:1fr;gap:40px;padding:40px 20px}
       .detail-sidebar{position:static;border-right:none;border-bottom:1px solid var(--border);padding-right:0;padding-bottom:40px}
@@ -83,7 +83,7 @@
     <div class="nav-center"><a href="/" class="nav-logo">BERNARD THIERY</a></div>
     <div class="nav-right"><a href="/" class="nav-cta"><span class="cta-arrow">←</span> Retour</a></div>
   </nav>
-
+ 
   <section class="detail-hero">
     <div class="section-index">ÉPREUVE E6 - PROJET 01</div>
     <h1 class="detail-title">Architecture Réseau<br/><em style="font-style:italic;color:var(--orange);">Périmétrique &amp; Application N-Tier</em></h1>
@@ -92,7 +92,7 @@
       <span>MariaDB</span><span>PHP/PDO</span><span>SFTP</span><span>Fail2Ban</span>
     </div>
   </section>
-
+ 
   <section class="detail-grid">
     <aside class="detail-sidebar">
       <div class="info-block">
@@ -126,132 +126,158 @@
         </div>
       </div>
     </aside>
-
+ 
     <div class="detail-content">
-
+ 
       <h2>1. Contexte &amp; Objectifs</h2>
       <p>Ce projet formalise la conception, le déploiement et le durcissement d'une infrastructure réseau et applicative pour la <strong>Maison des Ligues de Lorraine (M2L)</strong>. L'objectif est de fournir un environnement de production hautement sécurisé pour la gestion des clubs sportifs, en isolant les serveurs exposés à Internet des bases de données critiques.</p>
       <p>Le choix s'est porté sur une <strong>sécurisation par zones étanches (Zone-Based Security)</strong> adossée aux ports physiques du Zyxel USG40 - tout mécanisme VLAN écarté pour éliminer les risques de VLAN Hopping.</p>
-
-      <!-- SCHÉMA PROJET 1 -->
+ 
+      <!-- SCHÉMA PROJET 1 - fidèle au dossier technique -->
       <h2>2. Architecture Réseau - Projet 1</h2>
-      <div class="schema-label">Schéma d'architecture </div>
+      <div class="schema-label">Schéma d'architecture réseau</div>
       <div class="diagram-wrap">
-        <svg id="svgP1" viewBox="0 0 760 410" xmlns="http://www.w3.org/2000/svg">
+        <svg id="svgP1" viewBox="0 0 760 430" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <marker id="a-org" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3z" fill="#e85d04"/></marker>
             <marker id="a-grn" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3z" fill="#81c784"/></marker>
             <marker id="a-ylw" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3z" fill="#d29922"/></marker>
             <marker id="a-pur" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3z" fill="#a371f7"/></marker>
             <marker id="a-red" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3z" fill="#f85149"/></marker>
-            <marker id="a-blu" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3z" fill="#58a6ff"/></marker>
             <filter id="gl"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
             <style>
-              .f-org{stroke-dasharray:8 5;animation:fd 1.4s linear infinite}
-              .f-grn{stroke-dasharray:8 5;animation:fd 1.6s linear infinite}
-              .f-ylw{stroke-dasharray:8 5;animation:fd 1.5s linear infinite}
-              .f-pur{stroke-dasharray:7 5;animation:fd 1.8s linear infinite}
-              .f-blu{stroke-dasharray:6 4;animation:fd 1.7s linear infinite}
-              .f-red{stroke-dasharray:5 4;animation:fdr 1.2s linear infinite}
-              @keyframes fd{to{stroke-dashoffset:-26}}
-              @keyframes fdr{to{stroke-dashoffset:26}}
+              .f-org{stroke-dasharray:8 5;animation:fd1 1.4s linear infinite}
+              .f-grn{stroke-dasharray:8 5;animation:fd1 1.6s linear infinite}
+              .f-ylw{stroke-dasharray:8 5;animation:fd1 1.5s linear infinite}
+              .f-pur{stroke-dasharray:7 5;animation:fd1 1.8s linear infinite}
+              .f-red{stroke-dasharray:5 4;animation:fdr1 1.2s linear infinite}
+              @keyframes fd1{to{stroke-dashoffset:-26}}
+              @keyframes fdr1{to{stroke-dashoffset:26}}
             </style>
           </defs>
-
-          <!-- INTERNET -->
+ 
+          <!-- ══ INTERNET ══ -->
           <rect x="295" y="10" width="170" height="36" rx="4" fill="none" stroke="#e85d04" stroke-width="1.5"/>
-          <text font-family="'Barlow Condensed',sans-serif" font-size="11" font-weight="700" x="380" y="26" text-anchor="middle" fill="#e85d04" letter-spacing="1">INTERNET / LYCÉE</text>
-          <text font-family="monospace" font-size="9" x="380" y="40" text-anchor="middle" fill="#e85d04" opacity=".7">192.168.193.122</text>
+          <text font-family="'Barlow Condensed',sans-serif" font-size="11" font-weight="700" x="380" y="27" text-anchor="middle" fill="#e85d04" letter-spacing="1">INTERNET / LYCÉE</text>
+          <text font-family="monospace" font-size="8.5" x="380" y="40" text-anchor="middle" fill="#e85d04" opacity=".7">192.168.193.122/24</text>
+          <!-- Internet → FW P1 -->
           <line x1="380" y1="46" x2="380" y2="76" stroke="#e85d04" stroke-width="1.5" class="f-org" marker-end="url(#a-org)"/>
-          <text font-family="monospace" font-size="8" x="390" y="64" fill="#e85d04" opacity=".6">P1 wan1</text>
-
-          <!-- FIREWALL -->
-          <rect x="275" y="76" width="210" height="50" rx="4" fill="#1a0a00" stroke="#e85d04" stroke-width="2" filter="url(#gl)"/>
+          <text font-family="monospace" font-size="7.5" x="388" y="63" fill="#e85d04" opacity=".6">P1 wan1</text>
+ 
+          <!-- ══ ZYXEL USG40 ══ -->
+          <rect x="270" y="76" width="220" height="52" rx="4" fill="#1a0a00" stroke="#e85d04" stroke-width="2" filter="url(#gl)"/>
           <text font-family="'Barlow Condensed',sans-serif" font-size="13" font-weight="700" x="380" y="98" text-anchor="middle" fill="#e85d04" letter-spacing="2">ZYXEL USG40</text>
-          <text font-family="monospace" font-size="8" x="380" y="116" text-anchor="middle" fill="#e85d04" opacity=".55">Zone-Based Security - Deny All par défaut</text>
-
-          <!-- FW → LAN1 -->
-          <line x1="275" y1="101" x2="130" y2="160" stroke="#a371f7" stroke-width="1.5" class="f-pur" marker-end="url(#a-pur)"/>
-          <text font-family="monospace" font-size="8" x="186" y="126" fill="#a371f7" opacity=".7" transform="rotate(-26,186,126)">P2 lan1</text>
-
-          <!-- FW → LAN2 -->
-          <line x1="380" y1="126" x2="380" y2="218" stroke="#81c784" stroke-width="1.5" class="f-grn" marker-end="url(#a-grn)"/>
-          <text font-family="monospace" font-size="8" x="390" y="178" fill="#81c784" opacity=".7">P3 lan2</text>
-
-          <!-- FW → DMZ -->
-          <line x1="485" y1="101" x2="608" y2="160" stroke="#d29922" stroke-width="1.5" class="f-ylw" marker-end="url(#a-ylw)"/>
-          <text font-family="monospace" font-size="8" x="556" y="124" fill="#d29922" opacity=".7" transform="rotate(26,556,124)">P4 dmz</text>
-
-          <!-- DENY WAN→DMZ -->
-          <line x1="670" y1="126" x2="700" y2="158" stroke="#f85149" stroke-width="1.5" class="f-red" marker-end="url(#a-red)"/>
-          <text font-family="monospace" font-size="7.5" x="682" y="144" fill="#f85149" opacity=".9">DENY</text>
-
-          <!-- LAN1 -->
-          <rect x="20" y="160" width="210" height="80" rx="4" fill="#130d1f" stroke="#a371f7" stroke-width="1.5"/>
-          <text font-family="'Barlow Condensed',sans-serif" font-size="10" font-weight="700" x="125" y="178" text-anchor="middle" fill="#a371f7" letter-spacing="1">LAN1 - ADMIN</text>
-          <text font-family="monospace" font-size="8.5" x="125" y="192" text-anchor="middle" fill="#a371f7" opacity=".6">172.16.10.0/24</text>
-          <rect x="34" y="200" width="182" height="28" rx="3" fill="none" stroke="#a371f7" stroke-width="1" opacity=".5"/>
-          <text font-family="monospace" font-size="8" x="125" y="218" text-anchor="middle" fill="#a371f7" opacity=".8">PC Admin - 172.16.10.x</text>
-
-          <!-- LAN2 -->
-          <rect x="265" y="218" width="230" height="170" rx="4" fill="#0d1a0d" stroke="#81c784" stroke-width="1.5"/>
-          <text font-family="'Barlow Condensed',sans-serif" font-size="10" font-weight="700" x="380" y="236" text-anchor="middle" fill="#81c784" letter-spacing="1">LAN2 - INTERNE</text>
-          <text font-family="monospace" font-size="8.5" x="380" y="250" text-anchor="middle" fill="#81c784" opacity=".6">10.0.20.0/24</text>
+          <text font-family="monospace" font-size="7.5" x="380" y="112" text-anchor="middle" fill="#e85d04" opacity=".55">Zone-Based Security · Deny All par défaut</text>
+          <text font-family="monospace" font-size="7" x="380" y="122" text-anchor="middle" fill="#e85d04" opacity=".4">Passerelle : 192.168.193.117 / 10.0.10.254</text>
+ 
+          <!-- ══ NAT / TRANSLATIONS (étiquettes sur le pare-feu) ══ -->
+          <!-- PAT 8080→80 Web -->
+          <rect x="490" y="80" width="110" height="20" rx="2" fill="rgba(210,153,34,0.12)" stroke="#d29922" stroke-width="1" opacity=".8"/>
+          <text font-family="monospace" font-size="7" x="545" y="94" text-anchor="middle" fill="#d29922" opacity=".9">NAT :8080 → SRV-WEB:80</text>
+          <!-- NAT 2222→22 SFTP -->
+          <rect x="490" y="104" width="110" height="20" rx="2" fill="rgba(210,153,34,0.12)" stroke="#d29922" stroke-width="1" opacity=".8"/>
+          <text font-family="monospace" font-size="7" x="545" y="118" text-anchor="middle" fill="#d29922" opacity=".9">NAT :2222 → SRV-FTP:22</text>
+          <!-- NAT 8081→Zabbix -->
+          <rect x="490" y="128" width="110" height="20" rx="2" fill="rgba(88,166,255,0.1)" stroke="#58a6ff" stroke-width="1" opacity=".6" stroke-dasharray="3 2"/>
+          <text font-family="monospace" font-size="7" x="545" y="142" text-anchor="middle" fill="#58a6ff" opacity=".7">NAT :8081 → SRV-MONITOR (P2)</text>
+ 
+          <!-- ══ FW → LAN1 (P2) ══ -->
+          <line x1="270" y1="102" x2="125" y2="168" stroke="#a371f7" stroke-width="1.5" class="f-pur" marker-end="url(#a-pur)"/>
+          <text font-family="monospace" font-size="7.5" x="180" y="129" fill="#a371f7" opacity=".7" transform="rotate(-28,180,129)">P2 lan1</text>
+ 
+          <!-- ══ FW → LAN2 (P3) ══ -->
+          <line x1="380" y1="128" x2="380" y2="220" stroke="#81c784" stroke-width="1.5" class="f-grn" marker-end="url(#a-grn)"/>
+          <text font-family="monospace" font-size="7.5" x="388" y="180" fill="#81c784" opacity=".7">P3 lan2</text>
+ 
+          <!-- ══ FW → DMZ (P4) ══ -->
+          <line x1="490" y1="102" x2="600" y2="168" stroke="#d29922" stroke-width="1.5" class="f-ylw" marker-end="url(#a-ylw)"/>
+          <text font-family="monospace" font-size="7.5" x="553" y="129" fill="#d29922" opacity=".7" transform="rotate(27,553,129)">P4 dmz</text>
+ 
+          <!-- ══ DENY WAN→DMZ (règle 5) ══ -->
+          <line x1="690" y1="128" x2="715" y2="166" stroke="#f85149" stroke-width="1.5" class="f-red" marker-end="url(#a-red)"/>
+          <text font-family="monospace" font-size="7" x="718" y="147" fill="#f85149" opacity=".9">DENY</text>
+          <text font-family="monospace" font-size="6.5" x="718" y="158" fill="#f85149" opacity=".6">WAN→DMZ</text>
+ 
+          <!-- ══ ZONE LAN1 ══ -->
+          <rect x="16" y="168" width="215" height="70" rx="4" fill="#130d1f" stroke="#a371f7" stroke-width="1.5"/>
+          <text font-family="'Barlow Condensed',sans-serif" font-size="10" font-weight="700" x="123" y="186" text-anchor="middle" fill="#a371f7" letter-spacing="1">LAN1 - ADMIN</text>
+          <text font-family="monospace" font-size="8" x="123" y="200" text-anchor="middle" fill="#a371f7" opacity=".6">172.16.10.0/24 · Passerelle .254</text>
+          <rect x="28" y="208" width="191" height="22" rx="2" fill="none" stroke="#a371f7" stroke-width="1" opacity=".5"/>
+          <text font-family="monospace" font-size="7.5" x="123" y="223" text-anchor="middle" fill="#a371f7" opacity=".8">PC Admin (ADDR_ADMIN) - 172.16.10.x</text>
+ 
+          <!-- ══ ZONE LAN2 ══ -->
+          <!-- Seul DEB-BASKET est dans LAN2 pour le Projet 1 -->
+          <rect x="258" y="220" width="244" height="100" rx="4" fill="#0d1a0d" stroke="#81c784" stroke-width="1.5"/>
+          <text font-family="'Barlow Condensed',sans-serif" font-size="10" font-weight="700" x="380" y="238" text-anchor="middle" fill="#81c784" letter-spacing="1">LAN2 - INTERNE PRIVÉE</text>
+          <text font-family="monospace" font-size="8" x="380" y="252" text-anchor="middle" fill="#81c784" opacity=".6">10.0.20.0/24 · Passerelle .254</text>
           <!-- DEB-BASKET -->
-          <rect x="279" y="258" width="202" height="50" rx="3" fill="#0a150a" stroke="#81c784" stroke-width="1"/>
-          <text font-family="'Barlow Condensed',sans-serif" font-size="9" font-weight="700" x="380" y="275" text-anchor="middle" fill="#81c784">DEB-BASKET</text>
-          <text font-family="monospace" font-size="8" x="380" y="289" text-anchor="middle" fill="#81c784" opacity=".7">10.0.20.60 - MariaDB 10.11</text>
-          <text font-family="monospace" font-size="7.5" x="380" y="301" text-anchor="middle" fill="#81c784" opacity=".5">Base : m2l_data</text>
-          <!-- SRV-MONITOR (proj 2) -->
-          <rect x="279" y="318" width="202" height="58" rx="3" fill="#0a0d1a" stroke="#58a6ff" stroke-width="1.5" stroke-dasharray="5 3"/>
-          <text font-family="'Barlow Condensed',sans-serif" font-size="9" font-weight="700" x="380" y="336" text-anchor="middle" fill="#58a6ff">SRV-MONITOR</text>
-          <text font-family="monospace" font-size="8" x="380" y="349" text-anchor="middle" fill="#58a6ff" opacity=".7">10.0.20.10 - Zabbix 7.0 LTS</text>
-          <text font-family="monospace" font-size="7.5" x="380" y="362" text-anchor="middle" fill="#58a6ff" opacity=".5">Port public : 8081</text>
-          <text font-family="'Barlow Condensed',sans-serif" font-size="8" font-weight="700" x="380" y="372" text-anchor="middle" fill="#58a6ff" opacity=".8">↑ PROJET 2</text>
-
-          <!-- DMZ -->
-          <rect x="540" y="160" width="210" height="220" rx="4" fill="#1a1500" stroke="#d29922" stroke-width="1.5"/>
-          <text font-family="'Barlow Condensed',sans-serif" font-size="10" font-weight="700" x="645" y="178" text-anchor="middle" fill="#d29922" letter-spacing="1">DMZ - EXPOSÉE</text>
-          <text font-family="monospace" font-size="8.5" x="645" y="192" text-anchor="middle" fill="#d29922" opacity=".6">10.0.40.0/24</text>
+          <rect x="270" y="260" width="220" height="48" rx="3" fill="#0a150a" stroke="#81c784" stroke-width="1.2"/>
+          <text font-family="'Barlow Condensed',sans-serif" font-size="9" font-weight="700" x="380" y="277" text-anchor="middle" fill="#81c784">DEB-BASKET</text>
+          <text font-family="monospace" font-size="7.5" x="380" y="291" text-anchor="middle" fill="#81c784" opacity=".7">10.0.20.60 - MariaDB 10.11</text>
+          <text font-family="monospace" font-size="7" x="380" y="303" text-anchor="middle" fill="#81c784" opacity=".5">Base : m2l_data · Table : clubs</text>
+ 
+          <!-- ══ SNAT NOTE ══ -->
+          <!-- Les requêtes PDO arrivent sur MariaDB avec l'IP 10.0.20.254 (SNAT) -->
+          <rect x="258" y="328" width="244" height="30" rx="3" fill="rgba(248,81,73,0.08)" stroke="#f85149" stroke-width="1" opacity=".8"/>
+          <text font-family="monospace" font-size="7" x="380" y="341" text-anchor="middle" fill="#f85149" opacity=".9">⚠ SNAT : requêtes PDO arrivent de 10.0.20.254</text>
+          <text font-family="monospace" font-size="7" x="380" y="352" text-anchor="middle" fill="#f85149" opacity=".7">(IP passerelle Zyxel, non l'IP réelle de SRV-WEB)</text>
+ 
+          <!-- ══ ZONE DMZ ══ -->
+          <rect x="532" y="168" width="218" height="250" rx="4" fill="#1a1500" stroke="#d29922" stroke-width="1.5"/>
+          <text font-family="'Barlow Condensed',sans-serif" font-size="10" font-weight="700" x="641" y="186" text-anchor="middle" fill="#d29922" letter-spacing="1">DMZ - EXPOSÉE</text>
+          <text font-family="monospace" font-size="8" x="641" y="200" text-anchor="middle" fill="#d29922" opacity=".6">10.0.40.0/24 · Passerelle .254</text>
+ 
           <!-- SRV-WEB -->
-          <rect x="554" y="200" width="182" height="54" rx="3" fill="#1a1200" stroke="#d29922" stroke-width="1"/>
-          <text font-family="'Barlow Condensed',sans-serif" font-size="9" font-weight="700" x="645" y="217" text-anchor="middle" fill="#d29922">SRV-WEB</text>
-          <text font-family="monospace" font-size="8" x="645" y="231" text-anchor="middle" fill="#d29922" opacity=".7">10.0.40.10 - Apache/PHP/PDO</text>
-          <text font-family="monospace" font-size="7.5" x="645" y="244" text-anchor="middle" fill="#d29922" opacity=".5">Port public 8080 → 80</text>
+          <rect x="546" y="208" width="190" height="62" rx="3" fill="#1a1200" stroke="#d29922" stroke-width="1.2"/>
+          <text font-family="'Barlow Condensed',sans-serif" font-size="9" font-weight="700" x="641" y="225" text-anchor="middle" fill="#d29922">SRV-WEB</text>
+          <text font-family="monospace" font-size="7.5" x="641" y="239" text-anchor="middle" fill="#d29922" opacity=".7">10.0.40.10 - Apache 2.4 / PHP 8</text>
+          <text font-family="monospace" font-size="7" x="641" y="252" text-anchor="middle" fill="#d29922" opacity=".6">PDO · Bcrypt · Bootstrap 5</text>
+          <text font-family="monospace" font-size="7" x="641" y="264" text-anchor="middle" fill="#d29922" opacity=".5">Port public :8080 → :80 (PAT)</text>
+ 
           <!-- SRV-FTP -->
-          <rect x="554" y="264" width="182" height="60" rx="3" fill="#1a1200" stroke="#d29922" stroke-width="1"/>
-          <text font-family="'Barlow Condensed',sans-serif" font-size="9" font-weight="700" x="645" y="282" text-anchor="middle" fill="#d29922">SRV-FTP</text>
-          <text font-family="monospace" font-size="8" x="645" y="296" text-anchor="middle" fill="#d29922" opacity=".7">10.0.40.20 - SFTP/OpenSSH</text>
-          <text font-family="monospace" font-size="7.5" x="645" y="309" text-anchor="middle" fill="#d29922" opacity=".5">Port public 2222 → 22</text>
-          <text font-family="monospace" font-size="7.5" x="645" y="321" text-anchor="middle" fill="#f85149" opacity=".8">Fail2Ban actif</text>
-          <!-- Agents zabbix label -->
-          <rect x="554" y="332" width="182" height="36" rx="3" fill="none" stroke="#58a6ff" stroke-width="1" stroke-dasharray="4 2" opacity=".7"/>
-          <text font-family="monospace" font-size="7.5" x="645" y="348" text-anchor="middle" fill="#58a6ff" opacity=".8">zabbix-agent</text>
-          <text font-family="monospace" font-size="7" x="645" y="361" text-anchor="middle" fill="#58a6ff" opacity=".6">(Projet 2)</text>
-
-          <!-- TCP 3306 SRV-WEB → DEB-BASKET -->
-          <path d="M554 227 Q510 227 481 283" stroke="#81c784" stroke-width="1" fill="none" class="f-grn" marker-end="url(#a-grn)" opacity=".7"/>
-          <text font-family="monospace" font-size="7.5" x="510" y="248" fill="#81c784" opacity=".7">TCP 3306</text>
-
-          <!-- TCP 10051 agents → SRV-MONITOR -->
-          <path d="M554 350 Q510 355 481 355" stroke="#58a6ff" stroke-width="1" fill="none" class="f-blu" marker-end="url(#a-blu)" opacity=".7"/>
-          <text font-family="monospace" font-size="7.5" x="504" y="346" fill="#58a6ff" opacity=".7">TCP 10051</text>
-
-          <!-- Proxmox -->
-          <rect x="265" y="395" width="230" height="10" rx="2" fill="#1a1a1a" stroke="#333" stroke-width="1"/>
-          <text font-family="'Barlow Condensed',sans-serif" font-size="7" x="380" y="403" text-anchor="middle" fill="#555" letter-spacing="1">PROXMOX PVE - LXC Debian 12</text>
+          <rect x="546" y="280" width="190" height="70" rx="3" fill="#1a1200" stroke="#d29922" stroke-width="1.2"/>
+          <text font-family="'Barlow Condensed',sans-serif" font-size="9" font-weight="700" x="641" y="298" text-anchor="middle" fill="#d29922">SRV-FTP</text>
+          <text font-family="monospace" font-size="7.5" x="641" y="312" text-anchor="middle" fill="#d29922" opacity=".7">10.0.40.20 - OpenSSH (SFTP)</text>
+          <text font-family="monospace" font-size="7" x="641" y="325" text-anchor="middle" fill="#d29922" opacity=".6">dev-web · resp-basket (chmod 700)</text>
+          <text font-family="monospace" font-size="7" x="641" y="338" text-anchor="middle" fill="#d29922" opacity=".5">Port public :2222 → :22 (NAT-Loopback)</text>
+          <!-- Fail2Ban badge -->
+          <rect x="578" y="356" width="126" height="18" rx="2" fill="rgba(248,81,73,0.15)" stroke="#f85149" stroke-width="1"/>
+          <text font-family="monospace" font-size="7.5" x="641" y="368" text-anchor="middle" fill="#f85149">Fail2Ban · maxretry=3 · bantime=30s</text>
+          <!-- FTP classique badge -->
+          <rect x="546" y="380" width="190" height="16" rx="2" fill="none" stroke="#d29922" stroke-width="1" opacity=".4"/>
+          <text font-family="monospace" font-size="7" x="641" y="392" text-anchor="middle" fill="#d29922" opacity=".5">FTP classique - Port 21 (compte m2l)</text>
+ 
+          <!-- ══ FLUX TCP 3306 SRV-WEB → DEB-BASKET (via SNAT) ══ -->
+          <!-- Ligne horizontale propre à gauche des boîtes -->
+          <line x1="546" y1="235" x2="502" y2="235" stroke="#81c784" stroke-width="1.2" class="f-grn"/>
+          <line x1="502" y1="235" x2="502" y2="280" stroke="#81c784" stroke-width="1.2" class="f-grn"/>
+          <line x1="502" y1="280" x2="490" y2="280" stroke="#81c784" stroke-width="1.2" class="f-grn" marker-end="url(#a-grn)"/>
+          <text font-family="monospace" font-size="7.5" x="508" y="260" fill="#81c784" opacity=".8">TCP 3306</text>
+          <text font-family="monospace" font-size="6.5" x="508" y="271" fill="#81c784" opacity=".55">(Allow_Web_to_DB)</text>
+ 
+          <!-- ══ PROXMOX ══ -->
+          <rect x="258" y="368" width="244" height="16" rx="2" fill="#1a1a1a" stroke="#333" stroke-width="1"/>
+          <text font-family="'Barlow Condensed',sans-serif" font-size="7.5" x="380" y="380" text-anchor="middle" fill="#555" letter-spacing="1">PROXMOX PVE · PVE-labo-0C · LXC Debian 12</text>
+ 
+          <!-- ══ RÈGLES PARE-FEU (légende compacte) ══ -->
+          <rect x="16" y="260" width="215" height="110" rx="3" fill="#0d0d0d" stroke="#333" stroke-width="1" opacity=".9"/>
+          <text font-family="'Barlow Condensed',sans-serif" font-size="8" font-weight="700" x="123" y="275" text-anchor="middle" fill="#888" letter-spacing="1">POLICY CONTROL (First-Match)</text>
+          <text font-family="monospace" font-size="7" x="26" y="290" fill="#f85149">① DENY  LAN2 → LAN1</text>
+          <text font-family="monospace" font-size="7" x="26" y="304" fill="#81c784">② ALLOW LAN2 → DMZ (HTTP/FTP)</text>
+          <text font-family="monospace" font-size="7" x="26" y="318" fill="#81c784">③ ALLOW DMZ:SRV-WEB → LAN2:3306</text>
+          <text font-family="monospace" font-size="7" x="26" y="332" fill="#81c784">④ ALLOW WAN → DMZ:SRV-FTP:22</text>
+          <text font-family="monospace" font-size="7" x="26" y="346" fill="#f85149">⑤ DENY  WAN → DMZ (tout le reste)</text>
+          <text font-family="monospace" font-size="6.5" x="26" y="362" fill="#555">+ NAT :8080→:80 / :2222→:22 / :8081→LAN2</text>
         </svg>
-        <div class="diagram-hint"><i class="bi bi-arrows-fullscreen"></i></div>
       </div>
       <div class="legend-bar">
         <div class="legend-item"><div class="legend-dot" style="background:#e85d04"></div> WAN / Pare-feu</div>
         <div class="legend-item"><div class="legend-dot" style="background:#a371f7"></div> LAN1 Admin</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#81c784"></div> LAN2 Interne</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#d29922"></div> DMZ (exposée)</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#58a6ff"></div> Supervision - Projet 2</div>
-        <div class="legend-item"><div class="legend-line" style="background:#f85149"></div> Règle DENY</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#81c784"></div> LAN2 - DEB-BASKET</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#d29922"></div> DMZ - SRV-WEB / SRV-FTP</div>
+        <div class="legend-item"><div class="legend-line" style="background:#f85149"></div> Règle DENY / SNAT</div>
       </div>
-
+ 
       <!-- SCHÉMA GLOBAL INTER-PROJETS -->
       <h2>3. Vue Globale - Infrastructure Complète M2L</h2>
       <p>Le schéma ci-dessous représente l'ensemble de l'infrastructure M2L : le Projet 1 (architecture réseau et applicative) et le Projet 2 (supervision SOC Zabbix) sont deux systèmes complémentaires déployés sur la même maquette physique.</p>
@@ -272,79 +298,79 @@
               @keyframes gfd{to{stroke-dashoffset:-26}}
             </style>
           </defs>
-
+ 
           <!-- INTERNET -->
           <rect x="315" y="8" width="130" height="28" rx="3" fill="none" stroke="#e85d04" stroke-width="1.5"/>
           <text font-family="'Barlow Condensed',sans-serif" font-size="10" font-weight="700" x="380" y="26" text-anchor="middle" fill="#e85d04" letter-spacing="1">INTERNET</text>
           <line x1="380" y1="36" x2="380" y2="58" stroke="#e85d04" stroke-width="1.5" class="gf1" marker-end="url(#bg1)"/>
-
+ 
           <!-- ZYXEL -->
           <rect x="295" y="58" width="170" height="42" rx="4" fill="#1a0a00" stroke="#e85d04" stroke-width="2" filter="url(#gl2)"/>
           <text font-family="'Barlow Condensed',sans-serif" font-size="12" font-weight="700" x="380" y="76" text-anchor="middle" fill="#e85d04" letter-spacing="2">ZYXEL USG40</text>
           <text font-family="monospace" font-size="7.5" x="380" y="92" text-anchor="middle" fill="#e85d04" opacity=".5">Projet 1 - Cœur sécurité périmétrique</text>
-
+ 
           <!-- Zone PROJET 1 label -->
           <rect x="518" y="108" width="232" height="200" rx="4" fill="rgba(26,21,0,0.5)" stroke="#d29922" stroke-width="1" stroke-dasharray="6 3"/>
           <text font-family="'Barlow Condensed',sans-serif" font-size="8" font-weight="700" x="634" y="120" text-anchor="middle" fill="#d29922" opacity=".7" letter-spacing="1">PROJET 1 - DMZ</text>
-
+ 
           <!-- Zone PROJET 1+2 label -->
           <rect x="260" y="108" width="250" height="200" rx="4" fill="rgba(13,26,13,0.5)" stroke="#81c784" stroke-width="1" stroke-dasharray="6 3"/>
           <text font-family="'Barlow Condensed',sans-serif" font-size="8" font-weight="700" x="385" y="120" text-anchor="middle" fill="#81c784" opacity=".7" letter-spacing="1">PROJETS 1 &amp; 2 - LAN2</text>
-
+ 
           <!-- FW → DMZ -->
           <line x1="465" y1="79" x2="560" y2="120" stroke="#d29922" stroke-width="1.5" class="gf1" marker-end="url(#bg3)"/>
           <text font-family="monospace" font-size="7.5" x="522" y="97" fill="#d29922" opacity=".7">P4 dmz</text>
-
+ 
           <!-- FW → LAN2 -->
           <line x1="380" y1="100" x2="380" y2="130" stroke="#81c784" stroke-width="1.5" class="gf2" marker-end="url(#bg2)"/>
           <text font-family="monospace" font-size="7.5" x="390" y="118" fill="#81c784" opacity=".7">P3 lan2</text>
-
+ 
           <!-- FW → LAN1 -->
           <line x1="295" y1="79" x2="200" y2="120" stroke="#a371f7" stroke-width="1" stroke-dasharray="5 3"/>
-
+ 
           <!-- LAN1 -->
           <rect x="40" y="120" width="155" height="50" rx="3" fill="#130d1f" stroke="#a371f7" stroke-width="1"/>
           <text font-family="'Barlow Condensed',sans-serif" font-size="9" font-weight="700" x="117" y="138" text-anchor="middle" fill="#a371f7">LAN1 - ADMIN</text>
           <text font-family="monospace" font-size="7.5" x="117" y="152" text-anchor="middle" fill="#a371f7" opacity=".6">172.16.10.0/24</text>
           <text font-family="monospace" font-size="7" x="117" y="163" text-anchor="middle" fill="#a371f7" opacity=".4">PC Administration</text>
-
+ 
           <!-- LAN2 boxes -->
           <rect x="272" y="130" width="226" height="42" rx="3" fill="#0a150a" stroke="#81c784" stroke-width="1"/>
           <text font-family="'Barlow Condensed',sans-serif" font-size="9" font-weight="700" x="385" y="147" text-anchor="middle" fill="#81c784">DEB-BASKET</text>
           <text font-family="monospace" font-size="7.5" x="385" y="161" text-anchor="middle" fill="#81c784" opacity=".7">10.0.20.60 - MariaDB m2l_data</text>
-
+ 
           <rect x="272" y="182" width="226" height="52" rx="3" fill="#0a0d1a" stroke="#58a6ff" stroke-width="1.5"/>
           <text font-family="'Barlow Condensed',sans-serif" font-size="9" font-weight="700" x="385" y="199" text-anchor="middle" fill="#58a6ff">SRV-MONITOR</text>
           <text font-family="monospace" font-size="7.5" x="385" y="213" text-anchor="middle" fill="#58a6ff" opacity=".7">10.0.20.10 - Zabbix 7.0 LTS</text>
           <text font-family="monospace" font-size="7" x="385" y="226" text-anchor="middle" fill="#58a6ff" opacity=".5">Port public 8081 - Base MariaDB zabbix</text>
-
+ 
           <!-- DMZ boxes -->
           <rect x="528" y="130" width="210" height="42" rx="3" fill="#1a1200" stroke="#d29922" stroke-width="1"/>
           <text font-family="'Barlow Condensed',sans-serif" font-size="9" font-weight="700" x="633" y="147" text-anchor="middle" fill="#d29922">SRV-WEB</text>
           <text font-family="monospace" font-size="7.5" x="633" y="161" text-anchor="middle" fill="#d29922" opacity=".7">10.0.40.10 - Apache/PHP · Port 8080</text>
-
+ 
           <rect x="528" y="182" width="210" height="52" rx="3" fill="#1a1200" stroke="#d29922" stroke-width="1"/>
           <text font-family="'Barlow Condensed',sans-serif" font-size="9" font-weight="700" x="633" y="199" text-anchor="middle" fill="#d29922">SRV-FTP</text>
           <text font-family="monospace" font-size="7.5" x="633" y="213" text-anchor="middle" fill="#d29922" opacity=".7">10.0.40.20 - SFTP · Port 2222</text>
           <text font-family="monospace" font-size="7" x="633" y="226" text-anchor="middle" fill="#f85149" opacity=".7">Fail2Ban - zabbix-agent</text>
-
+ 
           <!-- Lien TCP 3306 -->
           <path d="M528 151 Q502 151 498 151" stroke="#81c784" stroke-width="1.2" fill="none" class="gf2" marker-end="url(#bg2)"/>
           <text font-family="monospace" font-size="7" x="500" y="146" fill="#81c784" opacity=".7">TCP 3306</text>
-
+ 
           <!-- Lien TCP 10051 agents → SRV-MONITOR -->
           <path d="M528 208 Q502 208 498 208" stroke="#58a6ff" stroke-width="1.2" fill="none" class="gf4" marker-end="url(#bg4)"/>
           <text font-family="monospace" font-size="7" x="496" y="204" fill="#58a6ff" opacity=".7">TCP 10051</text>
-
+ 
           <!-- Zabbix surveille aussi WEB -->
           <path d="M528 142 Q510 182 498 195" stroke="#58a6ff" stroke-width="1" fill="none" stroke-dasharray="4 3" class="gf4" marker-end="url(#bg4)" opacity=".5"/>
-
+ 
           <!-- Legend zones -->
           <text font-family="'Barlow Condensed',sans-serif" font-size="8" font-weight="700" x="633" y="295" text-anchor="middle" fill="#d29922" opacity=".6">APPLICATION &amp; STOCKAGE SFTP</text>
           <text font-family="'Barlow Condensed',sans-serif" font-size="8" font-weight="700" x="385" y="295" text-anchor="middle" fill="#81c784" opacity=".6">DONNÉES &amp; SUPERVISION</text>
           <text font-family="'Barlow Condensed',sans-serif" font-size="7" font-weight="700" x="385" y="308" text-anchor="middle" fill="#58a6ff" opacity=".5">Projet 2 → SRV-MONITOR collecte les métriques de toute la DMZ</text>
         </svg>
-        <div class="diagram-hint"><i class="bi bi-arrows-fullscreen"></i></div>
+        <div class="diagram-hint"><i class="bi bi-arrows-fullscreen"></i> Cliquer pour agrandir</div>
       </div>
       <div class="legend-bar">
         <div class="legend-item"><div class="legend-dot" style="background:#e85d04"></div> Pare-feu / WAN</div>
@@ -354,7 +380,7 @@
         <div class="legend-item"><div class="legend-dot" style="background:#58a6ff"></div> Supervision Zabbix - Projet 2</div>
         <div class="legend-item"><div class="legend-line" style="background:#f85149"></div> Règle DENY</div>
       </div>
-
+ 
       <h2>4. Plan d'Adressage &amp; Ports Physiques</h2>
       <ul>
         <li><strong>P1 - wan1 :</strong> 192.168.193.122/24 - Passerelle d'accès extérieure.</li>
@@ -362,7 +388,7 @@
         <li><strong>P3 - lan2 (Interne) :</strong> 10.0.20.254/24 - DEB-BASKET (10.0.20.60) + SRV-MONITOR (10.0.20.10).</li>
         <li><strong>P4 - dmz (Exposée) :</strong> 10.0.40.254/24 - SRV-WEB (.10) et SRV-FTP (.20).</li>
       </ul>
-
+ 
       <h2>5. Matrice de Filtrage (Policy Control)</h2>
       <table class="matrix-table">
         <thead><tr><th>Priorité</th><th>Règle</th><th>Source</th><th>Dest.</th><th>Service</th><th>Action</th></tr></thead>
@@ -375,21 +401,21 @@
           <tr><td>6</td><td>Block_WAN_to_DMZ</td><td>WAN</td><td>DMZ</td><td>ANY</td><td class="deny">DENY</td></tr>
         </tbody>
       </table>
-
+ 
       <h2>6. Architecture Applicative 3-Tiers</h2>
       <ul>
         <li><strong>Tier Présentation :</strong> Port public <span class="code-inline">8080</span> → PAT vers port 80 de SRV-WEB.</li>
         <li><strong>Tier Application (SRV-WEB) :</strong> Apache + PHP. Liaison via <strong>PDO</strong> - injections SQL impossibles. Mots de passe en <strong>Bcrypt</strong>.</li>
         <li><strong>Tier Données (DEB-BASKET) :</strong> MariaDB 10.11 en LAN2 - inaccessible depuis Internet.</li>
       </ul>
-
+ 
       <h2>7. Plateforme SFTP &amp; Fail2Ban</h2>
       <ul>
         <li><strong>SFTP :</strong> Tunnel SSH unique. NAT-Loopback port externe <span class="code-inline">2222</span> → interne <span class="code-inline">22</span>.</li>
         <li><strong>Cloisonnement :</strong> <span class="code-inline">dev-web</span> et <span class="code-inline">resp-basket</span> confinés à leur home (<span class="code-inline">chmod 700</span>).</li>
         <li><strong>Fail2Ban :</strong> Bannissement iptables dès le 4ᵉ échec (maxretry=3), bantime 30s pour le jury.</li>
       </ul>
-
+ 
       <h2>8. Runbook d'Incidents</h2>
       <div class="incident-card">
         <h3><i class="bi bi-exclamation-triangle-fill"></i> Incident Majeur : Erreur SQL 1130</h3>
@@ -405,7 +431,7 @@
         <div class="step-label">Résolution</div>
         <p>Route statique injectée dans l'USG40 vers la passerelle école <span class="code-inline">192.168.193.1</span>.</p>
       </div>
-
+ 
       <h2>9. Référentiel des Accès</h2>
       <div class="secrets-grid">
         <div class="secret-row"><div class="s-label">Pare-feu Zyxel</div><div class="s-val">192.168.193.117<br/>admin / admin1234</div></div>
@@ -417,10 +443,41 @@
       </div>
     </div>
   </section>
+ 
+  <!-- MODALS -->
+  <div class="diagram-modal" id="m1" onclick="closeModal('m1')">
+    <div class="modal-inner" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModal('m1')"><i class="bi bi-x-lg"></i> Fermer</button>
+    </div>
+  </div>
+  <div class="diagram-modal" id="m2" onclick="closeModal('m2')">
+    <div class="modal-inner" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModal('m2')"><i class="bi bi-x-lg"></i> Fermer</button>
+    </div>
+  </div>
+ 
   <footer>
     <span>© 2026 Bernard Thiery</span><span>BTS SIO SISR · Reims</span>
     <a href="/rgpd/">RGPD</a><a href="/sources/">Sources</a>
   </footer>
   <script src="/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Clone SVGs into modals
+      [['svgP1','m1'],['svgGlobal','m2']].forEach(([srcId, modalId]) => {
+        const src = document.getElementById(srcId);
+        const inner = document.querySelector('#'+modalId+' .modal-inner');
+        if (src && inner) {
+          const clone = src.cloneNode(true);
+          clone.removeAttribute('id');
+          clone.style.cssText = 'width:100%;height:auto;display:block;background:#111;border:1px solid rgba(240,236,227,0.1);border-radius:2px;';
+          inner.appendChild(clone);
+        }
+      });
+    });
+    function openModal(id){ document.getElementById(id).classList.add('open'); document.body.style.overflow='hidden'; }
+    function closeModal(id){ document.getElementById(id).classList.remove('open'); document.body.style.overflow=''; }
+    document.addEventListener('keydown', e => { if(e.key==='Escape') document.querySelectorAll('.diagram-modal.open').forEach(m=>closeModal(m.id)); });
+  </script>
 </body>
 </html>
