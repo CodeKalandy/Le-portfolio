@@ -133,7 +133,7 @@
       <p>Ce projet implémente une solution de <strong>supervision d'entreprise</strong> et un <strong>centre opérationnel de sécurité (SOC)</strong> pour la M2L, unifiés sur une console de contrôle unique. L'objectif est de détecter instantanément deux menaces majeures : les <strong>attaques périmétriques par force brute</strong> et les <strong>tentatives d'altération interne de fichiers de configuration critiques</strong>.</p>
       <p>L'ensemble des flux de supervision transite de manière étanche à travers les zones physiques du pare-feu Zyxel USG40, en couche de surveillance complémentaire au Projet 1.</p>
  
-      <!-- SCHÉMA PROJET 2 - fidèle au dossier technique -->
+      <!-- SCHÉMA PROJET 2  -->
       <h2>2. Architecture Maître / Agents - Projet 2</h2>
       <div class="schema-label">Schéma de supervision SOC - mode push (agents → SRV-MONITOR via TCP 10051)</div>
       <div class="diagram-wrap">
@@ -213,34 +213,27 @@
           <line x1="177" y1="328" x2="177" y2="354" stroke="#58a6ff" stroke-width="1" class="p2f3" opacity=".65"/>
           <line x1="177" y1="354" x2="6" y2="354" stroke="#58a6ff" stroke-width="1" class="p2f3" opacity=".65"/>
           <line x1="6" y1="354" x2="6" y2="120" stroke="#58a6ff" stroke-width="1" class="p2f3" opacity=".65"/>
-          <line x1="6" y1="120" x2="210" y2="98" stroke="#58a6ff" stroke-width="1.3" class="p2f3" marker-end="url(#p2-blu)" opacity=".75"/>
-          <text font-family="monospace" font-size="7" x="10" y="228" fill="#58a6ff" opacity=".55">Push</text>
-          <text font-family="monospace" font-size="7" x="10" y="239" fill="#58a6ff" opacity=".55">TCP</text>
-          <text font-family="monospace" font-size="7" x="10" y="250" fill="#58a6ff" opacity=".55">10051</text>
+          <line x1="6" y1="120" x2="210" y2="120" stroke="#58a6ff" stroke-width="1.3" class="p2f3" marker-end="url(#p2-blu)" opacity=".75"/>
+          <text font-family="monospace" font-size="7" x="10" y="130" fill="#58a6ff" opacity=".55">Push Push TCP 10051</text>
+
  
           <!-- ══ PUSH TCP 10051 : SRV-FTP → SRV-MONITOR (colonne droite x=752) ══ -->
-          <line x1="583" y1="316" x2="583" y2="356" stroke="#58a6ff" stroke-width="1" class="p2f3" opacity=".65"/>
-          <line x1="583" y1="356" x2="752" y2="356" stroke="#58a6ff" stroke-width="1" class="p2f3" opacity=".65"/>
-          <line x1="752" y1="356" x2="752" y2="120" stroke="#58a6ff" stroke-width="1" class="p2f3" opacity=".65"/>
-          <line x1="752" y1="120" x2="550" y2="98" stroke="#58a6ff" stroke-width="1.3" class="p2f3" marker-end="url(#p2-blu)" opacity=".75"/>
-          <text font-family="monospace" font-size="7" x="734" y="228" fill="#58a6ff" opacity=".55">Push</text>
-          <text font-family="monospace" font-size="7" x="734" y="239" fill="#58a6ff" opacity=".55">TCP</text>
-          <text font-family="monospace" font-size="7" x="734" y="250" fill="#58a6ff" opacity=".55">10051</text>
+          <line x1="730" y1="300" x2="750" y2="300" stroke="#58a6ff" stroke-width="1" class="p2f3" opacity=".65"/>
+          <line x1="750" y1="300" x2="750" y2="100" stroke="#58a6ff" stroke-width="1" class="p2f3" opacity=".65"/>
+          <line x1="750" y1="100" x2="550" y2="100" stroke="#58a6ff" stroke-width="1.3" class="p2f3" marker-end="url(#p2-blu)" opacity=".75"/>
+          <text font-family="monospace" font-size="7" x="630" y="110" fill="#58a6ff" opacity=".55">Push TCP 10051</text>
+
  
           <!-- ══ ALERTE FIM → SRV-MONITOR (trigger différentiel - colonne x=738) ══ -->
-          <line x1="583" y1="366" x2="583" y2="412" stroke="#f85149" stroke-width="1" class="p2fr" opacity=".6"/>
-          <line x1="583" y1="412" x2="738" y2="412" stroke="#f85149" stroke-width="1" class="p2fr" opacity=".6"/>
-          <line x1="738" y1="412" x2="738" y2="56" stroke="#f85149" stroke-width="1" class="p2fr" opacity=".6"/>
-          <line x1="738" y1="56" x2="550" y2="108" stroke="#f85149" stroke-width="1.2" class="p2fr" marker-end="url(#p2-red)" opacity=".7"/>
-          <text font-family="monospace" font-size="7" x="606" y="420" fill="#f85149" opacity=".65">Trigger différentiel → PROBLEM High</text>
+          <line x1="358" y1="350" x2="420" y2="350" stroke="#f85149" stroke-width="1" class="p2fr" opacity=".6"/>
+          <line x1="358" y1="350" x2="358" y2="180" stroke="#f85149" stroke-width="1" class="p2fr" opacity=".6"/>
+          <text font-family="monospace" font-size="7" x="358" y="320" fill="#f85149" opacity=".65">Trigger différentiel</text>
  
           <!-- ══ LOGS FAIL2BAN → Widget Logs (ligne basse) ══ -->
           <line x1="420" y1="388" x2="394" y2="388" stroke="#f85149" stroke-width="1" class="p2fr" opacity=".45"/>
-          <line x1="394" y1="388" x2="394" y2="424" stroke="#f85149" stroke-width="1" opacity=".25" stroke-dasharray="3 4"/>
-          <line x1="394" y1="424" x2="14" y2="424" stroke="#f85149" stroke-width="1" opacity=".2" stroke-dasharray="3 4"/>
-          <text font-family="monospace" font-size="7" x="180" y="422" fill="#f85149" opacity=".4">log[fail2ban.log,"Ban"] → Widget Logs Zabbix</text>
+          <line x1="394" y1="390" x2="394" y2="180" stroke="#f85149" stroke-width="1" class="p2fr" marker-end="url(#p2-red)" opacity=".25" stroke-dasharray="3 4"/>
+          <text font-family="monospace" font-size="7" x="320" y="400" fill="#f85149" opacity=".4">log → Widget Logs Zabbix</text>
         </svg>
-        <div class="diagram-hint"><i class="bi bi-eye"></i> Schéma SOC</div>
       </div>
       <div class="legend-bar">
         <div class="legend-item"><div class="legend-dot" style="background:#58a6ff"></div> SRV-MONITOR / Zabbix (LAN2)</div>
@@ -333,15 +326,14 @@
           <path d="M528 142 Q510 182 498 195" stroke="#58a6ff" stroke-width="1" fill="none" stroke-dasharray="4 3" class="ggf4" marker-end="url(#gg4)" opacity=".5"/>
  
           <!-- FIM Alerte → Monitor -->
-          <path d="M633 234 Q633 260 385 260 Q270 260 270 234" stroke="#f85149" stroke-width="1" fill="none" stroke-dasharray="4 3" class="ggf3" marker-end="url(#gg5)" opacity=".5"/>
+          <path d="M633 234 Q633 260 385 260 Q370 260 370 234" stroke="#f85149" stroke-width="1" fill="none" stroke-dasharray="4 3" class="ggf3" marker-end="url(#gg5)" opacity=".5"/>
           <text font-family="monospace" font-size="7" x="450" y="275" fill="#f85149" opacity=".6">Alerte FIM → PROBLEM High</text>
 
           <!-- Légendes zones -->
           <text font-family="'Barlow Condensed',sans-serif" font-size="8" font-weight="700" x="633" y="295" text-anchor="middle" fill="#d29922" opacity=".6">APPLICATION &amp; SFTP - PROJET 1</text>
-          <text font-family="'Barlow Condensed',sans-serif" font-size="8" font-weight="700" x="385" y="295" text-anchor="middle" fill="#81c784" opacity=".6">DONNÉES &amp; SUPERVISION</text>
-          <text font-family="'Barlow Condensed',sans-serif" font-size="7" font-weight="700" x="385" y="308" text-anchor="middle" fill="#58a6ff" opacity=".5">Projet 2 - SRV-MONITOR collecte métriques DMZ via TCP 10051</text>
+          <text font-family="'Barlow Condensed',sans-serif" font-size="8" font-weight="700" x="385" y="295" text-anchor="middle" fill="#58a6ff" opacity=".5">Projet 2 - SRV-MONITOR collecte métriques DMZ via TCP 10051</text>
         </svg>
-        <div class="diagram-hint"><i class="bi bi-arrows-fullscreen"></i> Cliquer pour agrandir</div>
+
       </div>
       <div class="legend-bar">
         <div class="legend-item"><div class="legend-dot" style="background:#e85d04"></div> Pare-feu / WAN</div>
